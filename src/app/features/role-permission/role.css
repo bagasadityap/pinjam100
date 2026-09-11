@@ -1,0 +1,289 @@
+#rolePermissionTable {
+  width: 100% !important;
+  border-collapse: collapse !important;
+}
+
+#rolePermissionTable thead th {
+  background: #f9fafb !important;
+  color: #4b5563 !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  padding: 1rem 1.5rem !important;
+  text-align: center !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  white-space: nowrap;
+}
+
+#rolePermissionTable tbody td {
+  padding: 1rem 1.5rem !important;
+  font-size: 0.875rem !important;
+  color: #374151 !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+  white-space: nowrap;
+  background: white !important;
+  vertical-align: middle !important;
+}
+
+#rolePermissionTable tbody tr:hover td {
+  background: #f9fafb !important;
+}
+
+#rolePermissionTable tbody tr:last-child td {
+  border-bottom: none !important;
+}
+
+/* DataTables */
+
+:host ::ng-deep .dt-container {
+  width: 100%;
+  color: #374151;
+  font-size: 0.875rem;
+}
+
+:host ::ng-deep .dt-layout-row {
+  margin: 0 !important;
+  padding: 1rem 0 !important;
+}
+
+:host ::ng-deep .dt-layout-table {
+  margin: 0 !important;
+  border: none !important;
+}
+
+:host ::ng-deep .dt-layout-cell {
+  margin: 0 !important;
+}
+
+/* Search */
+
+:host ::ng-deep .dt-search {
+  display: flex;
+  align-items: center;
+}
+
+:host ::ng-deep .dt-search label {
+  display: none;
+}
+
+:host ::ng-deep .dt-search input {
+  width: 280px !important;
+  height: 40px !important;
+  margin: 0 !important;
+  padding: 0 1rem !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 0.5rem !important;
+  background: white !important;
+  color: #111827 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+:host ::ng-deep .dt-search input::placeholder {
+  color: #9ca3af;
+}
+
+:host ::ng-deep .dt-search input:focus {
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 2px #dbeafe !important;
+}
+
+/* Length */
+
+:host ::ng-deep .dt-length {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+:host ::ng-deep .dt-length select {
+  height: 38px !important;
+  min-width: 65px;
+  padding: 0 2rem 0 0.75rem !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 0.5rem !important;
+  background: white !important;
+  color: #374151 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Information */
+
+:host ::ng-deep .dt-info {
+  padding: 0 !important;
+  color: #6b7280 !important;
+}
+
+/* Pagination */
+
+:host ::ng-deep .dt-paging {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+:host ::ng-deep .dt-paging .dt-paging-button {
+  min-width: 36px !important;
+  height: 36px !important;
+  margin: 0 !important;
+  padding: 0 0.75rem !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 0.5rem !important;
+  background: white !important;
+  color: #374151 !important;
+  box-shadow: none !important;
+}
+
+:host ::ng-deep .dt-paging .dt-paging-button:hover {
+  background: #eff6ff !important;
+  color: #1d4ed8 !important;
+  border-color: #bfdbfe !important;
+}
+
+:host ::ng-deep .dt-paging .dt-paging-button.current {
+  background: #1d4ed8 !important;
+  color: white !important;
+  border-color: #1d4ed8 !important;
+}
+
+:host ::ng-deep .dt-paging .dt-paging-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Sorting */
+
+:host ::ng-deep #rolePermissionTable thead th.dt-orderable-asc,
+:host ::ng-deep #rolePermissionTable thead th.dt-orderable-desc {
+  cursor: pointer;
+}
+
+:host ::ng-deep #rolePermissionTable thead th.dt-ordering-asc,
+:host ::ng-deep #rolePermissionTable thead th.dt-ordering-desc {
+  color: #1d4ed8 !important;
+}
+
+/* Remove DataTables default borders */
+
+:host ::ng-deep table.dataTable {
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
+}
+
+:host ::ng-deep #rolePermissionTable.dataTable {
+  border-bottom: none !important;
+}
+
+:host ::ng-deep #rolePermissionTable.dataTable.no-footer {
+  border-bottom: none !important;
+}
+
+:host ::ng-deep table.dataTable > thead > tr > th,
+:host ::ng-deep table.dataTable > thead > tr > td {
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+:host ::ng-deep table.dataTable > tbody > tr {
+  background: white !important;
+  border-bottom: none !important;
+}
+
+:host ::ng-deep table.dataTable > tbody > tr:last-child > td {
+  border-bottom: none !important;
+}
+
+:host ::ng-deep table.dataTable > tbody > tr:hover {
+  background: #f9fafb !important;
+}
+
+/* Role */
+
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  border-radius: 9999px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Permission */
+
+.permission-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.permission-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  border-radius: 9999px;
+  background: #f3f4f6;
+  color: #4b5563;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Status */
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.status > span {
+  width: 0.375rem;
+  height: 0.375rem;
+  min-width: 0.375rem;
+  border-radius: 9999px;
+}
+
+.status-approved {
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.status-approved > span {
+  background: #22c55e;
+}
+
+.status-rejected {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.status-rejected > span {
+  background: #ef4444;
+}
+
+/* Action */
+
+.action-button {
+  border: none;
+  background: transparent;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.25rem;
+}
+
+.action-button:hover {
+  color: #1d4ed8;
+}

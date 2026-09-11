@@ -1,0 +1,384 @@
+<app-sidebar></app-sidebar>
+
+<main class="ml-64 min-h-screen bg-gray-100 text-gray-900">
+
+  <!-- Header -->
+  <header class="h-20 bg-white border-b border-gray-200 px-8 flex items-center justify-between">
+    <div>
+      <h1 class="text-xl font-bold">Dashboard</h1>
+      <p class="text-sm text-gray-500 mt-1">Ringkasan aktivitas Pinjam100 hari ini.</p>
+    </div>
+
+    <div class="flex items-center gap-4">
+      <button class="relative w-10 h-10 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 transition">
+        <i class="fa-solid fa-bell"></i>
+        <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
+      </button>
+
+      <div class="h-8 w-px bg-gray-200"></div>
+
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-full bg-blue-700 text-white flex items-center justify-center">
+          <i class="fa-solid fa-user text-sm"></i>
+        </div>
+
+        <div class="hidden sm:block">
+          <p class="text-sm font-semibold">Admin</p>
+          <p class="text-xs text-gray-500">Administrator</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- Content -->
+  <div class="p-8">
+
+    <!-- Welcome -->
+    <div class="mb-8">
+      <p class="text-sm font-medium text-blue-700">Selamat datang kembali</p>
+      <h2 class="text-3xl font-bold mt-1">Ringkasan Dashboard</h2>
+      <p class="text-gray-500 mt-2">Pantau pengajuan dan aktivitas pinjaman melalui dashboard ini.</p>
+    </div>
+
+
+    <!-- Statistics -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+
+      <div class="bg-white rounded-xl border border-gray-200 p-6">
+        <div class="flex items-start justify-between">
+          <div>
+            <p class="text-sm text-gray-500">Total Request</p>
+            <h3 class="text-3xl font-bold mt-2">128</h3>
+          </div>
+
+          <div class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+            <i class="fa-solid fa-file-lines text-lg"></i>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 mt-5">
+          <span class="text-sm font-semibold text-green-600">
+            <i class="fa-solid fa-arrow-up text-xs"></i> 12.5%
+          </span>
+          <span class="text-xs text-gray-400">dari bulan lalu</span>
+        </div>
+      </div>
+
+
+      <div class="bg-white rounded-xl border border-gray-200 p-6">
+        <div class="flex items-start justify-between">
+          <div>
+            <p class="text-sm text-gray-500">Menunggu Review</p>
+            <h3 class="text-3xl font-bold mt-2">24</h3>
+          </div>
+
+          <div class="w-11 h-11 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center">
+            <i class="fa-solid fa-clock text-lg"></i>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 mt-5">
+          <span class="text-sm font-semibold text-yellow-600">
+            Perlu ditinjau
+          </span>
+        </div>
+      </div>
+
+
+      <div class="bg-white rounded-xl border border-gray-200 p-6">
+        <div class="flex items-start justify-between">
+          <div>
+            <p class="text-sm text-gray-500">Disetujui</p>
+            <h3 class="text-3xl font-bold mt-2">87</h3>
+          </div>
+
+          <div class="w-11 h-11 rounded-lg bg-green-50 text-green-600 flex items-center justify-center">
+            <i class="fa-solid fa-circle-check text-lg"></i>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 mt-5">
+          <span class="text-sm font-semibold text-green-600">
+            68% dari total
+          </span>
+        </div>
+      </div>
+
+
+      <div class="bg-white rounded-xl border border-gray-200 p-6">
+        <div class="flex items-start justify-between">
+          <div>
+            <p class="text-sm text-gray-500">Total Nasabah</p>
+            <h3 class="text-3xl font-bold mt-2">1,248</h3>
+          </div>
+
+          <div class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+            <i class="fa-solid fa-users text-lg"></i>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 mt-5">
+          <span class="text-sm font-semibold text-green-600">
+            <i class="fa-solid fa-arrow-up text-xs"></i> 8.2%
+          </span>
+          <span class="text-xs text-gray-400">dari bulan lalu</span>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- Main Dashboard -->
+    <div class="grid xl:grid-cols-3 gap-6 mt-6">
+
+      <!-- Recent Requests -->
+      <div class="xl:col-span-2 bg-white rounded-xl border border-gray-200">
+
+        <div class="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
+          <div>
+            <h3 class="font-bold text-lg">Request Terbaru</h3>
+            <p class="text-sm text-gray-500 mt-1">Pengajuan pinjaman terbaru.</p>
+          </div>
+
+          <a href="/request-pinjaman" class="text-sm font-semibold text-blue-700 hover:text-blue-800">
+            Lihat Semua
+          </a>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+
+            <thead>
+              <tr class="text-left text-gray-500 bg-gray-50">
+                <th class="px-6 py-4 font-medium">Nasabah</th>
+                <th class="px-6 py-4 font-medium">Jumlah</th>
+                <th class="px-6 py-4 font-medium">Tanggal</th>
+                <th class="px-6 py-4 font-medium">Status</th>
+              </tr>
+            </thead>
+
+            <tbody class="divide-y divide-gray-100">
+
+              <tr class="hover:bg-gray-50 transition">
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-semibold">
+                      BA
+                    </div>
+
+                    <div>
+                      <p class="font-semibold">Bagas Aditya</p>
+                      <p class="text-xs text-gray-500">bagas@email.com</p>
+                    </div>
+                  </div>
+                </td>
+
+                <td class="px-6 py-4 font-semibold">
+                  Rp5.000.000
+                </td>
+
+                <td class="px-6 py-4 text-gray-500">
+                  19 Agu 2026
+                </td>
+
+                <td class="px-6 py-4">
+                  <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-yellow-50 text-yellow-700 text-xs font-semibold">
+                    <span class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>
+                    Menunggu
+                  </span>
+                </td>
+              </tr>
+
+
+              <tr class="hover:bg-gray-50 transition">
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-semibold">
+                      AR
+                    </div>
+
+                    <div>
+                      <p class="font-semibold">Andi Rahman</p>
+                      <p class="text-xs text-gray-500">andi@email.com</p>
+                    </div>
+                  </div>
+                </td>
+
+                <td class="px-6 py-4 font-semibold">
+                  Rp10.000.000
+                </td>
+
+                <td class="px-6 py-4 text-gray-500">
+                  19 Agu 2026
+                </td>
+
+                <td class="px-6 py-4">
+                  <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-50 text-green-700 text-xs font-semibold">
+                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                    Disetujui
+                  </span>
+                </td>
+              </tr>
+
+
+              <tr class="hover:bg-gray-50 transition">
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-semibold">
+                      DS
+                    </div>
+
+                    <div>
+                      <p class="font-semibold">Dewi Sari</p>
+                      <p class="text-xs text-gray-500">dewi@email.com</p>
+                    </div>
+                  </div>
+                </td>
+
+                <td class="px-6 py-4 font-semibold">
+                  Rp3.000.000
+                </td>
+
+                <td class="px-6 py-4 text-gray-500">
+                  18 Agu 2026
+                </td>
+
+                <td class="px-6 py-4">
+                  <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-50 text-red-600 text-xs font-semibold">
+                    <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                    Ditolak
+                  </span>
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+        </div>
+      </div>
+
+
+      <!-- Quick Actions -->
+      <div class="bg-white rounded-xl border border-gray-200">
+
+        <div class="px-6 py-5 border-b border-gray-200">
+          <h3 class="font-bold text-lg">Aksi Cepat</h3>
+          <p class="text-sm text-gray-500 mt-1">Akses fitur yang sering digunakan.</p>
+        </div>
+
+        <div class="p-5 space-y-3">
+
+          <a href="/request-pinjaman" class="flex items-center gap-4 p-4 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition">
+            <div class="w-10 h-10 rounded-lg bg-blue-700 text-white flex items-center justify-center">
+              <i class="fa-solid fa-file-circle-plus"></i>
+            </div>
+
+            <div class="flex-1">
+              <p class="font-semibold">Request Pinjaman</p>
+              <p class="text-xs text-blue-600 mt-1">Periksa pengajuan baru</p>
+            </div>
+
+            <i class="fa-solid fa-chevron-right text-sm"></i>
+          </a>
+
+
+          <a href="#" class="flex items-center gap-4 p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
+            <div class="w-10 h-10 rounded-lg bg-white text-blue-700 flex items-center justify-center shadow-sm">
+              <i class="fa-solid fa-users"></i>
+            </div>
+
+            <div class="flex-1">
+              <p class="font-semibold">Data Nasabah</p>
+              <p class="text-xs text-gray-500 mt-1">Kelola data nasabah</p>
+            </div>
+
+            <i class="fa-solid fa-chevron-right text-sm text-gray-400"></i>
+          </a>
+
+
+          <a href="#" class="flex items-center gap-4 p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
+            <div class="w-10 h-10 rounded-lg bg-white text-blue-700 flex items-center justify-center shadow-sm">
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
+
+            <div class="flex-1">
+              <p class="font-semibold">Laporan</p>
+              <p class="text-xs text-gray-500 mt-1">Lihat laporan pinjaman</p>
+            </div>
+
+            <i class="fa-solid fa-chevron-right text-sm text-gray-400"></i>
+          </a>
+
+
+          <a href="#" class="flex items-center gap-4 p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
+            <div class="w-10 h-10 rounded-lg bg-white text-blue-700 flex items-center justify-center shadow-sm">
+              <i class="fa-solid fa-gear"></i>
+            </div>
+
+            <div class="flex-1">
+              <p class="font-semibold">Pengaturan</p>
+              <p class="text-xs text-gray-500 mt-1">Kelola pengaturan sistem</p>
+            </div>
+
+            <i class="fa-solid fa-chevron-right text-sm text-gray-400"></i>
+          </a>
+
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- Bottom Information -->
+    <div class="grid lg:grid-cols-2 gap-6 mt-6">
+
+      <div class="bg-blue-700 rounded-xl p-7 text-white">
+        <div class="flex items-start justify-between">
+          <div>
+            <p class="text-blue-200 text-sm font-medium">Total Pinjaman Disalurkan</p>
+            <h3 class="text-3xl font-bold mt-2">Rp2,48 M</h3>
+          </div>
+
+          <div class="w-11 h-11 rounded-lg bg-white/10 flex items-center justify-center">
+            <i class="fa-solid fa-money-bill-transfer"></i>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 mt-6">
+          <span class="text-sm font-semibold text-green-300">
+            <i class="fa-solid fa-arrow-up text-xs"></i> 15.8%
+          </span>
+          <span class="text-sm text-blue-200">dibanding bulan lalu</span>
+        </div>
+      </div>
+
+
+      <div class="bg-yellow-400 rounded-xl p-7 text-gray-900">
+        <div class="flex items-start justify-between">
+          <div>
+            <p class="text-gray-700 text-sm font-medium">Tingkat Persetujuan</p>
+            <h3 class="text-3xl font-bold mt-2">68%</h3>
+          </div>
+
+          <div class="w-11 h-11 rounded-lg bg-white/40 flex items-center justify-center">
+            <i class="fa-solid fa-chart-pie"></i>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <div class="w-full h-2 bg-white/50 rounded-full overflow-hidden">
+            <div class="h-full w-[68%] bg-blue-700 rounded-full"></div>
+          </div>
+
+          <p class="text-sm text-gray-700 mt-2">
+            87 dari 128 pengajuan telah disetujui.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</main>

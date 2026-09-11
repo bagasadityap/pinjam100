@@ -1,0 +1,39 @@
+@if (show) {
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+    <div class="w-full max-w-md rounded-xl bg-white shadow-xl">
+      <div class="px-6 py-5">
+        <div class="flex items-start gap-4">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-100">
+            <i class="fa-solid fa-trash text-red-600"></i>
+          </div>
+
+          <div>
+            <h2 class="text-lg font-bold text-gray-900">{{ title }}</h2>
+            <p class="mt-2 text-sm leading-6 text-gray-500">
+              {{ message }}
+              @if (itemName) {
+                <span class="font-semibold text-gray-700">{{ itemName }}</span>?
+              }
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-3 border-t border-gray-200 px-6 py-4">
+        <button
+          type="button"
+          (click)="onCancel()"
+          class="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50">
+          Batal
+        </button>
+
+        <button
+          type="button"
+          (click)="onConfirm()"
+          class="rounded-lg bg-red-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700">
+          Hapus
+        </button>
+      </div>
+    </div>
+  </div>
+}

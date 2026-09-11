@@ -1,0 +1,519 @@
+<app-sidebar></app-sidebar>
+<main class="ml-64 min-h-screen bg-gray-50 text-gray-900">
+  <header class="h-20 bg-white border-b border-gray-200 px-8 flex items-center justify-between">
+    <div>
+      <h1 class="text-xl font-bold tracking-tight">Review Loan Application</h1>
+      <p class="text-sm text-gray-500 mt-1">Periksa informasi customer dan pengajuan pinjaman sebelum memberikan keputusan.</p>
+    </div>
+    @if (application(); as application) {
+      <div class="text-right">
+        <p class="text-xs text-gray-400 uppercase tracking-wide">Application</p>
+        <p class="text-sm font-semibold text-gray-900 mt-1">{{ application.applicationId }}</p>
+      </div>
+    }
+  </header>
+  @if (application(); as application) {
+    <div class="p-8 max-w-7xl mx-auto space-y-6">
+      <button type="button" (click)="back()" class="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition">
+        <i class="fa-solid fa-arrow-left text-xs"></i>
+        Kembali
+      </button>
+      <section class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+        <div class="px-7 py-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          <div class="flex items-start gap-5">
+            <div>
+              <h2 class="text-2xl font-bold text-gray-900 mt-1">{{ application.applicationId }}</h2>
+              <p class="text-sm text-gray-500 mt-2">
+                {{ application.customer.fullName }}
+                <span class="mx-2 text-gray-300">•</span>
+                {{ application.branch.name }}
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center gap-8">
+            <div>
+              <p class="text-xs text-gray-400 uppercase tracking-wide">Jumlah Pinjaman</p>
+              <p class="text-lg font-bold text-gray-900 mt-1">
+                {{ application.loanAmount | currency:'IDR':'symbol':'1.0-0':'id-ID' }}
+              </p>
+            </div>
+            <div class="h-10 w-px bg-gray-200"></div>
+            <div>
+              <p class="text-xs text-gray-400 uppercase tracking-wide">Status</p>
+              <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.status }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+        <div class="border-b border-gray-200">
+          <nav class="flex px-7" aria-label="Application navigation">
+            <button type="button" (click)="setActiveTab('customer')" [class.border-gray-900]="activeTab === 'customer'" [class.text-gray-900]="activeTab === 'customer'" [class.text-gray-500]="activeTab !== 'customer'" class="px-5 py-4 text-sm font-semibold border-b-2 border-transparent hover:text-gray-900 transition">
+              Customer
+            </button>
+            <button type="button" (click)="setActiveTab('loan')" [class.border-gray-900]="activeTab === 'loan'" [class.text-gray-900]="activeTab === 'loan'" [class.text-gray-500]="activeTab !== 'loan'" class="px-5 py-4 text-sm font-semibold border-b-2 border-transparent hover:text-gray-900 transition">
+              Pengajuan Pinjaman
+            </button>
+            <button type="button" (click)="setActiveTab('summary')" [class.border-gray-900]="activeTab === 'summary'" [class.text-gray-900]="activeTab === 'summary'" [class.text-gray-500]="activeTab !== 'summary'" class="px-5 py-4 text-sm font-semibold border-b-2 border-transparent hover:text-gray-900 transition">
+              Summary
+            </button>
+          </nav>
+        </div>
+        @if (activeTab === 'customer') {
+          <div class="p-7 space-y-7">
+            <section class="border border-gray-200 rounded-xl overflow-hidden">
+              <div class="px-6 py-5 border-b border-gray-200">
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Customer Profile</p>
+                <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-2 mt-1">
+                  <div>
+                    <h2 class="text-lg font-bold text-gray-900">{{ application.customer.fullName }}</h2>
+                    <p class="text-sm text-gray-500 mt-1">{{ application.customer.customerNumber }}</p>
+                  </div>
+                  <p class="text-sm text-gray-500">{{ application.customer.email }}</p>
+                </div>
+              </div>
+              <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-y-6 gap-x-8">
+                <div>
+                  <p class="text-xs text-gray-400 uppercase tracking-wide">Nomor Customer</p>
+                  <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.customer.customerNumber }}</p>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-400 uppercase tracking-wide">Nama Lengkap</p>
+                  <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.customer.fullName }}</p>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-400 uppercase tracking-wide">Email</p>
+                  <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.customer.email }}</p>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-400 uppercase tracking-wide">Nomor Handphone</p>
+                  <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.customer.phoneNumber }}</p>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-400 uppercase tracking-wide">Tanggal Terdaftar</p>
+                  <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.customer.createdDate | date:'dd MMMM yyyy' }}</p>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-400 uppercase tracking-wide">Limit Kredit</p>
+                  <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.customer.limit.creditLimit | currency:'IDR':'symbol':'1.0-0':'id-ID' }}</p>
+                </div>
+              </div>
+            </section>
+            <section class="border border-gray-200 rounded-xl overflow-hidden">
+              <div class="px-6 py-5 border-b border-gray-200">
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Personal Information</p>
+                <h2 class="text-lg font-bold text-gray-900 mt-1">Customer Detail</h2>
+                <p class="text-sm text-gray-500 mt-1">Informasi identitas dan domisili customer.</p>
+              </div>
+              <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">NIK</p>
+                    <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.customer.detail.nationalId }}</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Jenis Kelamin</p>
+                    <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.customer.detail.gender }}</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Tempat Lahir</p>
+                    <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.customer.detail.placeOfBirth }}</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Tanggal Lahir</p>
+                    <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.customer.detail.birthDate | date:'dd MMMM yyyy' }}</p>
+                  </div>
+                  <div class="md:col-span-2">
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Alamat</p>
+                    <p class="text-sm font-semibold text-gray-900 mt-2 leading-relaxed">{{ application.customer.detail.address }}</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Provinsi</p>
+                    <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.customer.detail.province }}</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Kabupaten / Kota</p>
+                    <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.customer.detail.city }}</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Kecamatan</p>
+                    <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.customer.detail.district }}</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Kelurahan</p>
+                    <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.customer.detail.village }}</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Kode Pos</p>
+                    <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.customer.detail.postalCode }}</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="border border-gray-200 rounded-xl overflow-hidden">
+              <div class="px-6 py-5 border-b border-gray-200">
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Employment</p>
+                <h2 class="text-lg font-bold text-gray-900 mt-1">Employment Information</h2>
+                <p class="text-sm text-gray-500 mt-1">Informasi pekerjaan dan sumber penghasilan customer.</p>
+              </div>
+              <div class="p-6">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between pb-6 border-b border-gray-100 gap-4">
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Status Pekerjaan</p>
+                    <p class="text-base font-bold text-gray-900 mt-2">{{ application.customer.employment.employmentType }}</p>
+                  </div>
+                  <div class="md:text-right">
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Penghasilan Per Bulan</p>
+                    <p class="text-xl font-bold text-gray-900 mt-1">
+                      {{ application.customer.employment.monthlyIncome | currency:'IDR':'symbol':'1.0-0':'id-ID' }}
+                    </p>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 pt-6">
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Nama Perusahaan</p>
+                    <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.customer.employment.companyName }}</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Jabatan</p>
+                    <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.customer.employment.position }}</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Mulai Bekerja</p>
+                    <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.customer.employment.startDate | date:'dd MMMM yyyy' }}</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Nomor Telepon Kantor</p>
+                    <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.customer.employment.companyPhone }}</p>
+                  </div>
+                  <div class="md:col-span-2">
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Alamat Kantor</p>
+                    <p class="text-sm font-semibold text-gray-900 mt-2 leading-relaxed">{{ application.customer.employment.companyAddress }}</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="border border-gray-200 rounded-xl overflow-hidden">
+              <div class="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
+                <div>
+                  <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Verification</p>
+                  <h2 class="text-lg font-bold text-gray-900 mt-1">Customer Documents</h2>
+                  <p class="text-sm text-gray-500 mt-1">Dokumen yang tersedia untuk proses verifikasi.</p>
+                </div>
+                <p class="text-sm font-semibold text-gray-600">{{ application.customer.documents.length }} dokumen</p>
+              </div>
+              @if (application.customer.documents.length) {
+                <div class="divide-y divide-gray-100">
+                  @for (document of application.customer.documents; track document.id) {
+                    <div class="px-6 py-5 flex items-center justify-between gap-6">
+                      <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500">
+                          <i class="fa-regular fa-file"></i>
+                        </div>
+                        <div>
+                          <p class="text-sm font-semibold text-gray-900">{{ document.type }}</p>
+                          <p class="text-xs text-gray-500 mt-1">{{ document.verificationStatus }}</p>
+                        </div>
+                      </div>
+                      <a [href]="document.fileUrl" target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-gray-700 hover:text-gray-900 transition">
+                        Lihat Dokumen
+                        <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-xs"></i>
+                      </a>
+                    </div>
+                  }
+                </div>
+              } @else {
+                <div class="px-6 py-10 text-center">
+                  <p class="text-sm text-gray-500">Belum ada dokumen.</p>
+                </div>
+              }
+            </section>
+          </div>
+        }
+        @if (activeTab === 'loan') {
+          <div class="p-7 space-y-7">
+            <section class="border border-gray-200 rounded-xl overflow-hidden">
+              <div class="px-6 py-5 border-b border-gray-200">
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Loan Application</p>
+                <h2 class="text-lg font-bold text-gray-900 mt-1">Informasi Pengajuan</h2>
+                <p class="text-sm text-gray-500 mt-1">Detail pinjaman yang diajukan oleh customer.</p>
+              </div>
+              <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pb-7 border-b border-gray-100">
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Jumlah Pinjaman</p>
+                    <p class="text-2xl font-bold text-gray-900 mt-2">{{ application.loanAmount | currency:'IDR':'symbol':'1.0-0':'id-ID' }}</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Tenor</p>
+                    <p class="text-xl font-bold text-gray-900 mt-2">{{ application.tenorMonths }} bulan</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Suku Bunga</p>
+                    <p class="text-xl font-bold text-gray-900 mt-2">{{ application.interestRate }}% <span class="text-sm font-medium text-gray-500">/ tahun</span></p>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 pt-7">
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Nomor Pengajuan</p>
+                    <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.applicationId }}</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Status</p>
+                    <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.status }}</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Cabang</p>
+                    <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.branch.name }}</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Lokasi Cabang</p>
+                    <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.branch.city }}, {{ application.branch.province }}</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Limit Kredit</p>
+                    <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.customer.limit.creditLimit | currency:'IDR':'symbol':'1.0-0':'id-ID' }}</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Sisa Limit</p>
+                    <p class="text-sm font-semibold text-gray-900 mt-2">
+                      {{ (application.customer.limit.creditLimit - application.loanAmount) | currency:'IDR':'symbol':'1.0-0':'id-ID' }}
+                    </p>
+                  </div>
+                  <div class="md:col-span-2">
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Tujuan Pinjaman</p>
+                    <p class="text-sm font-semibold text-gray-900 mt-2">{{ application.purpose }}</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="border border-gray-200 rounded-xl overflow-hidden">
+              <div class="px-6 py-5 border-b border-gray-200">
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Loan Overview</p>
+                <h2 class="text-lg font-bold text-gray-900 mt-1">Simulasi Pinjaman</h2>
+                <p class="text-sm text-gray-500 mt-1">Informasi pembayaran yang tersedia dari pengajuan.</p>
+              </div>
+              <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div class="bg-gray-50 border border-gray-200 rounded-xl p-6">
+                  <p class="text-xs text-gray-400 uppercase tracking-wide">Pokok Pinjaman</p>
+                  <p class="text-lg font-bold text-gray-900 mt-3">{{ application.loanAmount | currency:'IDR':'symbol':'1.0-0':'id-ID' }}</p>
+                </div>
+                <div class="bg-gray-50 border border-gray-200 rounded-xl p-6">
+                  <p class="text-xs text-gray-400 uppercase tracking-wide">Angsuran Per Bulan</p>
+                  <p class="text-lg font-bold text-gray-900 mt-3">-</p>
+                  <p class="text-xs text-gray-400 mt-2">Belum tersedia</p>
+                </div>
+                <div class="bg-gray-50 border border-gray-200 rounded-xl p-6">
+                  <p class="text-xs text-gray-400 uppercase tracking-wide">Total Pembayaran</p>
+                  <p class="text-lg font-bold text-gray-900 mt-3">-</p>
+                  <p class="text-xs text-gray-400 mt-2">Belum tersedia</p>
+                </div>
+              </div>
+            </section>
+          </div>
+        }
+        @if (activeTab === 'summary') {
+          <div class="p-7 space-y-7">
+            <section class="border border-gray-200 rounded-xl overflow-hidden">
+              <div class="px-6 py-5 border-b border-gray-200">
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Credit Review</p>
+                <h2 class="text-lg font-bold text-gray-900 mt-1">Review Overview</h2>
+                <p class="text-sm text-gray-500 mt-1">Ringkasan informasi yang relevan untuk proses review pengajuan.</p>
+              </div>
+              <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Limit Kredit</p>
+                    <p class="text-lg font-bold text-gray-900 mt-2">
+                      {{ application.customer.limit.creditLimit | currency:'IDR':'symbol':'1.0-0':'id-ID' }}
+                    </p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Jumlah Pinjaman</p>
+                    <p class="text-lg font-bold text-gray-900 mt-2">
+                      {{ application.loanAmount | currency:'IDR':'symbol':'1.0-0':'id-ID' }}
+                    </p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Sisa Limit</p>
+                    <p class="text-lg font-bold text-gray-900 mt-2">
+                      {{ (application.customer.limit.creditLimit - application.loanAmount) | currency:'IDR':'symbol':'1.0-0':'id-ID' }}
+                    </p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Penghasilan Per Bulan</p>
+                    <p class="text-lg font-bold text-gray-900 mt-2">
+                      {{ application.customer.employment.monthlyIncome | currency:'IDR':'symbol':'1.0-0':'id-ID' }}
+                    </p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Existing Obligation</p>
+                    <p class="text-lg font-bold text-gray-900 mt-2">-</p>
+                    <p class="text-xs text-gray-400 mt-1">Belum tersedia</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">DSR</p>
+                    <p class="text-lg font-bold text-gray-900 mt-2">
+                      {{ (application.loanAmount / application.customer.employment.monthlyIncome * 100) | number:'1.2-2' }}%
+                    </p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Tenor</p>
+                    <p class="text-lg font-bold text-gray-900 mt-2">
+                      {{ application.tenorMonths }} bulan
+                    </p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Suku Bunga</p>
+                    <p class="text-lg font-bold text-gray-900 mt-2">
+                      {{ application.interestRate }}%
+                    </p>
+                    <p class="text-xs text-gray-400 mt-1">Per tahun</p>
+                  </div>
+                  <div>
+                    <p class="text-xs text-gray-400 uppercase tracking-wide">Tujuan Pinjaman</p>
+                    <p class="text-lg font-bold text-gray-900 mt-2">
+                      {{ application.purpose }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="border border-gray-200 rounded-xl overflow-hidden">
+              <div class="px-6 py-5 border-b border-gray-200">
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                  Credit Review Result
+                </p>
+                <h2 class="text-lg font-bold text-gray-900 mt-1">
+                  Hasil Review
+                </h2>
+                <p class="text-sm text-gray-500 mt-1">
+                  Hasil pemeriksaan dan catatan dari marketing.
+                </p>
+              </div>
+
+              <div class="p-6 space-y-6">
+                <div>
+                  <p class="text-xs text-gray-400 uppercase tracking-wide">
+                    Hasil Review
+                  </p>
+                  <p class="text-base font-bold text-gray-900 mt-2">
+                    {{ application.review?.result || '-' }}
+                  </p>
+                </div>
+
+                <div class="pt-6 border-t border-gray-100">
+                  <p class="text-xs text-gray-400 uppercase tracking-wide">
+                    Notes
+                  </p>
+                  <p class="text-sm font-medium text-gray-700 mt-2 leading-relaxed whitespace-pre-line">
+                    {{ application.review?.notes || 'Tidak ada catatan.' }}
+                  </p>
+                </div>
+              </div>
+            </section>
+            <section class="border border-gray-200 rounded-xl overflow-hidden">
+              <div class="px-6 py-5 border-b border-gray-200">
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Review Readiness</p>
+                <h2 class="text-lg font-bold text-gray-900 mt-1">Data Review</h2>
+                <p class="text-sm text-gray-500 mt-1">Ketersediaan informasi yang dapat digunakan dalam proses review.</p>
+              </div>
+              <div class="divide-y divide-gray-100">
+                <div class="px-6 py-5 flex items-center justify-between gap-6">
+                  <div>
+                    <p class="text-sm font-semibold text-gray-900">Customer Information</p>
+                    <p class="text-xs text-gray-500 mt-1">Identitas dan informasi dasar customer tersedia.</p>
+                  </div>
+                  <span class="text-sm font-semibold text-green-500">Lengkap</span>
+                </div>
+                <!-- <div class="px-6 py-5 flex items-center justify-between gap-6">
+                  <div>
+                    <p class="text-sm font-semibold text-gray-900">Credit Limit</p>
+                    <p class="text-xs text-gray-500 mt-1">Limit kredit customer tersedia.</p>
+                  </div>
+                  <span class="text-sm font-semibold text-gray-700">
+                    {{ application.customer.limit.creditLimit | currency:'IDR':'symbol':'1.0-0':'id-ID' }}
+                  </span>
+                </div> -->
+                <div class="px-6 py-5 flex items-center justify-between gap-6">
+                  <div>
+                    <p class="text-sm font-semibold text-gray-900">Employment Information</p>
+                    <p class="text-xs text-gray-500 mt-1">Informasi pekerjaan dan penghasilan customer tersedia.</p>
+                  </div>
+                  <span class="text-sm font-semibold text-green-500">Lengkap</span>
+                </div>
+                <div class="px-6 py-5 flex items-center justify-between gap-6">
+                  <div>
+                    <p class="text-sm font-semibold text-gray-900">Identity Documents</p>
+                    <p class="text-xs text-gray-500 mt-1">
+                      {{ application.customer.documents.length }} dokumen tersedia untuk pemeriksaan.
+                    </p>
+                  </div>
+                  <span class="text-sm font-semibold text-green-500">
+                    {{ application.customer.documents.length ? 'Tersedia' : 'Belum Ada' }}
+                  </span>
+                </div>
+                <!-- <div class="px-6 py-5 flex items-center justify-between gap-6">
+                  <div>
+                    <p class="text-sm font-semibold text-gray-900">Credit Assessment</p>
+                    <p class="text-xs text-gray-500 mt-1">Belum terdapat hasil assessment kredit pada data aplikasi.</p>
+                  </div>
+                  <span class="text-sm font-semibold text-gray-400">Belum Tersedia</span>
+                </div> -->
+              </div>
+            </section>
+            <!-- <section class="border border-gray-200 rounded-xl bg-gray-50">
+              <div class="p-6 flex items-start gap-4">
+                <div class="w-9 h-9 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-gray-500 shrink-0">
+                  <i class="fa-solid fa-circle-info text-sm"></i>
+                </div>
+                <div>
+                  <p class="text-sm font-semibold text-gray-900">Catatan Review</p>
+                  <p class="text-sm text-gray-500 mt-1 leading-relaxed">
+                    Informasi yang belum tersedia tidak dihitung atau diasumsikan dalam review ini.
+                    Reviewer dapat menggunakan data eksternal atau assessment kredit sesuai proses yang berlaku.
+                  </p>
+                </div>
+              </div>
+            </section> -->
+          </div>
+          <div class="px-7 py-6 border-t border-gray-200 flex justify-end">
+            <button type="button" (click)="openVerifyModal(application.id)" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-blue-500 text-white text-sm font-semibold hover:bg-blue-600 transition">
+              Approve Aplikasi
+              <i class="fa-solid fa-arrow-right text-xs"></i>
+            </button>
+          </div>
+        }
+      </section>
+      <div class="flex justify-between items-center pt-1 pb-4">
+        <button type="button" (click)="back()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 transition">
+          <i class="fa-solid fa-arrow-left text-xs"></i>
+          Kembali
+        </button>
+        @if (activeTab !== 'summary') {
+          <button type="button" (click)="setActiveTab('summary')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gray-900 text-white text-sm font-semibold hover:bg-gray-800 transition">
+            Lihat Summary
+            <i class="fa-solid fa-arrow-right text-xs"></i>
+          </button>
+        }
+      </div>
+    </div>
+  } @else {
+    <div class="p-8 max-w-7xl mx-auto">
+      <div class="bg-white border border-gray-200 rounded-xl py-16 text-center">
+        <i class="fa-solid fa-spinner fa-spin text-gray-400 text-xl"></i>
+        <p class="text-sm text-gray-500 mt-3">Memuat data aplikasi...</p>
+      </div>
+    </div>
+  }
+</main>
+
+<app-verification-modal
+  [show]="isVerifyModalOpen"
+  title="Review Pengajuan Aplikasi Pinjaman"
+  description=""
+  size="md"
+  (closed)="closeVerifyModal()"
+  (saved)="confirmVerify($event)"
+  (rejected)="confirmReject($event)"
+></app-verification-modal>

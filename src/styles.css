@@ -1,3 +1,92 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import 'tailwindcss';
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+@import 'datatables.net-dt/css/dataTables.dataTables.css';
+@import '@ngxpert/hot-toast/styles.css';
+
+@theme {
+  --font-poppins: Poppins, sans-serif;
+  --font-manrope: Manrope, sans-serif;
+  --font-noto: "Noto Sans", sans-serif;
+  --font-jakarta: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Badge */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.badge > span {
+  width: 0.375rem;
+  height: 0.375rem;
+  min-width: 0.375rem;
+  border-radius: 9999px;
+}
+
+
+/* Green */
+
+.badge-green {
+  background: #f0fdf4;
+  color: #15803d;
+}
+
+.badge-green > span {
+  background: #22c55e;
+}
+
+
+/* Red */
+
+.badge-red {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.badge-red > span {
+  background: #ef4444;
+}
+
+
+/* Yellow */
+
+.badge-yellow {
+  background: #fffbeb;
+  color: #b45309;
+}
+
+.badge-yellow > span {
+  background: #eab308;
+}
+
+
+/* Blue */
+
+.badge-blue {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.badge-blue > span {
+  background: #3b82f6;
+}
+
+
+/* Orange */
+
+.badge-orange {
+  background: #fff7ed;
+  color: #c2410c;
+}
+
+.badge-orange > span {
+  background: #f97316;
+}

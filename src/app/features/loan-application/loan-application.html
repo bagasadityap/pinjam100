@@ -1,0 +1,42 @@
+<app-sidebar></app-sidebar>
+
+<main class="ml-64 min-h-screen bg-gray-100 text-gray-900">
+  <header class="h-20 bg-white border-b border-gray-200 px-8 flex items-center justify-between">
+    <div>
+      <h1 class="text-xl font-bold">Loan Application</h1>
+      <p class="text-sm text-gray-500 mt-1">
+        Kelola pengajuan pinjaman customer.
+      </p>
+    </div>
+  </header>
+
+  <div class="p-8">
+    <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+
+      <div class="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
+        <div>
+          <h2 class="font-bold text-lg">Daftar Loan Application</h2>
+          <p class="text-sm text-gray-500 mt-1">
+            Daftar pengajuan pinjaman yang terdaftar pada aplikasi.
+          </p>
+        </div>
+      </div>
+
+      <div class="px-6 py-4">
+        @if (loanApplications().length > 0) {
+          <app-datatable
+            tableId="loanApplicationTable"
+            [data]="loanApplications()"
+            [columns]="columns"
+            (action)="handleAction($event)"
+          />
+        } @else {
+          <div class="py-10 text-center text-sm text-gray-500">
+            Memuat data loan application...
+          </div>
+        }
+      </div>
+
+    </div>
+  </div>
+</main>

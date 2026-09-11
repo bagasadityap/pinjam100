@@ -1,0 +1,9 @@
+<table [id]="tableId">
+  <thead>
+    <tr>
+      @for (column of columns; track column.title) {
+        <th>{{ column.title }}</th>
+      }
+    </tr>
+  </thead>
+</table>
