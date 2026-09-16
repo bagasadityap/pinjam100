@@ -13,8 +13,8 @@ import { ResetPasswordService } from './reset-password.service';
   styleUrl: './reset-password.css',
 })
 export class ResetPassword {
-  private readonly resetPasswordService = inject(ResetPasswordService);
   private readonly route = inject(ActivatedRoute);
+  private readonly resetPasswordService = inject(ResetPasswordService);
   private readonly toast = inject(HotToastService);
 
   password = '';
@@ -26,13 +26,7 @@ export class ResetPassword {
   isSubmitting = false;
   showSuccessDialog = signal(false);
 
-  token = '';
-
-  constructor() {
-    this.route.queryParamMap.subscribe(params => {
-      this.token = params.get('token') ?? '';
-    });
-  }
+  token = this.route.snapshot.queryParamMap.get('token') ?? '';
 
   resetPassword(): void {
     if (this.isSubmitting) {
@@ -63,7 +57,7 @@ export class ResetPassword {
 
     this.resetPasswordService.resetPassword({
       password: this.password,
-      token: this.token
+      token: this.token,
     }).subscribe({
       next: () => {
         this.isSubmitting = false;
