@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.bagas.pinjam100",
+      "sha256_cert_fingerprints": [
+        "BB:EC:EE:2B:C1:10:EA:5D:C9:54:80:01:5B:84:83:9C:AA:36:A8:58:FB:9D:A2:A4:F3:89:D1:BE:DB:93:09:31"
+      ]
+    }
+  }
+]
