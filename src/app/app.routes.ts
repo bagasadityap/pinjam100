@@ -19,6 +19,14 @@ export const routes: Routes = [
   },
 
   {
+    path: 'reset-password',
+    loadComponent: () =>
+      import('./features/reset-password/reset-password').then(
+        m => m.ResetPassword
+      ),
+  },
+
+  {
     path: 'dashboard',
     canActivate: [authGuard],
     loadComponent: () =>
