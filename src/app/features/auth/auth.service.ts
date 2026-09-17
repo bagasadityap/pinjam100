@@ -5,6 +5,7 @@ import { HttpNetwork } from '../../core/network/http.network';
 import { PUBLIC, AUTHORIZED } from '../../core/http/http.context';
 import { AuthResponse, LoginRequest } from './auth.model';
 import { TokenService } from '../../core/service/token.service';
+import { UserResponse } from '../user/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -35,5 +36,12 @@ export class AuthService {
         this.tokenService.remove();
       })
     );
+  }
+
+  getCurrentUser(): Observable<UserResponse> {
+    return this.http.get<UserResponse>(
+      `${environment.api.baseUrl}/auth/get-current-user`,
+      AUTHORIZED
+    )
   }
 }

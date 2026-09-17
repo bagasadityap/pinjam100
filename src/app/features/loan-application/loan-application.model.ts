@@ -13,6 +13,7 @@ export interface LoanApplicationResponse {
   purpose: string;
   status: string;
   tenorMonths: number;
+  createdDate: string;
 }
 
 export interface LoanApplicationReviewResponse {

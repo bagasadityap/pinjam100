@@ -23,8 +23,8 @@
         </div>
 
         <div class="hidden sm:block">
-          <p class="text-sm font-semibold">Admin</p>
-          <p class="text-xs text-gray-500">Administrator</p>
+          <p class="text-sm font-semibold">{{ currentUser()?.name ?? "User" }}</p>
+          <p class="text-xs text-gray-500">{{ getRoleLabel() }}</p>
         </div>
       </div>
     </div>
@@ -34,350 +34,1146 @@
   <!-- Content -->
   <div class="p-8">
 
-    <!-- Welcome -->
-    <div class="mb-8">
-      <p class="text-sm font-medium text-blue-700">Selamat datang kembali</p>
-      <h2 class="text-3xl font-bold mt-1">Ringkasan Dashboard</h2>
-      <p class="text-gray-500 mt-2">Pantau pengajuan dan aktivitas pinjaman melalui dashboard ini.</p>
-    </div>
+    <!-- Loading -->
+    @if (loading()) {
 
+      <div class="flex items-center justify-center py-20">
+        <div class="flex items-center gap-3 text-gray-500">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          <span class="text-sm">Memuat dashboard...</span>
+        </div>
+      </div>
 
-    <!-- Statistics -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+    } @else if (error()) {
 
-      <div class="bg-white rounded-xl border border-gray-200 p-6">
-        <div class="flex items-start justify-between">
+      <div class="bg-red-50 border border-red-200 rounded-xl p-6 text-red-700">
+        <div class="flex items-center gap-3">
+          <i class="fa-solid fa-circle-exclamation"></i>
           <div>
-            <p class="text-sm text-gray-500">Total Request</p>
-            <h3 class="text-3xl font-bold mt-2">128</h3>
+            <p class="font-semibold">Gagal memuat dashboard</p>
+            <p class="text-sm mt-1">Terjadi kesalahan saat mengambil data dashboard.</p>
           </div>
-
-          <div class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
-            <i class="fa-solid fa-file-lines text-lg"></i>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-2 mt-5">
-          <span class="text-sm font-semibold text-green-600">
-            <i class="fa-solid fa-arrow-up text-xs"></i> 12.5%
-          </span>
-          <span class="text-xs text-gray-400">dari bulan lalu</span>
         </div>
       </div>
 
+    } @else {
 
-      <div class="bg-white rounded-xl border border-gray-200 p-6">
-        <div class="flex items-start justify-between">
-          <div>
-            <p class="text-sm text-gray-500">Menunggu Review</p>
-            <h3 class="text-3xl font-bold mt-2">24</h3>
-          </div>
-
-          <div class="w-11 h-11 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center">
-            <i class="fa-solid fa-clock text-lg"></i>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-2 mt-5">
-          <span class="text-sm font-semibold text-yellow-600">
-            Perlu ditinjau
-          </span>
-        </div>
+      <!-- Welcome -->
+      <div class="mb-8">
+        <p class="text-sm font-medium text-blue-700">Selamat datang kembali</p>
+        <h2 class="text-3xl font-bold mt-1">Ringkasan Dashboard</h2>
+        <p class="text-gray-500 mt-2">Pantau aktivitas Pinjam100 melalui dashboard ini.</p>
       </div>
 
 
-      <div class="bg-white rounded-xl border border-gray-200 p-6">
-        <div class="flex items-start justify-between">
-          <div>
-            <p class="text-sm text-gray-500">Disetujui</p>
-            <h3 class="text-3xl font-bold mt-2">87</h3>
-          </div>
+      <!-- ==================== SUPER ADMIN ==================== -->
+      @if (isSuperAdmin()) {
 
-          <div class="w-11 h-11 rounded-lg bg-green-50 text-green-600 flex items-center justify-center">
-            <i class="fa-solid fa-circle-check text-lg"></i>
-          </div>
-        </div>
+        <!-- Statistics -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
 
-        <div class="flex items-center gap-2 mt-5">
-          <span class="text-sm font-semibold text-green-600">
-            68% dari total
-          </span>
-        </div>
-      </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Total Request</p>
+                <h3 class="text-3xl font-bold mt-2">{{ dashboardData?.totalRequests | number }}</h3>
+              </div>
 
-
-      <div class="bg-white rounded-xl border border-gray-200 p-6">
-        <div class="flex items-start justify-between">
-          <div>
-            <p class="text-sm text-gray-500">Total Nasabah</p>
-            <h3 class="text-3xl font-bold mt-2">1,248</h3>
-          </div>
-
-          <div class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
-            <i class="fa-solid fa-users text-lg"></i>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-2 mt-5">
-          <span class="text-sm font-semibold text-green-600">
-            <i class="fa-solid fa-arrow-up text-xs"></i> 8.2%
-          </span>
-          <span class="text-xs text-gray-400">dari bulan lalu</span>
-        </div>
-      </div>
-
-    </div>
-
-
-    <!-- Main Dashboard -->
-    <div class="grid xl:grid-cols-3 gap-6 mt-6">
-
-      <!-- Recent Requests -->
-      <div class="xl:col-span-2 bg-white rounded-xl border border-gray-200">
-
-        <div class="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
-          <div>
-            <h3 class="font-bold text-lg">Request Terbaru</h3>
-            <p class="text-sm text-gray-500 mt-1">Pengajuan pinjaman terbaru.</p>
-          </div>
-
-          <a href="/request-pinjaman" class="text-sm font-semibold text-blue-700 hover:text-blue-800">
-            Lihat Semua
-          </a>
-        </div>
-
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm">
-
-            <thead>
-              <tr class="text-left text-gray-500 bg-gray-50">
-                <th class="px-6 py-4 font-medium">Nasabah</th>
-                <th class="px-6 py-4 font-medium">Jumlah</th>
-                <th class="px-6 py-4 font-medium">Tanggal</th>
-                <th class="px-6 py-4 font-medium">Status</th>
-              </tr>
-            </thead>
-
-            <tbody class="divide-y divide-gray-100">
-
-              <tr class="hover:bg-gray-50 transition">
-                <td class="px-6 py-4">
-                  <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-semibold">
-                      BA
-                    </div>
-
-                    <div>
-                      <p class="font-semibold">Bagas Aditya</p>
-                      <p class="text-xs text-gray-500">bagas@email.com</p>
-                    </div>
-                  </div>
-                </td>
-
-                <td class="px-6 py-4 font-semibold">
-                  Rp5.000.000
-                </td>
-
-                <td class="px-6 py-4 text-gray-500">
-                  19 Agu 2026
-                </td>
-
-                <td class="px-6 py-4">
-                  <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-yellow-50 text-yellow-700 text-xs font-semibold">
-                    <span class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>
-                    Menunggu
-                  </span>
-                </td>
-              </tr>
-
-
-              <tr class="hover:bg-gray-50 transition">
-                <td class="px-6 py-4">
-                  <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-semibold">
-                      AR
-                    </div>
-
-                    <div>
-                      <p class="font-semibold">Andi Rahman</p>
-                      <p class="text-xs text-gray-500">andi@email.com</p>
-                    </div>
-                  </div>
-                </td>
-
-                <td class="px-6 py-4 font-semibold">
-                  Rp10.000.000
-                </td>
-
-                <td class="px-6 py-4 text-gray-500">
-                  19 Agu 2026
-                </td>
-
-                <td class="px-6 py-4">
-                  <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-50 text-green-700 text-xs font-semibold">
-                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
-                    Disetujui
-                  </span>
-                </td>
-              </tr>
-
-
-              <tr class="hover:bg-gray-50 transition">
-                <td class="px-6 py-4">
-                  <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-semibold">
-                      DS
-                    </div>
-
-                    <div>
-                      <p class="font-semibold">Dewi Sari</p>
-                      <p class="text-xs text-gray-500">dewi@email.com</p>
-                    </div>
-                  </div>
-                </td>
-
-                <td class="px-6 py-4 font-semibold">
-                  Rp3.000.000
-                </td>
-
-                <td class="px-6 py-4 text-gray-500">
-                  18 Agu 2026
-                </td>
-
-                <td class="px-6 py-4">
-                  <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-50 text-red-600 text-xs font-semibold">
-                    <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
-                    Ditolak
-                  </span>
-                </td>
-              </tr>
-
-            </tbody>
-
-          </table>
-        </div>
-      </div>
-
-
-      <!-- Quick Actions -->
-      <div class="bg-white rounded-xl border border-gray-200">
-
-        <div class="px-6 py-5 border-b border-gray-200">
-          <h3 class="font-bold text-lg">Aksi Cepat</h3>
-          <p class="text-sm text-gray-500 mt-1">Akses fitur yang sering digunakan.</p>
-        </div>
-
-        <div class="p-5 space-y-3">
-
-          <a href="/request-pinjaman" class="flex items-center gap-4 p-4 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition">
-            <div class="w-10 h-10 rounded-lg bg-blue-700 text-white flex items-center justify-center">
-              <i class="fa-solid fa-file-circle-plus"></i>
+              <div class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+                <i class="fa-solid fa-file-lines text-lg"></i>
+              </div>
             </div>
 
-            <div class="flex-1">
-              <p class="font-semibold">Request Pinjaman</p>
-              <p class="text-xs text-blue-600 mt-1">Periksa pengajuan baru</p>
+            <div class="flex items-center gap-2 mt-5">
+              <span class="text-sm font-semibold text-green-600">
+                <i class="fa-solid fa-arrow-up text-xs"></i>
+                {{ dashboardData?.totalRequestGrowthRate | number:'1.1-1' }}%
+              </span>
+              <span class="text-xs text-gray-400">dari bulan lalu</span>
             </div>
-
-            <i class="fa-solid fa-chevron-right text-sm"></i>
-          </a>
-
-
-          <a href="#" class="flex items-center gap-4 p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
-            <div class="w-10 h-10 rounded-lg bg-white text-blue-700 flex items-center justify-center shadow-sm">
-              <i class="fa-solid fa-users"></i>
-            </div>
-
-            <div class="flex-1">
-              <p class="font-semibold">Data Nasabah</p>
-              <p class="text-xs text-gray-500 mt-1">Kelola data nasabah</p>
-            </div>
-
-            <i class="fa-solid fa-chevron-right text-sm text-gray-400"></i>
-          </a>
-
-
-          <a href="#" class="flex items-center gap-4 p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
-            <div class="w-10 h-10 rounded-lg bg-white text-blue-700 flex items-center justify-center shadow-sm">
-              <i class="fa-solid fa-chart-line"></i>
-            </div>
-
-            <div class="flex-1">
-              <p class="font-semibold">Laporan</p>
-              <p class="text-xs text-gray-500 mt-1">Lihat laporan pinjaman</p>
-            </div>
-
-            <i class="fa-solid fa-chevron-right text-sm text-gray-400"></i>
-          </a>
-
-
-          <a href="#" class="flex items-center gap-4 p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
-            <div class="w-10 h-10 rounded-lg bg-white text-blue-700 flex items-center justify-center shadow-sm">
-              <i class="fa-solid fa-gear"></i>
-            </div>
-
-            <div class="flex-1">
-              <p class="font-semibold">Pengaturan</p>
-              <p class="text-xs text-gray-500 mt-1">Kelola pengaturan sistem</p>
-            </div>
-
-            <i class="fa-solid fa-chevron-right text-sm text-gray-400"></i>
-          </a>
-
-        </div>
-      </div>
-
-    </div>
-
-
-    <!-- Bottom Information -->
-    <div class="grid lg:grid-cols-2 gap-6 mt-6">
-
-      <div class="bg-blue-700 rounded-xl p-7 text-white">
-        <div class="flex items-start justify-between">
-          <div>
-            <p class="text-blue-200 text-sm font-medium">Total Pinjaman Disalurkan</p>
-            <h3 class="text-3xl font-bold mt-2">Rp2,48 M</h3>
           </div>
 
-          <div class="w-11 h-11 rounded-lg bg-white/10 flex items-center justify-center">
-            <i class="fa-solid fa-money-bill-transfer"></i>
-          </div>
-        </div>
 
-        <div class="flex items-center gap-2 mt-6">
-          <span class="text-sm font-semibold text-green-300">
-            <i class="fa-solid fa-arrow-up text-xs"></i> 15.8%
-          </span>
-          <span class="text-sm text-blue-200">dibanding bulan lalu</span>
-        </div>
-      </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Menunggu Review</p>
+                <h3 class="text-3xl font-bold mt-2">{{ dashboardData?.pendingRequests | number }}</h3>
+              </div>
 
+              <div class="w-11 h-11 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center">
+                <i class="fa-solid fa-clock text-lg"></i>
+              </div>
+            </div>
 
-      <div class="bg-yellow-400 rounded-xl p-7 text-gray-900">
-        <div class="flex items-start justify-between">
-          <div>
-            <p class="text-gray-700 text-sm font-medium">Tingkat Persetujuan</p>
-            <h3 class="text-3xl font-bold mt-2">68%</h3>
-          </div>
-
-          <div class="w-11 h-11 rounded-lg bg-white/40 flex items-center justify-center">
-            <i class="fa-solid fa-chart-pie"></i>
-          </div>
-        </div>
-
-        <div class="mt-6">
-          <div class="w-full h-2 bg-white/50 rounded-full overflow-hidden">
-            <div class="h-full w-[68%] bg-blue-700 rounded-full"></div>
+            <div class="flex items-center gap-2 mt-5">
+              <span class="text-sm font-semibold text-yellow-600">
+                Perlu ditinjau
+              </span>
+            </div>
           </div>
 
-          <p class="text-sm text-gray-700 mt-2">
-            87 dari 128 pengajuan telah disetujui.
-          </p>
-        </div>
-      </div>
 
-    </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Disetujui</p>
+                <h3 class="text-3xl font-bold mt-2">{{ dashboardData?.approvedRequests | number }}</h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-green-50 text-green-600 flex items-center justify-center">
+                <i class="fa-solid fa-circle-check text-lg"></i>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 mt-5">
+              <span class="text-sm font-semibold text-green-600">
+                {{ dashboardData?.approvalRate | number:'1.1-1' }}% approval rate
+              </span>
+            </div>
+          </div>
+
+
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Total Nasabah</p>
+                <h3 class="text-3xl font-bold mt-2">{{ dashboardData?.totalCustomers | number }}</h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+                <i class="fa-solid fa-users text-lg"></i>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 mt-5">
+              <span class="text-sm font-semibold text-green-600">
+                <i class="fa-solid fa-arrow-up text-xs"></i>
+                {{ dashboardData?.totalCustomerGrowthRate | number:'1.1-1' }}%
+              </span>
+              <span class="text-xs text-gray-400">dari bulan lalu</span>
+            </div>
+          </div>
+
+        </div>
+
+
+        <!-- Main Dashboard -->
+        <div class="grid xl:grid-cols-3 gap-6 mt-6">
+
+          <!-- Recent Requests -->
+          <div class="xl:col-span-2 bg-white rounded-xl border border-gray-200">
+
+            <div class="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
+              <div>
+                <h3 class="font-bold text-lg">Request Terbaru</h3>
+                <p class="text-sm text-gray-500 mt-1">Pengajuan pinjaman terbaru.</p>
+              </div>
+
+              <a href="/request-pinjaman" class="text-sm font-semibold text-blue-700 hover:text-blue-800">
+                Lihat Semua
+              </a>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+
+                <thead>
+                  <tr class="text-left text-gray-500 bg-gray-50">
+                    <th class="px-6 py-4 font-medium">Nasabah</th>
+                    <th class="px-6 py-4 font-medium">Jumlah</th>
+                    <th class="px-6 py-4 font-medium">Tanggal</th>
+                    <th class="px-6 py-4 font-medium">Status</th>
+                  </tr>
+                </thead>
+
+                <tbody class="divide-y divide-gray-100">
+
+                  @for (request of dashboardData?.recentRequests || []; track request.id) {
+
+                    <tr class="hover:bg-gray-50 transition">
+
+                      <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                          <div class="w-9 h-9 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-semibold">
+                            {{ getInitials(request.customer?.fullName) }}
+                          </div>
+
+                          <div>
+                            <p class="font-semibold">{{ request.customer?.fullName }}</p>
+                            <p class="text-xs text-gray-500">{{ request.customer?.email }}</p>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td class="px-6 py-4 font-semibold">
+                        {{ request.loanAmount | currency:'IDR':'symbol':'1.0-0' }}
+                      </td>
+
+                      <td class="px-6 py-4 text-gray-500">
+                        {{ request.createdDate | date:'dd MMM yyyy' }}
+                      </td>
+
+                      <td class="px-6 py-4">
+                        <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-yellow-50 text-yellow-700 text-xs font-semibold">
+                          <span class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>
+                          {{ request.status }}
+                        </span>
+                      </td>
+
+                    </tr>
+
+                  }
+
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+
+
+          <!-- Quick Actions -->
+          <div class="bg-white rounded-xl border border-gray-200">
+
+            <div class="px-6 py-5 border-b border-gray-200">
+              <h3 class="font-bold text-lg">Aksi Cepat</h3>
+              <p class="text-sm text-gray-500 mt-1">Akses fitur yang sering digunakan.</p>
+            </div>
+
+            <div class="p-5 space-y-3">
+
+              <a href="/request-pinjaman" class="flex items-center gap-4 p-4 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition">
+                <div class="w-10 h-10 rounded-lg bg-blue-700 text-white flex items-center justify-center">
+                  <i class="fa-solid fa-file-circle-plus"></i>
+                </div>
+
+                <div class="flex-1">
+                  <p class="font-semibold">Request Pinjaman</p>
+                  <p class="text-xs text-blue-600 mt-1">Periksa pengajuan baru</p>
+                </div>
+
+                <i class="fa-solid fa-chevron-right text-sm"></i>
+              </a>
+
+
+              <a href="#" class="flex items-center gap-4 p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
+                <div class="w-10 h-10 rounded-lg bg-white text-blue-700 flex items-center justify-center shadow-sm">
+                  <i class="fa-solid fa-users"></i>
+                </div>
+
+                <div class="flex-1">
+                  <p class="font-semibold">Data Nasabah</p>
+                  <p class="text-xs text-gray-500 mt-1">Kelola data nasabah</p>
+                </div>
+
+                <i class="fa-solid fa-chevron-right text-sm text-gray-400"></i>
+              </a>
+
+
+              <a href="#" class="flex items-center gap-4 p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
+                <div class="w-10 h-10 rounded-lg bg-white text-blue-700 flex items-center justify-center shadow-sm">
+                  <i class="fa-solid fa-chart-line"></i>
+                </div>
+
+                <div class="flex-1">
+                  <p class="font-semibold">Laporan</p>
+                  <p class="text-xs text-gray-500 mt-1">Lihat laporan pinjaman</p>
+                </div>
+
+                <i class="fa-solid fa-chevron-right text-sm text-gray-400"></i>
+              </a>
+
+
+              <a href="#" class="flex items-center gap-4 p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
+                <div class="w-10 h-10 rounded-lg bg-white text-blue-700 flex items-center justify-center shadow-sm">
+                  <i class="fa-solid fa-gear"></i>
+                </div>
+
+                <div class="flex-1">
+                  <p class="font-semibold">Pengaturan</p>
+                  <p class="text-xs text-gray-500 mt-1">Kelola pengaturan sistem</p>
+                </div>
+
+                <i class="fa-solid fa-chevron-right text-sm text-gray-400"></i>
+              </a>
+
+            </div>
+          </div>
+
+        </div>
+
+
+        <!-- Bottom Information -->
+        <div class="grid lg:grid-cols-2 gap-6 mt-6">
+
+          <div class="bg-blue-700 rounded-xl p-7 text-white">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-blue-200 text-sm font-medium">Total Pinjaman</p>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ dashboardData?.totalDisbursements | currency:'IDR':'symbol':'1.0-0' }}
+                </h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-white/10 flex items-center justify-center">
+                <i class="fa-solid fa-money-bill-transfer"></i>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 mt-6">
+              <span class="text-sm font-semibold text-green-300">
+                <i class="fa-solid fa-arrow-up text-xs"></i>
+                {{ dashboardData?.totalDisbursementGrowthRate | number:'1.1-1' }}%
+              </span>
+              <span class="text-sm text-blue-200">dibanding bulan lalu</span>
+            </div>
+          </div>
+
+
+          <div class="bg-yellow-400 rounded-xl p-7 text-gray-900">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-gray-700 text-sm font-medium">Pinjaman Overdue</p>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ dashboardData?.totalLoanOverdue | number }}
+                </h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-white/40 flex items-center justify-center">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+              </div>
+            </div>
+
+            <div class="mt-6">
+              <p class="text-sm text-gray-700">
+                Total outstanding overdue
+                <span class="font-bold">
+                  {{ dashboardData?.totalLoanAmountOverdue | currency:'IDR':'symbol':'1.0-0' }}
+                </span>
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      }
+
+
+      <!-- ==================== MARKETING ==================== -->
+      @if (isMarketing()) {
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Total Request</p>
+                <h3 class="text-3xl font-bold mt-2">{{ marketingData?.totalRequests | number }}</h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+                <i class="fa-solid fa-file-lines text-lg"></i>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 mt-5">
+              <span class="text-sm font-semibold text-green-600">
+                <i class="fa-solid fa-arrow-up text-xs"></i>
+                {{ marketingData?.totalRequestGrowthRate | number:'1.1-1' }}%
+              </span>
+              <span class="text-xs text-gray-400">dari bulan lalu</span>
+            </div>
+          </div>
+
+
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Menunggu Review</p>
+                <h3 class="text-3xl font-bold mt-2">{{ marketingData?.pendingRequests | number }}</h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center">
+                <i class="fa-solid fa-clock text-lg"></i>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 mt-5">
+              <span class="text-sm font-semibold text-yellow-600">
+                Perlu ditinjau
+              </span>
+            </div>
+          </div>
+
+
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Disetujui</p>
+                <h3 class="text-3xl font-bold mt-2">{{ marketingData?.approvedRequests | number }}</h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-green-50 text-green-600 flex items-center justify-center">
+                <i class="fa-solid fa-circle-check text-lg"></i>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 mt-5">
+              <span class="text-sm font-semibold text-green-600">
+                {{ marketingData?.approvalRate | number:'1.1-1' }}% approval rate
+              </span>
+            </div>
+          </div>
+
+
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Total Nasabah</p>
+                <h3 class="text-3xl font-bold mt-2">{{ marketingData?.totalCustomers | number }}</h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+                <i class="fa-solid fa-users text-lg"></i>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 mt-5">
+              <span class="text-sm font-semibold text-green-600">
+                <i class="fa-solid fa-arrow-up text-xs"></i>
+                {{ marketingData?.totalCustomerGrowthRate | number:'1.1-1' }}%
+              </span>
+              <span class="text-xs text-gray-400">dari bulan lalu</span>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="grid xl:grid-cols-3 gap-6 mt-6">
+
+          <div class="xl:col-span-2 bg-white rounded-xl border border-gray-200">
+
+            <div class="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
+              <div>
+                <h3 class="font-bold text-lg">Request Terbaru</h3>
+                <p class="text-sm text-gray-500 mt-1">Pengajuan pinjaman pada cabang Anda.</p>
+              </div>
+
+              <a href="/request-pinjaman" class="text-sm font-semibold text-blue-700 hover:text-blue-800">
+                Lihat Semua
+              </a>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+
+                <thead>
+                  <tr class="text-left text-gray-500 bg-gray-50">
+                    <th class="px-6 py-4 font-medium">Nasabah</th>
+                    <th class="px-6 py-4 font-medium">Jumlah</th>
+                    <th class="px-6 py-4 font-medium">Tanggal</th>
+                    <th class="px-6 py-4 font-medium">Status</th>
+                  </tr>
+                </thead>
+
+                <tbody class="divide-y divide-gray-100">
+
+                  @for (request of marketingData?.recentRequests || []; track request.id) {
+
+                    <tr class="hover:bg-gray-50 transition">
+
+                      <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                          <div class="w-9 h-9 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-semibold">
+                            {{ getInitials(request.customer?.fullName) }}
+                          </div>
+
+                          <div>
+                            <p class="font-semibold">{{ request.customer?.fullName }}</p>
+                            <p class="text-xs text-gray-500">{{ request.customer?.email }}</p>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td class="px-6 py-4 font-semibold">
+                        {{ request.loanAmount | currency:'IDR':'symbol':'1.0-0' }}
+                      </td>
+
+                      <td class="px-6 py-4 text-gray-500">
+                        {{ request.createdDate | date:'dd MMM yyyy' }}
+                      </td>
+
+                      <td class="px-6 py-4">
+                        <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-yellow-50 text-yellow-700 text-xs font-semibold">
+                          <span class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>
+                          {{ request.status }}
+                        </span>
+                      </td>
+
+                    </tr>
+
+                  }
+
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+
+
+          <div class="bg-white rounded-xl border border-gray-200">
+
+            <div class="px-6 py-5 border-b border-gray-200">
+              <h3 class="font-bold text-lg">Aksi Cepat</h3>
+              <p class="text-sm text-gray-500 mt-1">Akses fitur yang sering digunakan.</p>
+            </div>
+
+            <div class="p-5 space-y-3">
+
+              <a href="/request-pinjaman" class="flex items-center gap-4 p-4 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition">
+                <div class="w-10 h-10 rounded-lg bg-blue-700 text-white flex items-center justify-center">
+                  <i class="fa-solid fa-file-circle-plus"></i>
+                </div>
+
+                <div class="flex-1">
+                  <p class="font-semibold">Request Pinjaman</p>
+                  <p class="text-xs text-blue-600 mt-1">Periksa pengajuan baru</p>
+                </div>
+
+                <i class="fa-solid fa-chevron-right text-sm"></i>
+              </a>
+
+
+              <a href="#" class="flex items-center gap-4 p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
+                <div class="w-10 h-10 rounded-lg bg-white text-blue-700 flex items-center justify-center shadow-sm">
+                  <i class="fa-solid fa-users"></i>
+                </div>
+
+                <div class="flex-1">
+                  <p class="font-semibold">Data Nasabah</p>
+                  <p class="text-xs text-gray-500 mt-1">Lihat data nasabah</p>
+                </div>
+
+                <i class="fa-solid fa-chevron-right text-sm text-gray-400"></i>
+              </a>
+
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="grid lg:grid-cols-2 gap-6 mt-6">
+
+          <div class="bg-blue-700 rounded-xl p-7 text-white">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-blue-200 text-sm font-medium">Total Pinjaman</p>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ marketingData?.totalDisbursements | currency:'IDR':'symbol':'1.0-0' }}
+                </h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-white/10 flex items-center justify-center">
+                <i class="fa-solid fa-money-bill-transfer"></i>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 mt-6">
+              <span class="text-sm font-semibold text-green-300">
+                <i class="fa-solid fa-arrow-up text-xs"></i>
+                {{ marketingData?.totalDisbursementGrowthRate | number:'1.1-1' }}%
+              </span>
+              <span class="text-sm text-blue-200">dibanding bulan lalu</span>
+            </div>
+          </div>
+
+
+          <div class="bg-yellow-400 rounded-xl p-7 text-gray-900">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-gray-700 text-sm font-medium">Pinjaman Overdue</p>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ marketingData?.totalLoanOverdue | number }}
+                </h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-white/40 flex items-center justify-center">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+              </div>
+            </div>
+
+            <div class="mt-6">
+              <p class="text-sm text-gray-700">
+                Total outstanding overdue
+                <span class="font-bold">
+                  {{ marketingData?.totalLoanAmountOverdue | currency:'IDR':'symbol':'1.0-0' }}
+                </span>
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      }
+
+
+      <!-- ==================== PAYMENT ==================== -->
+      @if (isPayment()) {
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Total Request</p>
+                <h3 class="text-3xl font-bold mt-2">{{ paymentData?.totalRequests | number }}</h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+                <i class="fa-solid fa-file-lines text-lg"></i>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Disetujui</p>
+                <h3 class="text-3xl font-bold mt-2">{{ paymentData?.approvedRequests | number }}</h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-green-50 text-green-600 flex items-center justify-center">
+                <i class="fa-solid fa-circle-check text-lg"></i>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Menunggu Pencairan</p>
+                <h3 class="text-3xl font-bold mt-2">{{ paymentData?.pendingDisbursements | number }}</h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center">
+                <i class="fa-solid fa-clock text-lg"></i>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 mt-5">
+              <span class="text-sm font-semibold text-yellow-600">
+                Perlu diproses
+              </span>
+            </div>
+          </div>
+
+
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Total Disetujui</p>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ paymentData?.totalApprovedAmount | currency:'IDR':'symbol':'1.0-0' }}
+                </h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+                <i class="fa-solid fa-money-bill-wave text-lg"></i>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="grid xl:grid-cols-3 gap-6 mt-6">
+
+          <div class="xl:col-span-2 bg-white rounded-xl border border-gray-200">
+
+            <div class="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
+              <div>
+                <h3 class="font-bold text-lg">Request Terbaru</h3>
+                <p class="text-sm text-gray-500 mt-1">Pengajuan yang perlu diproses payment.</p>
+              </div>
+
+              <a href="/request-pinjaman" class="text-sm font-semibold text-blue-700 hover:text-blue-800">
+                Lihat Semua
+              </a>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+
+                <thead>
+                  <tr class="text-left text-gray-500 bg-gray-50">
+                    <th class="px-6 py-4 font-medium">Nasabah</th>
+                    <th class="px-6 py-4 font-medium">Jumlah</th>
+                    <th class="px-6 py-4 font-medium">Tanggal</th>
+                    <th class="px-6 py-4 font-medium">Status</th>
+                  </tr>
+                </thead>
+
+                <tbody class="divide-y divide-gray-100">
+
+                  @for (request of paymentData?.recentRequests || []; track request.id) {
+
+                    <tr class="hover:bg-gray-50 transition">
+
+                      <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                          <div class="w-9 h-9 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-semibold">
+                            {{ getInitials(request.customer?.fullName) }}
+                          </div>
+
+                          <div>
+                            <p class="font-semibold">{{ request.customer?.fullName }}</p>
+                            <p class="text-xs text-gray-500">{{ request.customer?.email }}</p>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td class="px-6 py-4 font-semibold">
+                        {{ request.loanAmount | currency:'IDR':'symbol':'1.0-0' }}
+                      </td>
+
+                      <td class="px-6 py-4 text-gray-500">
+                        {{ request.createdDate | date:'dd MMM yyyy' }}
+                      </td>
+
+                      <td class="px-6 py-4">
+                        <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-50 text-green-700 text-xs font-semibold">
+                          <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                          {{ request.status }}
+                        </span>
+                      </td>
+
+                    </tr>
+
+                  }
+
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+
+
+          <div class="bg-white rounded-xl border border-gray-200">
+
+            <div class="px-6 py-5 border-b border-gray-200">
+              <h3 class="font-bold text-lg">Aksi Cepat</h3>
+              <p class="text-sm text-gray-500 mt-1">Akses fitur yang sering digunakan.</p>
+            </div>
+
+            <div class="p-5 space-y-3">
+
+              <a href="/request-pinjaman" class="flex items-center gap-4 p-4 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition">
+                <div class="w-10 h-10 rounded-lg bg-blue-700 text-white flex items-center justify-center">
+                  <i class="fa-solid fa-money-bill-transfer"></i>
+                </div>
+
+                <div class="flex-1">
+                  <p class="font-semibold">Pencairan</p>
+                  <p class="text-xs text-blue-600 mt-1">Proses pencairan pinjaman</p>
+                </div>
+
+                <i class="fa-solid fa-chevron-right text-sm"></i>
+              </a>
+
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="grid lg:grid-cols-2 gap-6 mt-6">
+
+          <div class="bg-blue-700 rounded-xl p-7 text-white">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-blue-200 text-sm font-medium">Total Disbursements</p>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ paymentData?.totalDisbursements | currency:'IDR':'symbol':'1.0-0' }}
+                </h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-white/10 flex items-center justify-center">
+                <i class="fa-solid fa-money-bill-transfer"></i>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 mt-6">
+              <span class="text-sm font-semibold text-green-300">
+                <i class="fa-solid fa-arrow-up text-xs"></i>
+                {{ paymentData?.totalDisbursementGrowthRate | number:'1.1-1' }}%
+              </span>
+              <span class="text-sm text-blue-200">dibanding bulan lalu</span>
+            </div>
+          </div>
+
+
+          <div class="bg-yellow-400 rounded-xl p-7 text-gray-900">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-gray-700 text-sm font-medium">Menunggu Pencairan</p>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ paymentData?.pendingDisbursements | number }}
+                </h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-white/40 flex items-center justify-center">
+                <i class="fa-solid fa-clock"></i>
+              </div>
+            </div>
+
+            <div class="mt-6">
+              <p class="text-sm text-gray-700">
+                Pengajuan yang sudah disetujui dan menunggu proses pencairan.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      }
+
+
+      <!-- ==================== DOCUMENT CHECKER ==================== -->
+      @if (isDocumentChecker()) {
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Total Nasabah</p>
+                <h3 class="text-3xl font-bold mt-2">{{ documentCheckerData?.totalCustomers | number }}</h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+                <i class="fa-solid fa-users text-lg"></i>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Menunggu Verifikasi</p>
+                <h3 class="text-3xl font-bold mt-2">{{ documentCheckerData?.pendingVerification | number }}</h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center">
+                <i class="fa-solid fa-clock text-lg"></i>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 mt-5">
+              <span class="text-sm font-semibold text-yellow-600">
+                Perlu diverifikasi
+              </span>
+            </div>
+          </div>
+
+
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Terverifikasi</p>
+                <h3 class="text-3xl font-bold mt-2">{{ documentCheckerData?.verifiedCustomers | number }}</h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-green-50 text-green-600 flex items-center justify-center">
+                <i class="fa-solid fa-circle-check text-lg"></i>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Ditolak</p>
+                <h3 class="text-3xl font-bold mt-2">{{ documentCheckerData?.rejectedCustomers | number }}</h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-red-50 text-red-600 flex items-center justify-center">
+                <i class="fa-solid fa-circle-xmark text-lg"></i>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="grid xl:grid-cols-3 gap-6 mt-6">
+
+          <div class="xl:col-span-2 bg-white rounded-xl border border-gray-200">
+
+            <div class="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
+              <div>
+                <h3 class="font-bold text-lg">Nasabah Terbaru</h3>
+                <p class="text-sm text-gray-500 mt-1">Nasabah yang perlu diperiksa dokumennya.</p>
+              </div>
+
+              <a href="/customer" class="text-sm font-semibold text-blue-700 hover:text-blue-800">
+                Lihat Semua
+              </a>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+
+                <thead>
+                  <tr class="text-left text-gray-500 bg-gray-50">
+                    <th class="px-6 py-4 font-medium">Nasabah</th>
+                    <th class="px-6 py-4 font-medium">Tanggal</th>
+                    <th class="px-6 py-4 font-medium">Status</th>
+                  </tr>
+                </thead>
+
+                <tbody class="divide-y divide-gray-100">
+
+                  @for (customer of documentCheckerData?.recentCustomers || []; track customer.id) {
+
+                    <tr class="hover:bg-gray-50 transition">
+
+                      <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                          <div class="w-9 h-9 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-semibold">
+                            {{ getInitials(customer.fullName) }}
+                          </div>
+
+                          <div>
+                            <p class="font-semibold">{{ customer.fullName }}</p>
+                            <p class="text-xs text-gray-500">{{ customer.email }}</p>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td class="px-6 py-4 text-gray-500">
+                        {{ customer.createdDate | date:'dd MMM yyyy' }}
+                      </td>
+
+                      <td class="px-6 py-4">
+                        <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-yellow-50 text-yellow-700 text-xs font-semibold">
+                          <span class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>
+                          {{ customer.verificationStatus }}
+                        </span>
+                      </td>
+
+                    </tr>
+
+                  }
+
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+
+
+          <div class="bg-white rounded-xl border border-gray-200">
+
+            <div class="px-6 py-5 border-b border-gray-200">
+              <h3 class="font-bold text-lg">Aksi Cepat</h3>
+              <p class="text-sm text-gray-500 mt-1">Akses fitur yang sering digunakan.</p>
+            </div>
+
+            <div class="p-5 space-y-3">
+
+              <a href="/customer" class="flex items-center gap-4 p-4 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition">
+                <div class="w-10 h-10 rounded-lg bg-blue-700 text-white flex items-center justify-center">
+                  <i class="fa-solid fa-file-circle-check"></i>
+                </div>
+
+                <div class="flex-1">
+                  <p class="font-semibold">Verifikasi Dokumen</p>
+                  <p class="text-xs text-blue-600 mt-1">Periksa dokumen nasabah</p>
+                </div>
+
+                <i class="fa-solid fa-chevron-right text-sm"></i>
+              </a>
+
+            </div>
+          </div>
+
+        </div>
+
+      }
+
+
+      <!-- ==================== CREDIT ANALYST ==================== -->
+      @if (isCreditAnalyst()) {
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Total Nasabah</p>
+                <h3 class="text-3xl font-bold mt-2">{{ creditAnalystData?.totalCustomers | number }}</h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+                <i class="fa-solid fa-users text-lg"></i>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Terverifikasi</p>
+                <h3 class="text-3xl font-bold mt-2">{{ creditAnalystData?.verifiedCustomers | number }}</h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-green-50 text-green-600 flex items-center justify-center">
+                <i class="fa-solid fa-circle-check text-lg"></i>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Menunggu Analisis Limit</p>
+                <h3 class="text-3xl font-bold mt-2">{{ creditAnalystData?.pendingLimitAnalysis | number }}</h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center">
+                <i class="fa-solid fa-chart-line text-lg"></i>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 mt-5">
+              <span class="text-sm font-semibold text-yellow-600">
+                Perlu dianalisis
+              </span>
+            </div>
+          </div>
+
+
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Sudah Memiliki Limit</p>
+                <h3 class="text-3xl font-bold mt-2">{{ creditAnalystData?.customersWithLimit | number }}</h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+                <i class="fa-solid fa-wallet text-lg"></i>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="grid xl:grid-cols-3 gap-6 mt-6">
+
+          <div class="xl:col-span-2 bg-white rounded-xl border border-gray-200">
+
+            <div class="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
+              <div>
+                <h3 class="font-bold text-lg">Nasabah Terbaru</h3>
+                <p class="text-sm text-gray-500 mt-1">Nasabah yang siap dianalisis limitnya.</p>
+              </div>
+
+              <a href="/customer-limit" class="text-sm font-semibold text-blue-700 hover:text-blue-800">
+                Lihat Semua
+              </a>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+
+                <thead>
+                  <tr class="text-left text-gray-500 bg-gray-50">
+                    <th class="px-6 py-4 font-medium">Nasabah</th>
+                    <th class="px-6 py-4 font-medium">Tanggal</th>
+                    <th class="px-6 py-4 font-medium">Status</th>
+                  </tr>
+                </thead>
+
+                <tbody class="divide-y divide-gray-100">
+
+                  @for (customer of creditAnalystData?.recentCustomers || []; track customer.id) {
+
+                    <tr class="hover:bg-gray-50 transition">
+
+                      <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                          <div class="w-9 h-9 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-semibold">
+                            {{ getInitials(customer.fullName) }}
+                          </div>
+
+                          <div>
+                            <p class="font-semibold">{{ customer.fullName }}</p>
+                            <p class="text-xs text-gray-500">{{ customer.email }}</p>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td class="px-6 py-4 text-gray-500">
+                        {{ customer.createdDate | date:'dd MMM yyyy' }}
+                      </td>
+
+                      <td class="px-6 py-4">
+                        <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-yellow-50 text-yellow-700 text-xs font-semibold">
+                          <span class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>
+                          Perlu Analisis
+                        </span>
+                      </td>
+
+                    </tr>
+
+                  }
+
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+
+
+          <div class="bg-white rounded-xl border border-gray-200">
+
+            <div class="px-6 py-5 border-b border-gray-200">
+              <h3 class="font-bold text-lg">Aksi Cepat</h3>
+              <p class="text-sm text-gray-500 mt-1">Akses fitur yang sering digunakan.</p>
+            </div>
+
+            <div class="p-5 space-y-3">
+
+              <a href="/customer-limit" class="flex items-center gap-4 p-4 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition">
+                <div class="w-10 h-10 rounded-lg bg-blue-700 text-white flex items-center justify-center">
+                  <i class="fa-solid fa-chart-line"></i>
+                </div>
+
+                <div class="flex-1">
+                  <p class="font-semibold">Analisis Limit</p>
+                  <p class="text-xs text-blue-600 mt-1">Analisis limit nasabah</p>
+                </div>
+
+                <i class="fa-solid fa-chevron-right text-sm"></i>
+              </a>
+
+            </div>
+          </div>
+
+        </div>
+
+      }
+
+    }
 
   </div>
 
