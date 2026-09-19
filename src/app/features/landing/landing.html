@@ -25,9 +25,9 @@
             dengan proses yang <strong class="font-semibold text-gray-900">mudah dan cepat.</strong>
           </p>
 
-          <div class="">
+          <div>
             <a href="#" class="inline-block transition-all duration-200 hover:opacity-70 hover:scale-102">
-              <img src="\icon\google-play-badge-logo.svg" alt="" class="w-auto h-40 sm:h-30 lg:h-50">
+              <img src="/icon/google-play-badge-logo.svg" alt="" class="w-auto h-40 sm:h-30 lg:h-50">
             </a>
           </div>
         </div>
@@ -48,171 +48,285 @@
     </div>
   </section>
 
+  <!-- Section Gradasi Transisi -->
   <section>
     <div class="h-36 bg-linear-to-b from-blue-600 via-blue-300/60 to-gray-50"></div>
   </section>
 
+  <!-- Section Simulasi Pinjaman -->
+  <section class="bg-gray-50 py-16 -mt-10 relative z-20" [formGroup]="simulasiForm">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="grid lg:grid-cols-12 gap-8 items-stretch">
+
+        <!-- Sisi Kiri: Form Kalkulator -->
+        <div class="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm flex flex-col justify-between">
+
+          <div>
+            <!-- Header Card -->
+            <div class="flex items-center gap-3.5 mb-8">
+              <div class="w-11 h-11 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <h2 class="text-xl font-bold text-gray-900 tracking-tight">Detail Pinjaman</h2>
+                <p class="text-xs text-gray-500 font-medium">Atur nominal dan tenor</p>
+              </div>
+            </div>
+
+            <!-- Input Display Box -->
+            <div class="mb-6">
+              <label class="block text-xs font-semibold text-gray-500 mb-2">Jumlah pinjaman</label>
+              <div class="relative flex items-center rounded-2xl border-2 border-blue-700 bg-white px-5 py-3.5 transition-all focus-within:ring-4 focus-within:ring-blue-100">
+                <input
+                  type="text"
+                  [value]="formatRupiah(simulasiForm.get('nominal')?.value)"
+                  (input)="onNominalInput($event)"
+                  class="w-full text-2xl sm:text-3xl font-extrabold text-blue-900 bg-transparent outline-none tracking-tight"
+                >
+              </div>
+              <p class="text-[11px] text-gray-400 font-medium mt-2">Masukkan nominal atau geser slider</p>
+            </div>
+
+            <!-- Slider Range -->
+            <div class="mb-8">
+              <input
+                type="range"
+                min="1000000"
+                max="50000000"
+                step="500000"
+                formControlName="nominal"
+                class="w-full h-2 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-blue-700"
+              >
+              <div class="flex justify-between text-xs text-gray-400 font-medium mt-2">
+                <span>Rp1 Juta</span>
+                <span>Rp50 Juta</span>
+              </div>
+            </div>
+
+            <!-- Chip Options: Tenor (3, 6, 12, 18, 24 Bulan) -->
+            <div>
+              <label class="block text-xs font-semibold text-gray-500 mb-3">Tenor pinjaman</label>
+              <div class="grid grid-cols-3 sm:grid-cols-5 gap-2.5">
+                <button
+                  type="button"
+                  *ngFor="let item of tenorOptions"
+                  (click)="setTenor(item.value)"
+                  [ngClass]="simulasiForm.get('tenor')?.value === item.value ? 'bg-blue-700 text-white font-bold shadow-md shadow-blue-700/20' : 'bg-gray-50 text-gray-700 hover:bg-gray-100 font-medium'"
+                  class="py-3 px-2 rounded-xl text-xs sm:text-sm text-center transition-all duration-150"
+                >
+                  {{ item.label }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Sisi Kanan: Output Detail Card (Biru Muda) -->
+        <div class="lg:col-span-5 bg-blue-50 text-gray-900 rounded-3xl p-6 sm:p-8 flex flex-col justify-between border border-blue-100 shadow-sm relative overflow-hidden">
+
+          <div>
+            <h3 class="text-xs font-bold tracking-wider uppercase text-blue-800 mb-6">Rincian Estimasi</h3>
+
+            <div class="space-y-4">
+              <div class="flex justify-between items-center text-sm text-gray-600">
+                <span>Pokok Pinjaman</span>
+                <span class="font-semibold text-gray-900">{{ formatRupiah(simulasiForm.get('nominal')?.value) }}</span>
+              </div>
+
+              <div class="flex justify-between items-center text-sm text-gray-600">
+                <span>Bunga</span>
+                <span class="font-semibold text-blue-700">{{ formatRupiah(totalBunga) }}</span>
+              </div>
+
+              <div class="flex justify-between items-center text-sm text-gray-600">
+                <span>Tenor Dipilih</span>
+                <span class="font-semibold text-gray-900">{{ simulasiForm.get('tenor')?.value }} Bulan</span>
+              </div>
+
+              <div class="pt-5 border-t border-blue-200/80 flex justify-between items-baseline">
+                <span class="text-sm text-gray-700 font-medium">Total Pengembalian</span>
+                <span class="text-2xl font-extrabold text-blue-900 tracking-tight">{{ formatRupiah(totalPengembalian) }}</span>
+              </div>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            class="mt-8 w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-4 px-6 rounded-2xl transition duration-200 shadow-md shadow-blue-700/20 text-center text-sm tracking-wide"
+          >
+            Ajukan Pinjaman Sekarang
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
   <!-- Cara Kerja -->
   <section class="bg-gray-50 tracking-tight">
-  <div class="max-w-7xl mx-auto px-6 py-24 lg:py-32">
-    <div class="max-w-3xl">
-      <p class="text-sm font-bold tracking-widest text-blue-700 uppercase">Cara Pengajuan</p>
-      <h2 class="text-4xl lg:text-5xl font-bold tracking-tight mt-4 leading-tight text-gray-950">
-        Perjalanan singkat menuju
-        <span class="text-blue-700">kebutuhan Anda.</span>
-      </h2>
-      <p class="text-gray-600 text-lg leading-8 mt-6">
-        Dari menentukan kebutuhan hingga mendapatkan hasil, setiap langkah dirancang agar sederhana dan mudah dipahami.
-      </p>
-    </div>
+    <div class="max-w-7xl mx-auto px-6 py-24 lg:py-32">
+      <div class="max-w-3xl">
+        <p class="text-sm font-bold tracking-widest text-blue-700 uppercase">Cara Pengajuan</p>
+        <h2 class="text-4xl lg:text-5xl font-bold tracking-tight mt-4 leading-tight text-gray-950">
+          Perjalanan singkat menuju
+          <span class="text-blue-700">kebutuhan Anda.</span>
+        </h2>
+        <p class="text-gray-600 text-lg leading-8 mt-6">
+          Dari menentukan kebutuhan hingga mendapatkan hasil, setiap langkah dirancang agar sederhana dan mudah dipahami.
+        </p>
+      </div>
 
-    <div class="relative mt-20">
-      <div class="hidden lg:block absolute top-7 left-8 right-8 h-1 bg-blue-100"></div>
-      <div class="hidden lg:block absolute top-7 left-8 w-1/2 h-1 bg-blue-700"></div>
+      <div class="relative mt-20">
+        <div class="hidden lg:block absolute top-7 left-8 right-8 h-1 bg-blue-100"></div>
+        <div class="hidden lg:block absolute top-7 left-8 w-1/2 h-1 bg-blue-700"></div>
 
-      <div class="grid lg:grid-cols-3 gap-12 lg:gap-16 relative">
-        <div class="relative">
-          <div class="w-14 h-14 rounded-full bg-blue-700 text-white flex items-center justify-center text-lg font-bold relative z-10 ring-8 ring-gray-50">
-            01
+        <div class="grid lg:grid-cols-3 gap-12 lg:gap-16 relative">
+          <div class="relative">
+            <div class="w-14 h-14 rounded-full bg-blue-700 text-white flex items-center justify-center text-lg font-bold relative z-10 ring-8 ring-gray-50">
+              01
+            </div>
+            <div class="mt-8">
+              <h3 class="text-2xl font-bold text-gray-950 mt-2">Tentukan Kebutuhan</h3>
+              <p class="text-gray-500 leading-7 mt-3">
+                Tentukan jumlah pembiayaan dan tenor yang sesuai dengan kebutuhan Anda.
+              </p>
+            </div>
           </div>
-          <div class="mt-8">
-            <h3 class="text-2xl font-bold text-gray-950 mt-2">Tentukan Kebutuhan</h3>
-            <p class="text-gray-500 leading-7 mt-3">
-              Tentukan jumlah pembiayaan dan tenor yang sesuai dengan kebutuhan Anda.
-            </p>
-          </div>
-        </div>
 
-        <div class="relative lg:pt-12">
-          <div class="w-14 h-14 rounded-full bg-yellow-400 text-white flex items-center justify-center text-lg font-bold relative z-10 ring-8 ring-gray-50">
-            02
+          <div class="relative lg:pt-12">
+            <div class="w-14 h-14 rounded-full bg-yellow-400 text-white flex items-center justify-center text-lg font-bold relative z-10 ring-8 ring-gray-50">
+              02
+            </div>
+            <div class="mt-8">
+              <h3 class="text-2xl font-bold text-gray-950 mt-2">Ajukan Secara Online</h3>
+              <p class="text-gray-500 leading-7 mt-3">
+                Lengkapi data yang diperlukan dan kirimkan pengajuan Anda langsung secara online.
+              </p>
+            </div>
           </div>
-          <div class="mt-8">
-            <h3 class="text-2xl font-bold text-gray-950 mt-2">Ajukan Secara Online</h3>
-            <p class="text-gray-500 leading-7 mt-3">
-              Lengkapi data yang diperlukan dan kirimkan pengajuan Anda langsung secara online.
-            </p>
-          </div>
-        </div>
 
-        <div class="relative lg:pt-24">
-          <div class="w-14 h-14 rounded-full bg-green-400 text-gray-950 flex items-center justify-center text-lg font-bold relative z-10 ring-8 ring-gray-50">
-            03
-          </div>
-          <div class="mt-8">
-            <h3 class="text-2xl font-bold text-gray-950 mt-2">Dapatkan Hasil</h3>
-            <p class="text-gray-500 leading-7 mt-3">
-              Pengajuan diproses sesuai ketentuan dan hasilnya akan diinformasikan setelah proses selesai.
-            </p>
+          <div class="relative lg:pt-24">
+            <div class="w-14 h-14 rounded-full bg-green-400 text-gray-950 flex items-center justify-center text-lg font-bold relative z-10 ring-8 ring-gray-50">
+              03
+            </div>
+            <div class="mt-8">
+              <h3 class="text-2xl font-bold text-gray-950 mt-2">Dapatkan Hasil</h3>
+              <p class="text-gray-500 leading-7 mt-3">
+                Pengajuan diproses sesuai ketentuan dan hasilnya akan diinformasikan setelah proses selesai.
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
   <!-- Mengapa Pinjam100 -->
   <section class="bg-white overflow-hidden">
-  <div class="max-w-7xl mx-auto px-6 py-24 lg:py-28">
+    <div class="max-w-7xl mx-auto px-6 py-24 lg:py-28">
 
-    <div class="mb-16 lg:mb-20">
-      <p class="text-sm font-bold tracking-widest text-blue-700 uppercase">Mengapa Pinjam100</p>
+      <div class="mb-16 lg:mb-20">
+        <p class="text-sm font-bold tracking-widest text-blue-700 uppercase">Mengapa Pinjam100</p>
 
-      <h2 class="text-4xl lg:text-5xl font-bold tracking-tight mt-4 leading-tight">
-        Solusi pembiayaan
-        <span class="text-blue-700">lebih sederhana.</span>
-      </h2>
+        <h2 class="text-4xl lg:text-5xl font-bold tracking-tight mt-4 leading-tight">
+          Solusi pembiayaan
+          <span class="text-blue-700">lebih sederhana.</span>
+        </h2>
 
-      <p class="text-gray-600 text-lg leading-8 mt-6 max-w-xl">
-        Kebutuhan finansial bisa datang kapan saja. Pinjam100 hadir untuk membantu Anda mendapatkan pembiayaan dengan proses yang mudah, cepat, dan transparan.
-      </p>
+        <p class="text-gray-600 text-lg leading-8 mt-6 max-w-xl">
+          Kebutuhan finansial bisa datang kapan saja. Pinjam100 hadir untuk membantu Anda mendapatkan pembiayaan dengan proses yang mudah, cepat, dan transparan.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 items-start">
+        <div class="group relative bg-gray-50 border border-gray-200 rounded-[2rem] overflow-hidden min-h-[500px] p-7 lg:p-8 flex flex-col justify-between hover:-translate-y-1 transition-transform duration-300">
+          <div class="absolute inset-x-0 top-0 h-[290px] flex items-center justify-center">
+            <img
+              src="/assets/why-us/cepat.png"
+              alt="Cepat"
+              class="w-full h-full object-contain scale-110 group-hover:scale-[1.15] transition-transform duration-500"
+            >
+          </div>
+
+          <div class="relative z-10 mt-auto pt-[275px]">
+            <span class="inline-flex items-center px-3 py-1 rounded-full bg-blue-200 text-blue-700 text-xs font-semibold mb-4">
+              01
+            </span>
+            <h3 class="text-2xl font-bold text-gray-900">Cepat</h3>
+            <p class="text-gray-500 text-sm leading-6 mt-3">
+              Ajukan pinjaman dengan proses yang cepat dan efisien, sehingga Anda dapat segera memenuhi kebutuhan finansial.
+            </p>
+          </div>
+        </div>
+
+        <div class="group relative bg-gray-50 border border-gray-200 rounded-[2rem] overflow-hidden min-h-[500px] p-7 lg:p-8 flex flex-col justify-between hover:-translate-y-1 transition-transform duration-300">
+          <div class="absolute inset-x-0 top-0 h-[290px] flex items-center justify-center">
+            <img
+              src="/assets/why-us/sederhana.png"
+              alt="Sederhana"
+              class="w-full h-full object-contain scale-110 group-hover:scale-[1.15] transition-transform duration-500"
+            >
+          </div>
+
+          <div class="relative z-10 mt-auto pt-[275px]">
+            <span class="inline-flex items-center px-3 py-1 rounded-full bg-blue-200 text-blue-700 text-xs font-semibold mb-4">
+              02
+            </span>
+            <h3 class="text-2xl font-bold text-gray-900">Sederhana</h3>
+            <p class="text-gray-500 text-sm leading-6 mt-3">
+              Nikmati pengalaman pengajuan yang mudah dipahami, praktis, dan tanpa proses yang berbelit-belit.
+            </p>
+          </div>
+        </div>
+
+        <div class="group relative bg-gray-50 border border-gray-200 rounded-[2rem] overflow-hidden min-h-[500px] p-7 lg:p-8 flex flex-col justify-between hover:-translate-y-1 transition-transform duration-300">
+          <div class="absolute inset-x-0 top-0 h-[290px] flex items-center justify-center">
+            <img
+              src="/assets/why-us/terlindungi.png"
+              alt="Terlindungi"
+              class="w-full h-full object-contain scale-110 group-hover:scale-[1.15] transition-transform duration-500"
+            >
+          </div>
+
+          <div class="relative z-10 mt-auto pt-[275px]">
+            <span class="inline-flex items-center px-3 py-1 rounded-full bg-blue-200 text-blue-700 text-xs font-semibold mb-4">
+              03
+            </span>
+            <h3 class="text-2xl font-bold text-gray-900">Terlindungi</h3>
+            <p class="text-gray-500 text-sm leading-6 mt-3">
+              Data pribadi Anda kami jaga dengan mengutamakan keamanan dan kerahasiaan di setiap proses pengajuan.
+            </p>
+          </div>
+        </div>
+
+        <div class="group relative bg-gray-50 border border-gray-200 rounded-[2rem] overflow-hidden min-h-[500px] p-7 lg:p-8 flex flex-col justify-between hover:-translate-y-1 transition-transform duration-300">
+          <div class="absolute inset-x-0 top-0 h-[290px] flex items-center justify-center">
+            <img
+              src="/assets/why-us/mudah-diakses.png"
+              alt="Mudah Diakses"
+              class="w-full h-full object-contain scale-110 group-hover:scale-[1.15] transition-transform duration-500"
+            >
+          </div>
+
+          <div class="relative z-10 mt-auto pt-[275px]">
+            <span class="inline-flex items-center px-3 py-1 rounded-full bg-blue-200 text-blue-700 text-xs font-semibold mb-4">
+              04
+            </span>
+            <h3 class="text-2xl font-bold text-gray-900">Mudah Diakses</h3>
+            <p class="text-gray-500 text-sm leading-6 mt-3">
+              Akses Pinjam100 kapan saja dan di mana saja untuk mendapatkan solusi pembiayaan yang sesuai dengan kebutuhan Anda.
+            </p>
+          </div>
+        </div>
+
+      </div>
     </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 items-start">
-      <div class="group relative bg-gray-50 border border-gray-200 rounded-[2rem] overflow-hidden min-h-[500px] p-7 lg:p-8 flex flex-col justify-between hover:-translate-y-1 transition-transform duration-300">
-        <div class="absolute inset-x-0 top-0 h-[290px] flex items-center justify-center">
-          <img
-            src="/assets/why-us/cepat.png"
-            alt="Cepat"
-            class="w-full h-full object-contain scale-110 group-hover:scale-[1.15] transition-transform duration-500"
-          >
-        </div>
-
-        <div class="relative z-10 mt-auto pt-[275px]">
-          <span class="inline-flex items-center px-3 py-1 rounded-full bg-blue-200 text-blue-700 text-xs font-semibold mb-4">
-            01
-          </span>
-          <h3 class="text-2xl font-bold text-gray-900">Cepat</h3>
-          <p class="text-gray-500 text-sm leading-6 mt-3">
-            Ajukan pinjaman dengan proses yang cepat dan efisien, sehingga Anda dapat segera memenuhi kebutuhan finansial.
-          </p>
-        </div>
-      </div>
-
-      <div class="group relative bg-gray-50 border border-gray-200 rounded-[2rem] overflow-hidden min-h-[500px] p-7 lg:p-8 flex flex-col justify-between hover:-translate-y-1 transition-transform duration-300">
-        <div class="absolute inset-x-0 top-0 h-[290px] flex items-center justify-center">
-          <img
-            src="/assets/why-us/sederhana.png"
-            alt="Sederhana"
-            class="w-full h-full object-contain scale-110 group-hover:scale-[1.15] transition-transform duration-500"
-          >
-        </div>
-
-        <div class="relative z-10 mt-auto pt-[275px]">
-          <span class="inline-flex items-center px-3 py-1 rounded-full bg-blue-200 text-blue-700 text-xs font-semibold mb-4">
-            02
-          </span>
-          <h3 class="text-2xl font-bold text-gray-900">Sederhana</h3>
-          <p class="text-gray-500 text-sm leading-6 mt-3">
-            Nikmati pengalaman pengajuan yang mudah dipahami, praktis, dan tanpa proses yang berbelit-belit.
-          </p>
-        </div>
-      </div>
-
-      <div class="group relative bg-gray-50 border border-gray-200 rounded-[2rem] overflow-hidden min-h-[500px] p-7 lg:p-8 flex flex-col justify-between hover:-translate-y-1 transition-transform duration-300">
-        <div class="absolute inset-x-0 top-0 h-[290px] flex items-center justify-center">
-          <img
-            src="/assets/why-us/terlindungi.png"
-            alt="Terlindungi"
-            class="w-full h-full object-contain scale-110 group-hover:scale-[1.15] transition-transform duration-500"
-          >
-        </div>
-
-        <div class="relative z-10 mt-auto pt-[275px]">
-          <span class="inline-flex items-center px-3 py-1 rounded-full bg-blue-200 text-blue-700 text-xs font-semibold mb-4">
-            03
-          </span>
-          <h3 class="text-2xl font-bold text-gray-900">Terlindungi</h3>
-          <p class="text-gray-500 text-sm leading-6 mt-3">
-            Data pribadi Anda kami jaga dengan mengutamakan keamanan dan kerahasiaan di setiap proses pengajuan.
-          </p>
-        </div>
-      </div>
-
-      <div class="group relative bg-gray-50 border border-gray-200 rounded-[2rem] overflow-hidden min-h-[500px] p-7 lg:p-8 flex flex-col justify-between hover:-translate-y-1 transition-transform duration-300">
-        <div class="absolute inset-x-0 top-0 h-[290px] flex items-center justify-center">
-          <img
-            src="/assets/why-us/mudah-diakses.png"
-            alt="Mudah Diakses"
-            class="w-full h-full object-contain scale-110 group-hover:scale-[1.15] transition-transform duration-500"
-          >
-        </div>
-
-        <div class="relative z-10 mt-auto pt-[275px]">
-          <span class="inline-flex items-center px-3 py-1 rounded-full bg-blue-200 text-blue-700 text-xs font-semibold mb-4">
-            04
-          </span>
-          <h3 class="text-2xl font-bold text-gray-900">Mudah Diakses</h3>
-          <p class="text-gray-500 text-sm leading-6 mt-3">
-            Akses Pinjam100 kapan saja dan di mana saja untuk mendapatkan solusi pembiayaan yang sesuai dengan kebutuhan Anda.
-          </p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
+  </section>
 
   <!-- CTA -->
   <section class="relative overflow-hidden">
