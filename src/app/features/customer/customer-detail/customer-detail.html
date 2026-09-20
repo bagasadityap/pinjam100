@@ -25,7 +25,7 @@
             </span>
           }
         </div>
-        <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
           @if (findDocument('KTP'); as document) {
             <div>
               <div class="flex items-center justify-between mb-3">
@@ -50,12 +50,41 @@
                   </span>
                 }
               </div>
-              <div class="border border-gray-200 rounded-xl overflow-hidden bg-gray-50">
+              <button type="button" (click)="openDocumentPreview(document.fileUrl, 'Foto KTP')" class="w-full border border-gray-200 rounded-xl overflow-hidden bg-gray-50 cursor-pointer hover:opacity-90 transition">
                 <img [src]="document.fileUrl" alt="Foto KTP customer" class="w-full aspect-video object-cover">
-              </div>
+              </button>
             </div>
           }
           @if (findDocument('SELFIE'); as document) {
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <div>
+                  <h3 class="text-sm font-semibold text-gray-900">Selfie</h3>
+                  <p class="text-xs text-gray-500 mt-1">Foto selfie customer</p>
+                </div>
+                @if (document.verificationStatus === 'PENDING') {
+                  <button type="button" (click)="openVerifyDocumentModal(document.id)" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-semibold hover:bg-blue-700 transition">
+                    <i class="fa-solid fa-check"></i>
+                    Verifikasi
+                  </button>
+                } @else if (document.verificationStatus === 'VERIFIED') {
+                  <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-green-600">
+                    <i class="fa-solid fa-circle-check"></i>
+                    Terverifikasi
+                  </span>
+                } @else if (document.verificationStatus === 'REJECTED') {
+                  <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-red-600">
+                    <i class="fa-solid fa-circle-xmark"></i>
+                    Ditolak
+                  </span>
+                }
+              </div>
+              <button type="button" (click)="openDocumentPreview(document.fileUrl, 'Selfie')" class="w-full border border-gray-200 rounded-xl overflow-hidden bg-gray-50 cursor-pointer hover:opacity-90 transition">
+                <img [src]="document.fileUrl" alt="Selfie customer" class="w-full aspect-video object-cover">
+              </button>
+            </div>
+          }
+          @if (findDocument('SELFIE_KTP'); as document) {
             <div>
               <div class="flex items-center justify-between mb-3">
                 <div>
@@ -79,9 +108,9 @@
                   </span>
                 }
               </div>
-              <div class="border border-gray-200 rounded-xl overflow-hidden bg-gray-50">
+              <button type="button" (click)="openDocumentPreview(document.fileUrl, 'Selfie dengan KTP')" class="w-full border border-gray-200 rounded-xl overflow-hidden bg-gray-50 cursor-pointer hover:opacity-90 transition">
                 <img [src]="document.fileUrl" alt="Selfie customer dengan KTP" class="w-full aspect-video object-cover">
-              </div>
+              </button>
             </div>
           }
         </div>
@@ -220,13 +249,13 @@
       <section class="bg-white border border-gray-200 rounded-xl overflow-hidden">
         <div class="px-6 py-5 border-b border-gray-200">
           <h2 class="text-lg font-bold">Dokumen Pendukung</h2>
-          <p class="text-sm text-gray-500 mt-1">Dokumen pendukung selain KTP dan selfie.</p>
+          <p class="text-sm text-gray-500 mt-1">Dokumen pendukung selain KTP, selfie, dan selfie dengan KTP.</p>
         </div>
         <div class="divide-y divide-gray-100">
           @for (document of customer.documents; track document.id) {
-            @if (document.type !== 'KTP' && document.type !== 'SELFIE') {
+            @if (document.type !== 'KTP' && document.type !== 'SELFIE' && document.type !== 'SELFIE_KTP') {
               <div class="px-6 py-5 flex items-center justify-between">
-                <div class="flex items-center gap-4">
+                <button type="button" (click)="openDocumentPreview(document.fileUrl, document.type)" class="flex items-center gap-4 text-left cursor-pointer">
                   <div class="w-11 h-11 rounded-lg bg-blue-50 flex items-center justify-center">
                     <i class="fa-solid fa-file-lines text-blue-600"></i>
                   </div>
@@ -234,7 +263,7 @@
                     <p class="text-sm font-semibold text-gray-900">{{ document.type }}</p>
                     <p class="text-xs text-gray-500 mt-1">{{ document.fileUrl }}</p>
                   </div>
-                </div>
+                </button>
                 <div class="flex items-center gap-4">
                   @if (document.verificationStatus === 'VERIFIED') {
                     <span class="inline-flex items-center gap-1.5 text-sm font-semibold text-green-600">
@@ -252,12 +281,12 @@
                       Verifikasi
                     </button>
                   }
-                  <button type="button" class="text-sm font-semibold text-blue-600 hover:text-blue-800 transition">Lihat</button>
+                  <button type="button" (click)="openDocumentPreview(document.fileUrl, document.type)" class="text-sm font-semibold text-blue-600 hover:text-blue-800 transition">Lihat</button>
                 </div>
               </div>
             }
           }
-          @if (!customer.documents.filter(document => document.type !== 'KTP' && document.type !== 'SELFIE').length) {
+          @if (!customer.documents.filter(document => document.type !== 'KTP' && document.type !== 'SELFIE' && document.type !== 'SELFIE_KTP').length) {
             <div class="px-6 py-8 text-center text-sm text-gray-500">Belum ada dokumen pendukung.</div>
           }
         </div>
@@ -316,6 +345,17 @@
     </div>
   }
 </main>
+
+@if (previewDocumentUrl) {
+  <div class="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-6" (click)="closeDocumentPreview()">
+    <div class="relative max-w-5xl max-h-[90vh] w-full flex items-center justify-center" (click)="$event.stopPropagation()">
+      <button type="button" (click)="closeDocumentPreview()" class="absolute -top-12 right-0 w-10 h-10 rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <img [src]="previewDocumentUrl" [alt]="previewDocumentTitle" class="max-w-full max-h-[85vh] object-contain rounded-lg">
+    </div>
+  </div>
+}
 
 <app-verification-modal
   [show]="isVerifyDocumentModalOpen"

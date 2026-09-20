@@ -10,6 +10,7 @@ export interface LoanApplicationResponse {
   id: string;
   interestRate: number;
   loanAmount: number;
+  installmentAmount: number;
   purpose: string;
   status: string;
   tenorMonths: number;
@@ -23,6 +24,7 @@ export interface LoanApplicationReviewResponse {
   id: string
   interestRate: number
   loanAmount: number
+  installmentAmount: number
   purpose: string
   review: any
   status: string
@@ -33,6 +35,7 @@ export interface LoanApplicationApprovalResponse {
   id: string;
   applicationId: string;
   loanAmount: number;
+  installmentAmount: number
   tenorMonths: number;
   interestRate: number;
   purpose: string;

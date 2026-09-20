@@ -9,11 +9,9 @@ import { VerificationModal } from '../../../../shared/components/verification-mo
 import { ReviewRequest, ReviewResult } from '../review.model';
 import { AuthService } from '../../../auth/auth.service';
 
-type ActiveTab = 'customer' | 'loan' | 'summary';
-
 @Component({
   selector: 'app-review',
-  imports: [ CommonModule, Sidebar, VerificationModal, CurrencyPipe, DatePipe],
+  imports: [ CommonModule, Sidebar, VerificationModal, CurrencyPipe, DatePipe ],
   templateUrl: './detail.html',
   styleUrl: './detail.css',
 })
@@ -25,10 +23,8 @@ export class Detail implements OnInit {
   private readonly router = inject(Router);
   private readonly toast = inject(HotToastService);
 
-  activeTab: ActiveTab = 'customer';
   verificationValue = '';
   isVerifyModalOpen = false;
-
 
   ngOnInit(): void {
     this.getApplication();
@@ -48,9 +44,75 @@ export class Detail implements OnInit {
         this.application.set(response);
       },
       error: (error) => {
-        this.toast.error("Gagal mendapatkan data aplikasi pinjaman: ", error)
+        this.toast.error('Gagal mendapatkan data aplikasi pinjaman');
       }
     });
+  }
+
+  // --- Perhitungan Angsuran & DSR Realtime ---
+  get monthlyIncome(): number {
+    return Number(this.application()?.customer?.employment?.monthlyIncome ?? 0);
+  }
+
+  get loanAmount(): number {
+    return Number(this.application()?.loanAmount ?? 0);
+  }
+
+  get tenorMonths(): number {
+    return Number(this.application()?.tenorMonths ?? 12);
+  }
+
+  get interestRate(): number {
+    return Number(this.application()?.interestRate ?? 0);
+  }
+
+  get totalInterest(): number {
+    return this.loanAmount * (this.interestRate / 100) * (this.tenorMonths / 12);
+  }
+
+  get totalRepayment(): number {
+    return Number(this.application()?.installmentAmount) * this.tenorMonths;
+  }
+
+  get estimatedMonthlyInstallment(): number {
+    return Number(this.application()?.installmentAmount);
+  }
+
+  get dsr(): number {
+    if (!this.monthlyIncome || !this.estimatedMonthlyInstallment) return 0;
+    return (this.estimatedMonthlyInstallment / this.monthlyIncome) * 100;
+  }
+
+  get dsrRiskAnalysis() {
+    const dsrVal = this.dsr;
+
+    if (dsrVal === 0) {
+      return {
+        status: 'LOW',
+        label: 'N/A',
+        description: 'Data keuangan tidak lengkap.'
+      };
+    }
+
+    if (dsrVal <= 30) {
+      return {
+        status: 'LOW',
+        label: 'Risiko Rendah',
+        description: 'Beban angsuran aman (<= 30% dari penghasilan).'
+      };
+    } else if (dsrVal <= 40) {
+      return {
+        status: 'MODERATE',
+        label: 'Risiko Sedang',
+        description: 'Beban angsuran memerlukan pertimbangan (30% - 40%).'
+      };
+    } else {
+      return {
+        status: 'HIGH',
+        label: 'Risiko Tinggi',
+        description: 'Beban angsuran melampaui batas aman (> 40%).'
+      };
+    }
   }
 
   review(id: string, request: ReviewRequest): void {
@@ -65,7 +127,6 @@ export class Detail implements OnInit {
         this.back();
       },
       error: (error) => {
-        console.log(id, request);
         this.toast.error(
           error.error?.message ?? 'Gagal menyimpan data aplikasi pinjaman'
         );
@@ -74,15 +135,10 @@ export class Detail implements OnInit {
   }
 
   back(): void {
-    window.location.href = '/pengajuan-pinjaman';
-  }
-
-  setActiveTab(tab: ActiveTab): void {
-    this.activeTab = tab;
+    this.router.navigate(['/pengajuan-pinjaman/review']);
   }
 
   openVerifyModal(id: string): void {
-    console.log('openVerifyModal', id);
     this.verificationValue = id;
     this.isVerifyModalOpen = true;
   }
@@ -93,9 +149,7 @@ export class Detail implements OnInit {
   }
 
   confirmVerify(notes: string): void {
-    if (!this.verificationValue) {
-      return;
-    }
+    if (!this.verificationValue) return;
 
     this.review(this.verificationValue, {
       reviewResult: ReviewResult.APPROVED,
@@ -104,9 +158,7 @@ export class Detail implements OnInit {
   }
 
   confirmReject(notes: string): void {
-    if (!this.verificationValue) {
-      return;
-    }
+    if (!this.verificationValue) return;
 
     this.review(this.verificationValue, {
       reviewResult: ReviewResult.REJECTED,

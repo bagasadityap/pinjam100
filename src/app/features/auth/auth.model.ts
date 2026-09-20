@@ -5,6 +5,7 @@ export interface LoginRequest {
 
 export interface AuthResponse {
   token: string;
+  refreshToken: string;
   identityNumber: string;
   role: string | null;
   permissions: string[];

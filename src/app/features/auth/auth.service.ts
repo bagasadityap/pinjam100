@@ -22,6 +22,22 @@ export class AuthService {
     ).pipe(
       tap(response => {
         this.tokenService.set(response.token);
+        this.tokenService.setRefreshToken(response.refreshToken);
+      })
+    );
+  }
+
+  refreshToken(): Observable<AuthResponse> {
+    const refreshToken = this.tokenService.getRefreshToken();
+
+    return this.http.post<AuthResponse>(
+      `${environment.api.baseUrl}/auth/refresh`,
+      { refreshToken },
+      PUBLIC
+    ).pipe(
+      tap(response => {
+        this.tokenService.set(response.token);
+        this.tokenService.setRefreshToken(response.refreshToken);
       })
     );
   }
@@ -42,6 +58,6 @@ export class AuthService {
     return this.http.get<UserResponse>(
       `${environment.api.baseUrl}/auth/get-current-user`,
       AUTHORIZED
-    )
+    );
   }
 }

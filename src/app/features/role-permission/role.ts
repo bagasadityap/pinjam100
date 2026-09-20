@@ -22,6 +22,7 @@ export class RolePermission implements OnInit {
   private readonly permissionService = inject(PermissionService);
   private readonly fb = inject(FormBuilder);
   private readonly toast = inject(HotToastService);
+  readonly loading = signal(true);
 
   readonly roles = signal<RoleResponse[]>([]);
   readonly permissions = signal<PermissionResponse[]>([]);
@@ -58,6 +59,7 @@ export class RolePermission implements OnInit {
     this.roleService.getAll().subscribe({
       next: (roles) => {
         this.roles.set(roles);
+        this.loading.set(false);
       },
       error: (error) => {
         console.error('Gagal mengambil data role:', error);

@@ -52,4 +52,8 @@ export class CustomerService {
       AUTHORIZED
     );
   }
+
+  getDocument(fileUrl: string): string {
+    return `${environment.api.documentUrl}/${fileUrl}`;
+  }
 }

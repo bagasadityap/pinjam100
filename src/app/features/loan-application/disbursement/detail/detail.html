@@ -2,237 +2,100 @@
 <main class="ml-64 min-h-screen bg-gray-50 text-gray-900">
   <header class="h-20 bg-white border-b border-gray-200 px-8 flex items-center justify-between">
     <div>
-      <h1 class="text-xl font-bold tracking-tight">Disbursement Loan Application</h1>
-      <p class="text-sm text-gray-500 mt-1">Periksa informasi pengajuan sebelum melakukan pencairan pinjaman.</p>
+      <h1 class="text-xl font-bold tracking-tight">Disbursement Aplikasi Pinjaman</h1>
+      <p class="text-sm text-gray-500 mt-0.5">Periksa informasi dan lakukan eksekusi pencairan dana pinjaman.</p>
     </div>
     @if (application(); as application) {
       <div class="text-right">
-        <p class="text-xs text-gray-400 uppercase tracking-wide">Application</p>
-        <p class="text-sm font-semibold text-gray-900 mt-1">{{ application.applicationId }}</p>
+        <p class="text-xs text-gray-400 uppercase tracking-wide">Application ID</p>
+        <p class="text-sm font-semibold text-gray-900 mt-0.5 font-mono">{{ application.applicationId }}</p>
       </div>
     }
   </header>
 
   @if (application(); as application) {
     <div class="p-8 max-w-7xl mx-auto space-y-6">
-      <button type="button" (click)="back()" class="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition">
-        <i class="fa-solid fa-arrow-left text-xs"></i>
-        Kembali
-      </button>
 
-      <section class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
-        <div class="px-7 py-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-          <div>
-            <h2 class="text-2xl font-bold text-gray-900">{{ application.customer.fullName }}</h2>
-            <p class="text-sm text-gray-500 mt-2">
-              {{ application.customer.customerNumber }}
-              <span class="mx-2 text-gray-300">•</span>
-              {{ application.branch.name }}
-            </p>
+      <section class="bg-white border border-gray-200 rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
+        <div>
+          <div class="flex items-center gap-3">
+            <h2 class="text-xl font-bold text-gray-900">{{ application.customer.fullName }}</h2>
+            <span class="px-2.5 py-0.5 text-xs font-semibold rounded border bg-blue-50 text-blue-700 border-blue-200">
+              {{ application.status }}
+            </span>
           </div>
-
-          <div class="flex items-center gap-8">
-            <div>
-              <p class="text-xs text-gray-400 uppercase tracking-wide">Jumlah Pinjaman</p>
-              <p class="text-lg font-bold text-gray-900 mt-1">
-                {{ application.loanAmount | currency:'IDR':'symbol':'1.0-0':'id-ID' }}
-              </p>
-            </div>
-
-            <div class="h-10 w-px bg-gray-200"></div>
-
-            <div>
-              <p class="text-xs text-gray-400 uppercase tracking-wide">Tenor</p>
-              <p class="text-sm font-semibold text-gray-900 mt-2">
-                {{ application.tenorMonths }} bulan
-              </p>
-            </div>
-
-            <div class="h-10 w-px bg-gray-200"></div>
-
-            <div>
-              <p class="text-xs text-gray-400 uppercase tracking-wide">Status</p>
-              <p class="text-sm font-semibold text-gray-900 mt-2">
-                {{ application.status }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
-        <div class="px-7 py-6 border-b border-gray-200">
-          <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Disbursement</p>
-          <h2 class="text-lg font-bold text-gray-900 mt-1">Detail Pencairan</h2>
-          <p class="text-sm text-gray-500 mt-1">Periksa informasi customer, pinjaman, rekening, dan nominal pencairan.</p>
+          <p class="text-sm text-gray-500 mt-1">
+            ID Customer: <span class="font-mono text-gray-700 font-medium">{{ application.customer.customerNumber }}</span>
+            <span class="mx-2 text-gray-300">•</span>
+            Cabang: <span class="text-gray-700 font-medium">{{ application.branch.name }}</span>
+          </p>
         </div>
 
-        <div class="p-7 space-y-7">
-          <section class="border border-gray-200 rounded-xl overflow-hidden">
-            <div class="px-6 py-5 border-b border-gray-200">
-              <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Customer</p>
-              <h2 class="text-lg font-bold text-gray-900 mt-1">Informasi Customer</h2>
-              <p class="text-sm text-gray-500 mt-1">Informasi singkat customer penerima pencairan.</p>
-            </div>
-
-            <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-y-6 gap-x-8">
-              <div>
-                <p class="text-xs text-gray-400 uppercase tracking-wide">Nomor Customer</p>
-                <p class="text-sm font-semibold text-gray-900 mt-2">
-                  {{ application.customer.customerNumber }}
-                </p>
-              </div>
-
-              <div>
-                <p class="text-xs text-gray-400 uppercase tracking-wide">Nama Lengkap</p>
-                <p class="text-sm font-semibold text-gray-900 mt-2">
-                  {{ application.customer.fullName }}
-                </p>
-              </div>
-
-              <div>
-                <p class="text-xs text-gray-400 uppercase tracking-wide">Email</p>
-                <p class="text-sm font-semibold text-gray-900 mt-2">
-                  {{ application.customer.email }}
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <section class="border border-gray-200 rounded-xl overflow-hidden">
-            <div class="px-6 py-5 border-b border-gray-200">
-              <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Loan Application</p>
-              <h2 class="text-lg font-bold text-gray-900 mt-1">Ringkasan Pinjaman</h2>
-              <p class="text-sm text-gray-500 mt-1">Informasi pinjaman yang akan dicairkan.</p>
-            </div>
-
-            <div class="p-6 grid grid-cols-1 md:grid-cols-4 gap-6">
-              <div>
-                <p class="text-xs text-gray-400 uppercase tracking-wide">Nomor Pengajuan</p>
-                <p class="text-sm font-semibold text-gray-900 mt-2">
-                  {{ application.applicationId }}
-                </p>
-              </div>
-
-              <div>
-                <p class="text-xs text-gray-400 uppercase tracking-wide">Jumlah Pinjaman</p>
-                <p class="text-sm font-bold text-gray-900 mt-2">
-                  {{ application.loanAmount | currency:'IDR':'symbol':'1.0-0':'id-ID' }}
-                </p>
-              </div>
-
-              <div>
-                <p class="text-xs text-gray-400 uppercase tracking-wide">Tenor</p>
-                <p class="text-sm font-semibold text-gray-900 mt-2">
-                  {{ application.tenorMonths }} bulan
-                </p>
-              </div>
-
-              <div>
-                <p class="text-xs text-gray-400 uppercase tracking-wide">Suku Bunga</p>
-                <p class="text-sm font-semibold text-gray-900 mt-2">
-                  {{ application.interestRate }}% / tahun
-                </p>
-              </div>
-
-              <div class="md:col-span-2">
-                <p class="text-xs text-gray-400 uppercase tracking-wide">Tujuan Pinjaman</p>
-                <p class="text-sm font-semibold text-gray-900 mt-2">
-                  {{ application.purpose }}
-                </p>
-              </div>
-
-              <div>
-                <p class="text-xs text-gray-400 uppercase tracking-wide">Cabang</p>
-                <p class="text-sm font-semibold text-gray-900 mt-2">
-                  {{ application.branch.name }}
-                </p>
-              </div>
-
-              <div>
-                <p class="text-xs text-gray-400 uppercase tracking-wide">Status</p>
-                <p class="text-sm font-semibold text-gray-900 mt-2">
-                  {{ application.status }}
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <section class="border border-gray-200 rounded-xl overflow-hidden">
-            <div class="px-6 py-5 border-b border-gray-200">
-              <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Bank Account</p>
-              <h2 class="text-lg font-bold text-gray-900 mt-1">Rekening Pencairan</h2>
-              <p class="text-sm text-gray-500 mt-1">Rekening tujuan pencairan dana pinjaman.</p>
-            </div>
-
-            <div class="p-6">
-              <div class="bg-gray-50 border border-gray-200 rounded-xl p-6">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-6">
-                  <div>
-                    <p class="text-xs text-gray-400 uppercase tracking-wide">Nama Bank</p>
-                    <p class="text-sm font-semibold text-gray-900 mt-2">
-                      {{ application.rekening.namaBank }}
-                    </p>
-                  </div>
-
-                  <div>
-                    <p class="text-xs text-gray-400 uppercase tracking-wide">Nomor Rekening</p>
-                    <p class="text-sm font-semibold text-gray-900 mt-2">
-                      {{ application.rekening.noRekening }}
-                    </p>
-                  </div>
-
-                  <div>
-                    <p class="text-xs text-gray-400 uppercase tracking-wide">Pemilik Rekening</p>
-                    <p class="text-sm font-semibold text-gray-900 mt-2">
-                      {{ application.customer.fullName }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section class="border border-gray-200 rounded-xl overflow-hidden">
-            <div class="px-6 py-5 border-b border-gray-200">
-              <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Disbursement</p>
-              <h2 class="text-lg font-bold text-gray-900 mt-1">Nominal Pencairan</h2>
-              <p class="text-sm text-gray-500 mt-1">Nominal pencairan mengikuti jumlah pinjaman yang telah disetujui.</p>
-            </div>
-
-            <div class="p-6">
-              <div class="bg-gray-50 border border-gray-200 rounded-xl p-6 flex items-center justify-between">
-                <div>
-                  <p class="text-xs text-gray-400 uppercase tracking-wide">Jumlah Pencairan</p>
-                  <p class="text-2xl font-bold text-gray-900 mt-2">
-                    {{ application.loanAmount | currency:'IDR':'symbol':'1.0-0':'id-ID' }}
-                  </p>
-                </div>
-
-                <i class="fa-solid fa-money-bill-transfer text-2xl text-gray-400"></i>
-              </div>
-            </div>
-          </section>
-        </div>
-
-        <div class="px-7 py-6 border-t border-gray-200 flex justify-end gap-3">
-          <button type="button" (click)="back()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 transition">
-            Batal
+        <div class="flex items-center gap-3 border-t md:border-t-0 pt-4 md:pt-0 border-gray-100">
+          <button type="button" (click)="back()" class="px-4 py-2 rounded-lg border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 transition">
+            Kembali
           </button>
-
-          <button type="button" (click)="openDisbursementModal(application.id)" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-blue-500 text-white text-sm font-semibold hover:bg-blue-600 transition">
-            <i class="fa-solid fa-money-bill-transfer text-xs"></i>
+          <button type="button" (click)="openDisbursementModal(application.id)" class="px-5 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition shadow-sm">
             Cairkan Pinjaman
           </button>
         </div>
       </section>
 
-      <div class="flex justify-between items-center pt-1 pb-4">
-        <button type="button" (click)="back()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 transition">
-          <i class="fa-solid fa-arrow-left text-xs"></i>
-          Kembali
+      <section class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+        <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
+          <h3 class="text-base font-bold text-gray-900">Ringkasan Pencairan Pinjaman</h3>
+        </div>
+
+        <div class="p-6 space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div class="border border-blue-200 bg-blue-50/50 rounded-xl p-5 flex flex-col justify-between">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wider text-blue-700 mb-1">Nominal Pencairan</p>
+                <p class="text-2xl font-bold text-gray-900">{{ application.loanAmount | currency:'IDR':'symbol':'1.0-0':'id-ID' }}</p>
+              </div>
+              <p class="text-xs text-gray-500 mt-4 border-t border-blue-100 pt-3">
+                Tenor: <span class="font-semibold text-gray-800">{{ application.tenorMonths }} Bulan</span> | Bunga: <span class="font-semibold text-gray-800">{{ application.interestRate }}%/thn</span>
+              </p>
+            </div>
+
+            <div class="border border-gray-200 bg-gray-50/50 rounded-xl p-5 flex flex-col justify-between">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Rekening Tujuan Pencairan</p>
+                <p class="text-xl font-bold text-gray-900">{{ application.rekening.namaBank }}</p>
+                <p class="text-lg font-mono font-semibold text-blue-600 mt-0.5">{{ application.rekening.noRekening }}</p>
+              </div>
+              <p class="text-xs text-gray-500 mt-2 border-t border-gray-200 pt-3">
+                Atas Nama: <span class="font-semibold text-gray-800">{{ application.customer.fullName }}</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="border-t border-gray-100 pt-5 grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-4">
+            <div>
+              <p class="text-xs text-gray-500">Nomor Pengajuan</p>
+              <p class="text-sm font-semibold text-gray-900 mt-0.5">{{ application.applicationId }}</p>
+            </div>
+            <div>
+              <p class="text-xs text-gray-500">Email Customer</p>
+              <p class="text-sm font-semibold text-gray-900 mt-0.5">{{ application.customer.email }}</p>
+            </div>
+            <div>
+              <p class="text-xs text-gray-500">Tujuan Pinjaman</p>
+              <p class="text-sm font-semibold text-gray-900 mt-0.5">{{ application.purpose }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="flex items-center justify-end gap-3 pt-2">
+        <button type="button" (click)="back()" class="px-5 py-2.5 rounded-lg border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 transition">
+          Batal
+        </button>
+        <button type="button" (click)="openDisbursementModal(application.id)" class="px-5 py-2.5 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition shadow-sm">
+          Cairkan Pinjaman
         </button>
       </div>
+
     </div>
 
     <app-disbursement-modal
@@ -247,8 +110,7 @@
   } @else {
     <div class="p-8 max-w-7xl mx-auto">
       <div class="bg-white border border-gray-200 rounded-xl py-16 text-center">
-        <i class="fa-solid fa-spinner fa-spin text-gray-400 text-xl"></i>
-        <p class="text-sm text-gray-500 mt-3">Memuat data aplikasi...</p>
+        <p class="text-sm text-gray-500">Memuat data aplikasi...</p>
       </div>
     </div>
   }

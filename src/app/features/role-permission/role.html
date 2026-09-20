@@ -23,17 +23,17 @@
       </div>
 
       <div class="px-6 py-4">
-        @if (roles().length > 0) {
+        @if (loading()) {
+          <div class="py-10 text-center text-sm text-gray-500">
+            Memuat data role...
+          </div>
+        } @else {
           <app-datatable
             tableId="rolePermissionTable"
             [data]="roles()"
             [columns]="columns"
             (action)="handleAction($event)"
           />
-        } @else {
-          <div class="py-10 text-center text-sm text-gray-500">
-            Memuat data role...
-          </div>
         }
       </div>
     </div>

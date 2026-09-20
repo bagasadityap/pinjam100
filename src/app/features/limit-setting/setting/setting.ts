@@ -5,7 +5,7 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { DatePipe, DecimalPipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { HotToastService } from '@ngxpert/hot-toast';
 
 import { Sidebar } from '../../../layouts/sidebar/sidebar';
@@ -34,7 +34,7 @@ export class Setting implements OnInit {
 
   readonly customer = signal<CustomerDetailResponse | null>(null);
 
-  activeTab: 'customer' | 'financial' = 'customer';
+  showConfirmModal = false;
 
   readonly limitForm = this.fb.nonNullable.group({
     creditLimit: [
@@ -96,19 +96,24 @@ export class Setting implements OnInit {
     }).format(value);
   }
 
-  setTab(tab: 'customer' | 'financial'): void {
-    this.activeTab = tab;
+  openConfirmModal(): void {
+    if (this.limitForm.invalid) {
+      this.limitForm.markAllAsTouched();
+      return;
+    }
+
+    this.showConfirmModal = true;
   }
 
-  save(): void {
+  closeConfirmModal(): void {
+    this.showConfirmModal = false;
+  }
+
+  confirmSave(): void {
     const customerId = this.route.snapshot.paramMap.get('id');
 
     if (!customerId) {
       this.toast.error('ID customer tidak ditemukan');
-      return;
-    }
-    if (this.limitForm.invalid) {
-      this.limitForm.markAllAsTouched();
       return;
     }
 
@@ -121,6 +126,7 @@ export class Setting implements OnInit {
       next: (response) => {
         this.toast.success('Limit pinjaman berhasil disimpan');
         console.log('Limit pinjaman berhasil disimpan:', response);
+        this.closeConfirmModal();
         this.back();
       },
       error: (error) => {
@@ -150,5 +156,44 @@ export class Setting implements OnInit {
     const creditLimit = Number(value);
 
     this.limitForm.controls.creditLimit.setValue(creditLimit);
+  }
+
+  get riskAnalysis() {
+    const limit = Number(this.limitForm.controls.creditLimit.value) || 0;
+    const income = this.monthlyIncome || 0;
+
+    if (!income || !limit) {
+      return {
+        ratio: 0,
+        status: 'LOW',
+        label: 'Rendah',
+        description: 'Masukkan plafon untuk melihat kalkulasi risiko.'
+      };
+    }
+
+    const ratio = limit / income;
+
+    if (ratio <= 2.0) {
+      return {
+        ratio,
+        status: 'LOW',
+        label: 'Risiko Rendah',
+        description: 'Plafon berada dalam batas ideal (<= 2x penghasilan bulanan).'
+      };
+    } else if (ratio <= 3.5) {
+      return {
+        ratio,
+        status: 'MODERATE',
+        label: 'Risiko Sedang',
+        description: 'Plafon membutuhkan perhatian (2x - 3.5x penghasilan bulanan).'
+      };
+    } else {
+      return {
+        ratio,
+        status: 'HIGH',
+        label: 'Risiko Tinggi',
+        description: 'Plafon melebihi batas rekomendasi (> 3.5x penghasilan bulanan).'
+      };
+    }
   }
 }

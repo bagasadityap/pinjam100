@@ -8,6 +8,7 @@ import { DatePipe } from '@angular/common';
 import { DocumentService } from '../../../core/service/document.service';
 import { Document } from '../../../core/model/document.model';
 import { VerificationModal } from '../../../shared/components/verification-modal/verification-modal';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-customer-detail',
@@ -24,9 +25,12 @@ export class CustomerDetail implements OnInit {
 
   readonly customer = signal<CustomerDetailResponse | null>(null);
 
+  documentUrl = environment.api.documentUrl;
   verificationValue = '';
   isVerifyCustomerModalOpen = false;
   isVerifyDocumentModalOpen = false;
+  previewDocumentUrl = '';
+  previewDocumentTitle = '';
 
   ngOnInit(): void {
     this.getCustomer();
@@ -43,6 +47,11 @@ export class CustomerDetail implements OnInit {
 
     this.customerService.getDetailById(id).subscribe({
       next: (response) => {
+        response.documents = response.documents.map(document => ({
+          ...document,
+          fileUrl: this.customerService.getDocument(document.fileUrl)
+        }));
+
         this.customer.set(response);
       },
       error: (error) => {
@@ -61,9 +70,9 @@ export class CustomerDetail implements OnInit {
   verifyCustomer(customerId: string): void {
     this.customerService.verifyCustomer(customerId, 'VERIFIED').subscribe({
       next: () => {
-        this.toast.success('Customer berhasil diverifikasi');
         this.closeVerifyModal();
-        this.getCustomer();
+        this.router.navigate(['/customer']);
+        this.toast.success('Customer berhasil diverifikasi');
       },
       error: (error) => {
         this.toast.error(
@@ -182,5 +191,19 @@ export class CustomerDetail implements OnInit {
     }
 
     this.rejectCustomer(this.verificationValue);
+  }
+
+  getDocumentUrl(fileUrl: string): string {
+    return this.customerService.getDocument(fileUrl);
+  }
+
+  openDocumentPreview(url: string, title: string): void {
+    this.previewDocumentUrl = url;
+    this.previewDocumentTitle = title;
+  }
+
+  closeDocumentPreview(): void {
+    this.previewDocumentUrl = '';
+    this.previewDocumentTitle = '';
   }
 }

@@ -11,6 +11,7 @@ import { DeleteModal } from '../../shared/components/delete-modal/delete-modal';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { USER_TABLE_COLUMNS } from './user-table.config';
 import { DetailModal } from '../../shared/components/detail-modal/detail-modal';
+import fa from '@angular/common/locales/fa';
 
 @Component({
   selector: 'app-user',
@@ -56,6 +57,7 @@ export class User implements OnInit {
     this.userService.getAll().subscribe({
       next: (users) => {
         this.users.set(users);
+        this.loading.set(false);
       },
       error: (error) => {
         this.toast.error("Gagal mengambil data user:", error)
