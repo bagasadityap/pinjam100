@@ -3,6 +3,7 @@ import { Limit } from '../../core/model/limit.model';
 
 export interface CustomerResponse {
   id: string;
+  nationalId: string;
   customerNumber: string;
   fullName: string;
   email: string;
@@ -14,6 +15,7 @@ export interface CustomerResponse {
 
 export interface CustomerDetailResponse {
   customerNumber: string
+  nationalId: string
   detail: Detail
   documents: Document[]
   email: string
@@ -34,7 +36,6 @@ export interface Detail {
   district: string
   gender: string
   id: string
-  nationalId: string
   placeOfBirth: string
   postalCode: string
   province: string
