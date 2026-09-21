@@ -4,7 +4,7 @@ export const serverRoutes: ServerRoute[] = [
   {
     path: 'pengajuan-pinjaman/:id/detail',
     renderMode: RenderMode.Server
-  }
+  },
   {
     path: 'pengajuan-pinjaman/:id/review',
     renderMode: RenderMode.Server
