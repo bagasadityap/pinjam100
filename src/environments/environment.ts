@@ -6,7 +6,7 @@ export const environment = {
   },
   api: {
     baseUrl: 'https://api.pinjam100.bagasaditya.com/api',
-    documentUrl: 'http://localhost:8080/api/uploads/files',
+    documentUrl: 'https://api.pinjam100.bagasaditya.com/api/uploads/files',
     wilayahUrl: 'https://wilayah.id/api',
     timeout: 30000
   }
