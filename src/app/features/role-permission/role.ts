@@ -1,4 +1,4 @@
-import { afterNextRender, Component, inject, OnInit, signal } from '@angular/core';
+import { afterNextRender, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { Sidebar } from '../../layouts/sidebar/sidebar';
 import { Datatable } from '../../shared/components/datatable/datatable';
 import { RoleService } from './role.service';
@@ -10,10 +10,11 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { Modal } from '../../shared/components/modal/modal';
 import { DeleteModal } from '../../shared/components/delete-modal/delete-modal';
+import { KeyValuePipe, TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-role-permission',
-  imports: [Sidebar, Datatable, ReactiveFormsModule, Modal, DeleteModal],
+  imports: [Sidebar, Datatable, ReactiveFormsModule, Modal, DeleteModal, KeyValuePipe, TitleCasePipe],
   templateUrl: './role.html',
   styleUrl: './role.css',
 })
@@ -41,6 +42,20 @@ export class RolePermission implements OnInit {
   readonly permissionForm = this.fb.nonNullable.group({
     roleName: this.fb.control<string | null>(null, Validators.required),
     permissions: this.fb.nonNullable.control<string[]>([])
+  });
+
+  readonly groupedPermissions = computed(() => {
+    return this.permissions().reduce((groups, item) => {
+      const [prefix] = item.permissionName.split(':');
+      const groupKey = prefix || 'other';
+
+      if (!groups[groupKey]) {
+        groups[groupKey] = [];
+      }
+      groups[groupKey].push(item);
+
+      return groups;
+    }, {} as Record<string, PermissionResponse[]>);
   });
 
   ngOnInit(): void {
@@ -243,6 +258,14 @@ export class RolePermission implements OnInit {
     this.permissionForm.controls.permissions.setValue(
       permissions.filter(permissionId => permissionId !== id)
     );
+  }
+
+  getPermissionAction(permissionName: string): string {
+    const parts = permissionName.split(':');
+    if (parts.length < 2) return permissionName;
+
+    const action = parts[1];
+    return action.charAt(0).toUpperCase() + action.slice(1);
   }
 
   getPermissionLabel(permissionName: string): string {

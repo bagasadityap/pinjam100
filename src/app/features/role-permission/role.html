@@ -98,26 +98,18 @@
         </label>
 
         <div class="space-y-5">
-          @for (group of ['user', 'role', 'loan']; track group) {
+          <!-- Loop berdasarkan grup dinamis -->
+          @for (group of groupedPermissions() | keyvalue; track group.key) {
             <div class="border border-gray-200 rounded-xl overflow-hidden">
 
               <div class="px-4 py-3 bg-gray-50 border-b border-gray-200">
                 <h3 class="text-sm font-bold text-gray-800">
-                  {{ group === 'user'
-                    ? 'User'
-                    : group === 'role'
-                      ? 'Role'
-                      : 'Loan' }}
+                  {{ group.key | titlecase }}
                 </h3>
               </div>
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3 p-4">
-                @for (
-                  permission of permissions().filter(
-                    permission => permission.permissionName.startsWith(group + ':')
-                  );
-                  track permission.id
-                ) {
+                @for (permission of group.value; track permission.id) {
                   <label
                     class="flex items-center gap-3 px-4 py-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition"
                   >
@@ -132,7 +124,7 @@
                     >
 
                     <span class="text-sm font-medium text-gray-700">
-                      {{ getPermissionLabel(permission.permissionName) }}
+                      {{ getPermissionAction(permission.permissionName) }}
                     </span>
                   </label>
                 }
