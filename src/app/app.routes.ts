@@ -45,6 +45,24 @@ export const routes: Routes = [
   },
 
   {
+    path: 'pengajuan-pinjaman',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/loan-application/all/loan-application').then(
+        m => m.LoanApplication
+      ),
+  },
+
+  {
+    path: 'pengajuan-pinjaman/:id/detail',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/loan-application/all/detail/detail').then(
+        m => m.Detail
+      ),
+  },
+
+  {
     path: 'pengajuan-pinjaman/review',
     canActivate: [authGuard],
     loadComponent: () =>

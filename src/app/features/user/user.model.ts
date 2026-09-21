@@ -9,5 +9,5 @@ export interface UserResponse {
   identityNumber: string;
   name: string;
   status: string;
-  role: string | null;
+  role: string;
 }

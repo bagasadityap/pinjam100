@@ -13,7 +13,7 @@ import { AuthStateService } from '../service/auth-state.service';
   standalone: true,
 })
 export class HasRoleDirective implements OnChanges {
-  @Input() hasRole!: string;
+  @Input() hasRole!: string | string[];
 
   private readonly templateRef = inject(TemplateRef);
   private readonly viewContainer = inject(ViewContainerRef);
@@ -28,7 +28,15 @@ export class HasRoleDirective implements OnChanges {
 
     this.viewContainer.clear();
 
-    if (role === this.hasRole) {
+    if (!role) {
+      return;
+    }
+
+    const allowedRoles = Array.isArray(this.hasRole)
+      ? this.hasRole
+      : [this.hasRole];
+
+    if (allowedRoles.includes(role)) {
       this.viewContainer.createEmbeddedView(this.templateRef);
     }
   }

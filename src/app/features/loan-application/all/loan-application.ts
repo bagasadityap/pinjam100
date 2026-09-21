@@ -1,10 +1,10 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { LoanApplicationService } from './loan-application.service';
-import { LoanApplicationResponse } from './loan-application.model';
+import { LoanApplicationService } from '../loan-application.service';
+import { LoanApplicationResponse } from '../loan-application.model';
 import { HotToastService } from '@ngxpert/hot-toast';
-import { LOAN_APPLICATION_TABLE_COLUMNS } from './loan-application-table.config';
-import { Sidebar } from '../../layouts/sidebar/sidebar';
-import { Datatable } from '../../shared/components/datatable/datatable';
+import { LOAN_APPLICATION_TABLE_COLUMNS } from '../loan-application-table.config';
+import { Sidebar } from '../../../layouts/sidebar/sidebar';
+import { Datatable } from '../../../shared/components/datatable/datatable';
 
 @Component({
   selector: 'app-loan-application',
@@ -37,7 +37,7 @@ export class LoanApplication implements OnInit {
   handleAction(event: any): void {
     switch (event.type) {
       case 'review-application':
-        window.location.href = `/pengajuan-pinjaman/${event.id}/review`;
+        window.location.href = `/pengajuan-pinjaman/${event.id}/detail`;
         break;
     }
   }
