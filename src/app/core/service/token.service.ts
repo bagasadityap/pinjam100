@@ -1,52 +1,61 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject, PLATFORM_ID, REQUEST } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TokenService {
+  private platformId = inject(PLATFORM_ID);
+  private request = inject(REQUEST, { optional: true });
 
-  get(): string | null {
-    if (typeof document === 'undefined') {
+  private getCookieValue(name: string): string | null {
+    let cookieHeader: string | null | undefined;
+
+    if (isPlatformBrowser(this.platformId)) {
+      cookieHeader = document.cookie;
+    } else {
+      cookieHeader = this.request?.headers.get('cookie');
+    }
+
+    if (!cookieHeader) {
       return null;
     }
 
-    const cookie = document.cookie
+    const cookie = cookieHeader
       .split('; ')
-      .find(row => row.startsWith('token='));
+      .find(row => row.startsWith(`${name}=`));
 
     if (!cookie) {
       return null;
     }
 
-    return decodeURIComponent(cookie.substring(6));
+    return decodeURIComponent(cookie.substring(name.length + 1));
   }
 
-  set(token: string): void {
-    document.cookie = `token=${encodeURIComponent(token)}; path=/`;
+  get(): string | null {
+    return this.getCookieValue('token');
   }
 
   getRefreshToken(): string | null {
-    if (typeof document === 'undefined') {
-      return null;
+    return this.getCookieValue('refreshToken');
+  }
+
+  set(token: string): void {
+    if (isPlatformBrowser(this.platformId)) {
+      document.cookie = `token=${encodeURIComponent(token)}; path=/`;
     }
-
-    const cookie = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('refreshToken='));
-
-    if (!cookie) {
-      return null;
-    }
-
-    return decodeURIComponent(cookie.substring(13));
   }
 
   setRefreshToken(refreshToken: string): void {
-    document.cookie = `refreshToken=${encodeURIComponent(refreshToken)}; path=/`;
+    if (isPlatformBrowser(this.platformId)) {
+      document.cookie = `refreshToken=${encodeURIComponent(refreshToken)}; path=/`;
+    }
   }
 
   remove(): void {
-    document.cookie = 'token=; path=/; max-age=0';
-    document.cookie = 'refreshToken=; path=/; max-age=0';
+    if (isPlatformBrowser(this.platformId)) {
+      document.cookie = 'token=; path=/; max-age=0';
+      document.cookie = 'refreshToken=; path=/; max-age=0';
+    }
   }
 }

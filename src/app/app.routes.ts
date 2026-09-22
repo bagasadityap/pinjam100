@@ -21,17 +21,9 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard',
-    canActivate: [authGuard, roleGuard],
-    data: { roles: ['SUPER_ADMIN'] },
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./features/dashboard/dashboard').then(m => m.Dashboard),
-  },
-  {
-    path: 'request-pinjaman',
-    canActivate: [authGuard, roleGuard],
-    data: { roles: ['SUPER_ADMIN'] },
-    loadComponent: () =>
-      import('./features/request-pinjaman/request-pinjaman').then(m => m.RequestPinjaman),
   },
   {
     path: 'pengajuan-pinjaman',
@@ -50,42 +42,42 @@ export const routes: Routes = [
   {
     path: 'pengajuan-pinjaman/review',
     canActivate: [authGuard, roleGuard],
-    data: { roles: ['SUPER_ADMIN'] },
+    data: { roles: ['SUPER_ADMIN', 'MARKETING'] },
     loadComponent: () =>
       import('./features/loan-application/review/review').then(m => m.Review),
   },
   {
     path: 'pengajuan-pinjaman/:id/review',
     canActivate: [authGuard, roleGuard],
-    data: { roles: ['SUPER_ADMIN'] },
+    data: { roles: ['SUPER_ADMIN', 'MARKETING'] },
     loadComponent: () =>
       import('./features/loan-application/review/detail/detail').then(m => m.Detail),
   },
   {
     path: 'pengajuan-pinjaman/approval',
     canActivate: [authGuard, roleGuard],
-    data: { roles: ['SUPER_ADMIN'] },
+    data: { roles: ['SUPER_ADMIN', 'BRANCH_MANAGER'] },
     loadComponent: () =>
       import('./features/loan-application/approval/approval').then(m => m.Approval),
   },
   {
     path: 'pengajuan-pinjaman/:id/approval',
     canActivate: [authGuard, roleGuard],
-    data: { roles: ['SUPER_ADMIN'] },
+    data: { roles: ['SUPER_ADMIN', 'BRANCH_MANAGER'] },
     loadComponent: () =>
       import('./features/loan-application/approval/detail/detail').then(m => m.Detail),
   },
   {
     path: 'pengajuan-pinjaman/disbursement',
     canActivate: [authGuard, roleGuard],
-    data: { roles: ['SUPER_ADMIN'] },
+    data: { roles: ['SUPER_ADMIN', 'PAYMENT'] },
     loadComponent: () =>
       import('./features/loan-application/disbursement/disbursement').then(m => m.Disbursement),
   },
   {
     path: 'pengajuan-pinjaman/:id/disbursement',
     canActivate: [authGuard, roleGuard],
-    data: { roles: ['SUPER_ADMIN'] },
+    data: { roles: ['SUPER_ADMIN', 'PAYMENT'] },
     loadComponent: () =>
       import('./features/loan-application/disbursement/detail/detail').then(m => m.Detail),
   },
@@ -106,28 +98,28 @@ export const routes: Routes = [
   {
     path: 'customers/detail/:id',
     canActivate: [authGuard, roleGuard],
-    data: { roles: ['SUPER_ADMIN'] },
+    data: { roles: ['SUPER_ADMIN', 'DOCUMENT_CHECKER'] },
     loadComponent: () =>
       import('./features/customer/customer-detail/customer-detail').then(m => m.CustomerDetail),
   },
   {
     path: 'verifikasi-customer',
     canActivate: [authGuard, roleGuard],
-    data: { roles: ['SUPER_ADMIN'] },
+    data: { roles: ['SUPER_ADMIN', 'DOCUMENT_CHECKER'] },
     loadComponent: () =>
       import('./features/customer/verify-customer/verify-customer').then(m => m.VerifyCustomer),
   },
   {
     path: 'limit-setting',
     canActivate: [authGuard, roleGuard],
-    data: { roles: ['SUPER_ADMIN'] },
+    data: { roles: ['SUPER_ADMIN', 'CREDIT_ANALYST'] },
     loadComponent: () =>
       import('./features/limit-setting/limit-setting').then(m => m.LimitSetting),
   },
   {
     path: 'limit-setting/:id',
     canActivate: [authGuard, roleGuard],
-    data: { roles: ['SUPER_ADMIN'] },
+    data: { roles: ['SUPER_ADMIN', 'CREDIT_ANALYST'] },
     loadComponent: () =>
       import('./features/limit-setting/setting/setting').then(m => m.Setting),
   },
@@ -146,7 +138,13 @@ export const routes: Routes = [
       import('./features/branch/branch').then(m => m.Branch),
   },
   {
+    path: 'forbidden',
+    loadComponent: () =>
+      import('./features/error/forbidden/forbidden').then(m => m.Forbidden),
+  },
+  {
     path: '**',
-    redirectTo: '',
+    loadComponent: () =>
+      import('./features/error/not-found/not-found').then(m => m.NotFound),
   },
 ];
