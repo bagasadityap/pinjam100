@@ -1,19 +1,19 @@
 import { Component, inject, signal } from '@angular/core';
-import { CustomerService } from './customer.service';
-import { CustomerResponse } from './customer.model';
-import { CUSTOMER_TABLE_COLUMNS } from './customer-table.config';
+import { CustomerService } from '../customer.service';
+import { CustomerResponse } from '../customer.model';
+import { CUSTOMER_TABLE_COLUMNS } from '../customer-table.config';
 import { HotToastService } from '@ngxpert/hot-toast';
-import { Sidebar } from '../../layouts/sidebar/sidebar';
-import { Datatable } from '../../shared/components/datatable/datatable';
 import { Router } from '@angular/router';
+import { Sidebar } from '../../../layouts/sidebar/sidebar';
+import { Datatable } from '../../../shared/components/datatable/datatable';
 
 @Component({
-  selector: 'app-customer',
+  selector: 'app-verify-customer',
   imports: [Sidebar, Datatable],
-  templateUrl: './customer.html',
-  styleUrl: './customer.css',
+  templateUrl: './verify-customer.html',
+  styleUrl: './verify-customer.css',
 })
-export class Customer {
+export class VerifyCustomer {
   private readonly customerService = inject(CustomerService);
   readonly customers = signal<CustomerResponse[]>([]);
   readonly selectedUser = signal<CustomerResponse | null>(null);
@@ -28,7 +28,7 @@ export class Customer {
   }
 
   private getCustomer(): void {
-    this.customerService.getAll().subscribe({
+    this.customerService.getPending().subscribe({
       next: (response) => {
         this.customers.set(response);
         this.loading.set(false);

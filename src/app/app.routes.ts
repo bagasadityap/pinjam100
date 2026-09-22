@@ -1,187 +1,152 @@
 import { Routes } from '@angular/router';
+
 import { authGuard } from './features/auth/auth.guard';
+import { roleGuard } from './core/guard/role.guard';
 
 export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./features/landing/landing').then(
-        m => m.Landing
-      ),
+      import('./features/landing/landing').then(m => m.Landing),
   },
-
   {
     path: 'login',
     loadComponent: () =>
-      import('./features/auth/login/login').then(
-        m => m.Login
-      ),
+      import('./features/auth/login/login').then(m => m.Login),
   },
-
   {
     path: 'reset-password',
     loadComponent: () =>
-      import('./features/reset-password/reset-password').then(
-        m => m.ResetPassword
-      ),
+      import('./features/reset-password/reset-password').then(m => m.ResetPassword),
   },
-
   {
     path: 'dashboard',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['SUPER_ADMIN'] },
     loadComponent: () =>
-      import('./features/dashboard/dashboard').then(
-        m => m.Dashboard
-      ),
+      import('./features/dashboard/dashboard').then(m => m.Dashboard),
   },
-
   {
     path: 'request-pinjaman',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['SUPER_ADMIN'] },
     loadComponent: () =>
-      import('./features/request-pinjaman/request-pinjaman').then(
-        m => m.RequestPinjaman
-      ),
+      import('./features/request-pinjaman/request-pinjaman').then(m => m.RequestPinjaman),
   },
-
   {
     path: 'pengajuan-pinjaman',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['SUPER_ADMIN'] },
     loadComponent: () =>
-      import('./features/loan-application/all/loan-application').then(
-        m => m.LoanApplication
-      ),
+      import('./features/loan-application/all/loan-application').then(m => m.LoanApplication),
   },
-
   {
     path: 'pengajuan-pinjaman/:id/detail',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['SUPER_ADMIN'] },
     loadComponent: () =>
-      import('./features/loan-application/all/detail/detail').then(
-        m => m.Detail
-      ),
+      import('./features/loan-application/all/detail/detail').then(m => m.Detail),
   },
-
   {
     path: 'pengajuan-pinjaman/review',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['SUPER_ADMIN'] },
     loadComponent: () =>
-      import('./features/loan-application/review/review').then(
-        m => m.Review
-      ),
+      import('./features/loan-application/review/review').then(m => m.Review),
   },
-
   {
     path: 'pengajuan-pinjaman/:id/review',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['SUPER_ADMIN'] },
     loadComponent: () =>
-      import('./features/loan-application/review/detail/detail').then(
-        m => m.Detail
-      ),
+      import('./features/loan-application/review/detail/detail').then(m => m.Detail),
   },
-
   {
     path: 'pengajuan-pinjaman/approval',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['SUPER_ADMIN'] },
     loadComponent: () =>
-      import('./features/loan-application/approval/approval').then(
-        m => m.Approval
-      ),
+      import('./features/loan-application/approval/approval').then(m => m.Approval),
   },
-
   {
     path: 'pengajuan-pinjaman/:id/approval',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['SUPER_ADMIN'] },
     loadComponent: () =>
-      import('./features/loan-application/approval/detail/detail').then(
-        m => m.Detail
-      ),
+      import('./features/loan-application/approval/detail/detail').then(m => m.Detail),
   },
-
   {
     path: 'pengajuan-pinjaman/disbursement',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['SUPER_ADMIN'] },
     loadComponent: () =>
-      import('./features/loan-application/disbursement/disbursement').then(
-        m => m.Disbursement
-      ),
+      import('./features/loan-application/disbursement/disbursement').then(m => m.Disbursement),
   },
-
   {
     path: 'pengajuan-pinjaman/:id/disbursement',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['SUPER_ADMIN'] },
     loadComponent: () =>
-      import('./features/loan-application/disbursement/detail/detail').then(
-        m => m.Detail
-      ),
+      import('./features/loan-application/disbursement/detail/detail').then(m => m.Detail),
   },
-
   {
     path: 'users',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['SUPER_ADMIN'] },
     loadComponent: () =>
-      import('./features/user/user').then(
-        m => m.User
-      ),
+      import('./features/user/user').then(m => m.User),
   },
-
   {
     path: 'customers',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['SUPER_ADMIN'] },
     loadComponent: () =>
-      import('./features/customer/customer').then(
-        m => m.Customer
-      ),
+      import('./features/customer/all/customer').then(m => m.Customer),
   },
-
   {
     path: 'customers/detail/:id',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['SUPER_ADMIN'] },
     loadComponent: () =>
-      import('./features/customer/customer-detail/customer-detail').then(
-        m => m.CustomerDetail
-      ),
+      import('./features/customer/customer-detail/customer-detail').then(m => m.CustomerDetail),
   },
-
+  {
+    path: 'verifikasi-customer',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['SUPER_ADMIN'] },
+    loadComponent: () =>
+      import('./features/customer/verify-customer/verify-customer').then(m => m.VerifyCustomer),
+  },
   {
     path: 'limit-setting',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['SUPER_ADMIN'] },
     loadComponent: () =>
-      import('./features/limit-setting/limit-setting').then(
-        m => m.LimitSetting
-      ),
+      import('./features/limit-setting/limit-setting').then(m => m.LimitSetting),
   },
-
   {
     path: 'limit-setting/:id',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['SUPER_ADMIN'] },
     loadComponent: () =>
-      import('./features/limit-setting/setting/setting').then(
-        m => m.Setting
-      ),
+      import('./features/limit-setting/setting/setting').then(m => m.Setting),
   },
-
   {
     path: 'roles-permissions',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['SUPER_ADMIN'] },
     loadComponent: () =>
-      import('./features/role-permission/role').then(
-        m => m.RolePermission
-      ),
+      import('./features/role-permission/role').then(m => m.RolePermission),
   },
-
   {
     path: 'branch',
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['SUPER_ADMIN'] },
     loadComponent: () =>
-      import('./features/branch/branch').then(
-        m => m.Branch
-      ),
+      import('./features/branch/branch').then(m => m.Branch),
   },
-
   {
     path: '**',
     redirectTo: '',
   },
-
 ];

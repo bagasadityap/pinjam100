@@ -46,9 +46,13 @@ export class AuthService {
   }
 
   logout(): Observable<void> {
-    return this.http.post<BaseResponse<void>>(
-      `${environment.api.baseUrl}/auth/logout`,
-      {},
+  const refreshToken = this.tokenService.getRefreshToken();
+
+  return this.http.post<BaseResponse<void>>(
+    `${environment.api.baseUrl}/auth/logout`,
+      {
+        refreshToken
+      },
       AUTHORIZED
     ).pipe(
       map(response => response.data),

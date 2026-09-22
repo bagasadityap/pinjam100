@@ -70,6 +70,11 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         switchMap(response => {
           const newToken = response.token;
 
+          tokenService.set(newToken);
+          if (response.refreshToken) {
+            tokenService.setRefreshToken(response.refreshToken);
+          }
+
           refreshTokenSubject.next(newToken);
 
           return next(

@@ -12,6 +12,9 @@ import { HotToastService } from '@ngxpert/hot-toast';
 import { USER_TABLE_COLUMNS } from './user-table.config';
 import { DetailModal } from '../../shared/components/detail-modal/detail-modal';
 import fa from '@angular/common/locales/fa';
+import { Branch } from '../loan-application/loan-application.model';
+import { BranchService } from '../branch/branch.service';
+import { BranchResponse } from '../branch/branch.model';
 
 @Component({
   selector: 'app-user',
@@ -22,12 +25,14 @@ import fa from '@angular/common/locales/fa';
 export class User implements OnInit {
   private readonly userService = inject(UserService);
   private readonly roleService = inject(RoleService);
+  private readonly branchService = inject(BranchService);
   private readonly fb = inject(FormBuilder);
   private readonly toast = inject(HotToastService);
   readonly loading = signal(true);
 
   readonly users = signal<UserResponse[]>([]);
   readonly roles = signal<RoleResponse[]>([]);
+  readonly branch = signal<BranchResponse[]>([]);
   readonly showUserModal = signal(false);
   readonly userModalMode = signal<'create' | 'update'>('create');
   readonly showDetailUserModal = signal(false);
@@ -51,6 +56,7 @@ export class User implements OnInit {
   ngOnInit(): void {
     this.getUsers();
     this.getRoles();
+    this.getBranch();
   }
 
   private getUsers(): void {
@@ -59,8 +65,8 @@ export class User implements OnInit {
         this.users.set(users);
         this.loading.set(false);
       },
-      error: (error) => {
-        this.toast.error("Gagal mengambil data user:", error)
+      error: () => {
+        this.toast.error("Gagal mengambil data user")
       }
     });
   }
@@ -70,10 +76,21 @@ export class User implements OnInit {
       next: (roles) => {
         this.roles.set(roles);
       },
-      error: (error) => {
-        console.error('Gagal mengambil data role:', error);
+      error: () => {
+        console.error('Gagal mengambil data role');
       }
     });
+  }
+
+  private getBranch(): void {
+    this.branchService.getAll().subscribe({
+      next: (branch) => {
+        this.branch.set(branch);
+      },
+      error: () => {
+        console.error('Gagal mengambil data cabang');
+      }
+    })
   }
 
   saveUser(): void {
