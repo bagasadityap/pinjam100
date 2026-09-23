@@ -65,7 +65,7 @@
                 <p class="text-lg font-mono font-semibold text-blue-600 mt-0.5">{{ application.rekening.noRekening }}</p>
               </div>
               <p class="text-xs text-gray-500 mt-2 border-t border-gray-200 pt-3">
-                Atas Nama: <span class="font-semibold text-gray-800">{{ application.customer.fullName }}</span>
+                Atas Nama: <span class="font-semibold text-gray-800">{{ application.rekening.accountHolder }}</span>
               </p>
             </div>
           </div>
@@ -100,7 +100,7 @@
 
     <app-disbursement-modal
       [show]="isDisbursementModalOpen"
-      [customerName]="application.customer.fullName"
+      [customerName]="application.rekening.accountHolder"
       [bankName]="application.rekening.namaBank"
       [accountNumber]="application.rekening.noRekening"
       [disbursementAmount]="application.loanAmount"

@@ -57,4 +57,5 @@ export interface Rekening {
   id: string
   namaBank: string
   noRekening: string
+  accountHolder: string
 }
