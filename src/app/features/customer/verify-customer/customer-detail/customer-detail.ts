@@ -1,14 +1,14 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Sidebar } from '../../../layouts/sidebar/sidebar';
-import { CustomerService } from '../customer.service';
-import { CustomerDetailResponse } from '../customer.model';
+import { Sidebar } from '../../../../layouts/sidebar/sidebar';
+import { CustomerService } from '../../customer.service';
+import { CustomerDetailResponse } from '../../customer.model';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { DatePipe } from '@angular/common';
-import { DocumentService } from '../../../core/service/document.service';
-import { Document } from '../../../core/model/document.model';
-import { VerificationModal } from '../../../shared/components/verification-modal/verification-modal';
-import { environment } from '../../../../environments/environment';
+import { DocumentService } from '../../../../core/service/document.service';
+import { Document } from '../../../../core/model/document.model';
+import { VerificationModal } from '../../../../shared/components/verification-modal/verification-modal';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-customer-detail',
@@ -64,14 +64,14 @@ export class CustomerDetail implements OnInit {
   }
 
   back(): void {
-    this.router.navigate(['/customers']);
+    this.router.navigate(['/verifikasi-customer']);
   }
 
   verifyCustomer(customerId: string): void {
     this.customerService.verifyCustomer(customerId, 'VERIFIED').subscribe({
       next: () => {
         this.closeVerifyModal();
-        this.router.navigate(['/customer']);
+        this.router.navigate(['/verifikasi-customer']);
         this.toast.success('Customer berhasil diverifikasi');
       },
       error: (error) => {

@@ -1,0 +1,309 @@
+<app-sidebar></app-sidebar>
+<main class="ml-64 min-h-screen bg-gray-50 text-gray-900">
+  <!-- Header -->
+  <header class="h-20 bg-white border-b border-gray-200 px-8 flex items-center justify-between">
+    <div>
+      <h1 class="text-xl font-bold text-gray-900">Detail Customer</h1>
+      <p class="text-sm text-gray-500 mt-0.5">Informasi lengkap customer dan dokumen pendukung.</p>
+    </div>
+  </header>
+
+  @if (customer(); as customer) {
+    <div class="p-8 max-w-7xl mx-auto space-y-6">
+      <!-- Back Button -->
+      <button type="button" (click)="back()" class="inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition">
+        <i class="fa-solid fa-arrow-left"></i>
+        Kembali
+      </button>
+
+      <!-- Dokumen Identitas -->
+      <section class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+        <div class="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
+          <div>
+            <h2 class="text-base font-semibold text-gray-900">Dokumen Identitas</h2>
+            <p class="text-xs text-gray-500 mt-0.5">Foto identitas yang digunakan dalam proses verifikasi customer.</p>
+          </div>
+          @if (customer.verificationStatus === 'VERIFIED') {
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-medium">
+              <i class="fa-solid fa-circle-check"></i>
+              Terverifikasi
+            </span>
+          }
+        </div>
+        <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+          @if (findDocument('KTP'); as document) {
+            <div>
+              <div class="mb-3">
+                <h3 class="text-sm font-medium text-gray-900">Foto KTP</h3>
+                <p class="text-xs text-gray-500 mt-0.5">Kartu Tanda Penduduk</p>
+              </div>
+              <button type="button" (click)="openDocumentPreview(document.fileUrl, 'Foto KTP')" class="w-full border border-gray-200 rounded-lg overflow-hidden bg-gray-50 cursor-pointer hover:opacity-95 transition">
+                <img [src]="document.fileUrl" alt="Foto KTP customer" class="w-full aspect-video object-cover">
+              </button>
+            </div>
+          }
+          @if (findDocument('SELFIE'); as document) {
+            <div>
+              <div class="mb-3">
+                <h3 class="text-sm font-medium text-gray-900">Selfie</h3>
+                <p class="text-xs text-gray-500 mt-0.5">Foto selfie customer</p>
+              </div>
+              <button type="button" (click)="openDocumentPreview(document.fileUrl, 'Selfie')" class="w-full border border-gray-200 rounded-lg overflow-hidden bg-gray-50 cursor-pointer hover:opacity-95 transition">
+                <img [src]="document.fileUrl" alt="Selfie customer" class="w-full aspect-video object-cover">
+              </button>
+            </div>
+          }
+          @if (findDocument('SELFIE_KTP'); as document) {
+            <div>
+              <div class="mb-3">
+                <h3 class="text-sm font-medium text-gray-900">Selfie dengan KTP</h3>
+                <p class="text-xs text-gray-500 mt-0.5">Foto customer bersama KTP</p>
+              </div>
+              <button type="button" (click)="openDocumentPreview(document.fileUrl, 'Selfie dengan KTP')" class="w-full border border-gray-200 rounded-lg overflow-hidden bg-gray-50 cursor-pointer hover:opacity-95 transition">
+                <img [src]="document.fileUrl" alt="Selfie customer dengan KTP" class="w-full aspect-video object-cover">
+              </button>
+            </div>
+          }
+        </div>
+      </section>
+
+      <!-- Informasi Customer -->
+      <section class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+        <div class="px-6 py-5 border-b border-gray-200">
+          <h2 class="text-base font-semibold text-gray-900">Informasi Customer</h2>
+          <p class="text-xs text-gray-500 mt-0.5">Informasi utama customer.</p>
+        </div>
+        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+          <div>
+            <p class="text-xs text-gray-500 mb-1">Nomor Customer</p>
+            <p class="text-sm font-medium text-gray-900">{{ customer.customerNumber }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 mb-1">Nama Lengkap</p>
+            <p class="text-sm font-medium text-gray-900">{{ customer.fullName }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 mb-1">Email</p>
+            <p class="text-sm font-medium text-gray-900">{{ customer.email }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 mb-1">Nomor Handphone</p>
+            <p class="text-sm font-medium text-gray-900">{{ customer.phoneNumber }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 mb-1">Status Verifikasi</p>
+            @if (customer.verificationStatus === 'VERIFIED') {
+              <span class="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-600">
+                <i class="fa-solid fa-circle-check"></i>
+                Terverifikasi
+              </span>
+            } @else if (customer.verificationStatus === 'REJECTED') {
+              <span class="inline-flex items-center gap-1.5 text-sm font-medium text-red-600">
+                <i class="fa-solid fa-circle-xmark"></i>
+                Ditolak
+              </span>
+            } @else {
+              <span class="inline-flex items-center gap-1.5 text-sm font-medium text-amber-600">
+                <i class="fa-solid fa-clock"></i>
+                Menunggu Verifikasi
+              </span>
+            }
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 mb-1">Tanggal Registrasi</p>
+            <p class="text-sm font-medium text-gray-900">{{ customer.createdDate | date:'dd MMMM yyyy' }}</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Customer Detail -->
+      <section class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+        <div class="px-6 py-5 border-b border-gray-200">
+          <h2 class="text-base font-semibold text-gray-900">Customer Detail</h2>
+          <p class="text-xs text-gray-500 mt-0.5">Informasi pribadi dan alamat customer.</p>
+        </div>
+        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+          <div>
+            <p class="text-xs text-gray-500 mb-1">Tempat Lahir</p>
+            <p class="text-sm font-medium text-gray-900">{{ customer.detail.placeOfBirth }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 mb-1">Tanggal Lahir</p>
+            <p class="text-sm font-medium text-gray-900">{{ customer.detail.birthDate }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 mb-1">NIK</p>
+            <p class="text-sm font-medium text-gray-900">{{ customer.nationalId }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 mb-1">Jenis Kelamin</p>
+            <p class="text-sm font-medium text-gray-900">{{ customer.detail.gender }}</p>
+          </div>
+          <div class="md:col-span-2">
+            <p class="text-xs text-gray-500 mb-1">Alamat</p>
+            <p class="text-sm font-medium text-gray-900">{{ customer.detail.address }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 mb-1">Provinsi</p>
+            <p class="text-sm font-medium text-gray-900">{{ customer.detail.province }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 mb-1">Kabupaten / Kota</p>
+            <p class="text-sm font-medium text-gray-900">{{ customer.detail.city }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 mb-1">Kecamatan</p>
+            <p class="text-sm font-medium text-gray-900">{{ customer.detail.district }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 mb-1">Kelurahan</p>
+            <p class="text-sm font-medium text-gray-900">{{ customer.detail.village }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 mb-1">Kode Pos</p>
+            <p class="text-sm font-medium text-gray-900">{{ customer.detail.postalCode }}</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Customer Employment -->
+      <section class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+        <div class="px-6 py-5 border-b border-gray-200">
+          <h2 class="text-base font-semibold text-gray-900">Customer Employment</h2>
+          <p class="text-xs text-gray-500 mt-0.5">Informasi pekerjaan dan penghasilan customer.</p>
+        </div>
+        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+          <div>
+            <p class="text-xs text-gray-500 mb-1">Status Pekerjaan</p>
+            <p class="text-sm font-medium text-gray-900">{{ customer.employment.employmentType }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 mb-1">Nama Perusahaan</p>
+            <p class="text-sm font-medium text-gray-900">{{ customer.employment.companyName }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 mb-1">Jabatan</p>
+            <p class="text-sm font-medium text-gray-900">{{ customer.employment.position }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 mb-1">Mulai Bekerja</p>
+            <p class="text-sm font-medium text-gray-900">{{ customer.employment.startDate }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 mb-1">Penghasilan Per Bulan</p>
+            <p class="text-sm font-medium text-gray-900">{{ customer.employment.monthlyIncome }}</p>
+          </div>
+          <div>
+            <p class="text-xs text-gray-500 mb-1">Nomor Telepon Kantor</p>
+            <p class="text-sm font-medium text-gray-900">{{ customer.employment.companyPhone }}</p>
+          </div>
+          <div class="md:col-span-2">
+            <p class="text-xs text-gray-500 mb-1">Alamat Kantor</p>
+            <p class="text-sm font-medium text-gray-900">{{ customer.employment.companyAddress }}</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Dokumen Pendukung -->
+      <section class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+        <div class="px-6 py-5 border-b border-gray-200">
+          <h2 class="text-base font-semibold text-gray-900">Dokumen Pendukung</h2>
+          <p class="text-xs text-gray-500 mt-0.5">Dokumen pendukung selain KTP, selfie, dan selfie dengan KTP.</p>
+        </div>
+        <div class="divide-y divide-gray-100">
+          @for (document of customer.documents; track document.id) {
+            @if (document.type !== 'KTP' && document.type !== 'SELFIE' && document.type !== 'SELFIE_KTP') {
+              <div class="px-6 py-4 flex items-center justify-between">
+                <button type="button" (click)="openDocumentPreview(document.fileUrl, document.type)" class="flex items-center gap-4 text-left cursor-pointer">
+                  <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center text-gray-500">
+                    <i class="fa-solid fa-file-lines"></i>
+                  </div>
+                  <div>
+                    <p class="text-sm font-medium text-gray-900">{{ document.type }}</p>
+                    <p class="text-xs text-gray-400 mt-0.5">{{ document.fileUrl }}</p>
+                  </div>
+                </button>
+                <div class="flex items-center gap-4">
+                  @if (document.verificationStatus === 'VERIFIED') {
+                    <span class="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-600">
+                      <i class="fa-solid fa-circle-check"></i>
+                      Terverifikasi
+                    </span>
+                  } @else if (document.verificationStatus === 'REJECTED') {
+                    <span class="inline-flex items-center gap-1.5 text-xs font-medium text-red-600">
+                      <i class="fa-solid fa-circle-xmark"></i>
+                      Ditolak
+                    </span>
+                  }
+                  <button type="button" (click)="openDocumentPreview(document.fileUrl, document.type)" class="text-xs font-medium text-blue-600 hover:text-blue-800 transition">Lihat</button>
+                </div>
+              </div>
+            }
+          }
+          @if (!customer.documents.filter(document => document.type !== 'KTP' && document.type !== 'SELFIE' && document.type !== 'SELFIE_KTP').length) {
+            <div class="px-6 py-8 text-center text-xs text-gray-500">Belum ada dokumen pendukung.</div>
+          }
+        </div>
+      </section>
+
+      <!-- Rekening -->
+      <section class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+        <div class="px-6 py-5 border-b border-gray-200">
+          <h2 class="text-base font-semibold text-gray-900">Rekening</h2>
+          <p class="text-xs text-gray-500 mt-0.5">Informasi rekening bank customer.</p>
+        </div>
+        <div class="p-6">
+          @if (customer.rekening.length) {
+            @for (rekening of customer.rekening; track rekening.id) {
+              <div class="border border-gray-200 rounded-lg overflow-hidden mb-4 last:mb-0">
+                <div class="grid grid-cols-1 md:grid-cols-3">
+                  <div class="p-4 border-b md:border-b-0 md:border-r border-gray-200">
+                    <p class="text-xs text-gray-500 mb-1">Nama Bank</p>
+                    <p class="text-sm font-medium text-gray-900">{{ rekening.namaBank }}</p>
+                  </div>
+                  <div class="p-4 border-b md:border-b-0 md:border-r border-gray-200">
+                    <p class="text-xs text-gray-500 mb-1">Nomor Rekening</p>
+                    <p class="text-sm font-medium text-gray-900">{{ rekening.noRekening }}</p>
+                  </div>
+                  <div class="p-4">
+                    <p class="text-xs text-gray-500 mb-1">Nama Pemilik</p>
+                    <p class="text-sm font-medium text-gray-900">{{ rekening.accountHolder }}</p>
+                  </div>
+                </div>
+              </div>
+            }
+          } @else {
+            <div class="py-6 text-center text-xs text-gray-500">Belum ada rekening.</div>
+          }
+        </div>
+      </section>
+
+      <!-- Bottom Action -->
+      <div class="flex justify-end gap-3 pt-2">
+        <button type="button" (click)="back()" class="px-4 py-2 rounded-lg border border-gray-300 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50 transition">
+          <i class="fa-solid fa-arrow-left mr-1.5"></i>
+          Kembali
+        </button>
+      </div>
+    </div>
+  } @else {
+    <div class="p-8 max-w-7xl mx-auto">
+      <div class="bg-white border border-gray-200 rounded-xl py-16 text-center">
+        <i class="fa-solid fa-spinner fa-spin text-gray-400 text-lg"></i>
+        <p class="text-xs text-gray-500 mt-3">Memuat detail customer...</p>
+      </div>
+    </div>
+  }
+</main>
+
+<!-- Preview Modal -->
+@if (previewDocumentUrl) {
+  <div class="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-6" (click)="closeDocumentPreview()">
+    <div class="relative max-w-5xl max-h-[90vh] w-full flex items-center justify-center" (click)="$event.stopPropagation()">
+      <button type="button" (click)="closeDocumentPreview()" class="absolute -top-12 right-0 w-10 h-10 rounded-full bg-white/10 text-white hover:bg-white/20 transition">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <img [src]="previewDocumentUrl" [alt]="previewDocumentTitle" class="max-w-full max-h-[85vh] object-contain rounded-lg">
+    </div>
+  </div>
+}

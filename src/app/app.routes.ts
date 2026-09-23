@@ -100,7 +100,7 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard],
     data: { roles: ['SUPER_ADMIN', 'DOCUMENT_CHECKER'] },
     loadComponent: () =>
-      import('./features/customer/customer-detail/customer-detail').then(m => m.CustomerDetail),
+      import('./features/customer/all/customer-detail/customer-detail').then(m => m.CustomerDetail),
   },
   {
     path: 'verifikasi-customer',
@@ -108,6 +108,13 @@ export const routes: Routes = [
     data: { roles: ['SUPER_ADMIN', 'DOCUMENT_CHECKER'] },
     loadComponent: () =>
       import('./features/customer/verify-customer/verify-customer').then(m => m.VerifyCustomer),
+  },
+  {
+    path: 'verifikasi-customer/detail/:id',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['SUPER_ADMIN', 'DOCUMENT_CHECKER'] },
+    loadComponent: () =>
+      import('./features/customer/verify-customer/customer-detail/customer-detail').then(m => m.CustomerDetail),
   },
   {
     path: 'limit-setting',
