@@ -22,6 +22,10 @@ export const serverRoutes: ServerRoute[] = [
     renderMode: RenderMode.Server
   },
   {
+    path: 'verifikasi-customer/detail/:id',
+    renderMode: RenderMode.Server
+  },
+  {
     path: 'limit-setting/:id',
     renderMode: RenderMode.Server
   },
