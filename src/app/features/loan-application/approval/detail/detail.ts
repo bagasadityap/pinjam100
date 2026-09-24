@@ -47,7 +47,6 @@ export class Detail implements OnInit {
     });
   }
 
-  // --- Perhitungan Angsuran & DSR Realtime ---
   get monthlyIncome(): number {
     return Number(this.application()?.customer?.employment?.monthlyIncome ?? 0);
   }

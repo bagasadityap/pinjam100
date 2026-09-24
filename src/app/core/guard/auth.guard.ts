@@ -2,7 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { inject, PLATFORM_ID } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 
-import { TokenService } from '../../core/service/token.service';
+import { TokenService } from '../service/token.service';
 
 export const authGuard: CanActivateFn = () => {
   const platformId = inject(PLATFORM_ID);

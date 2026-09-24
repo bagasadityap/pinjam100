@@ -1,118 +1,148 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient } from '@angular/common/http';
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { of } from 'rxjs';
+
 import { AuthService } from './auth.service';
+import { HttpNetwork } from '../../core/network/http.network';
 import { TokenService } from '../../core/service/token.service';
 import { environment } from '../../../environments/environment';
+import { PUBLIC, AUTHORIZED } from '../../core/http/http.context';
+import { AuthResponse, LoginRequest } from './auth.model';
+import { BaseResponse } from '../../core/model/base-response.model';
+import { UserResponse } from '../user/user.model';
 
 describe('AuthService', () => {
   let service: AuthService;
-  let http: HttpTestingController;
+  let httpNetworkMock: any;
+  let tokenServiceMock: any;
 
-  const tokenService = {
-    set: vi.fn(),
-    remove: vi.fn()
+  const mockAuthData: AuthResponse = {
+    token: 'mock-token',
+    refreshToken: 'mock-refresh-token',
+    identityNumber: '123456789',
+    role: 'ADMIN',
+    permissions: ['READ', 'WRITE']
+  };
+
+  const mockBaseAuthResponse: BaseResponse<AuthResponse> = {
+    statusCode: 200,
+    message: 'Success',
+    data: mockAuthData
   };
 
   beforeEach(() => {
+    httpNetworkMock = {
+      post: vi.fn(),
+      get: vi.fn(),
+    };
+
+    tokenServiceMock = {
+      set: vi.fn(),
+      setRefreshToken: vi.fn(),
+      getRefreshToken: vi.fn(),
+      remove: vi.fn(),
+    };
+
     TestBed.configureTestingModule({
       providers: [
         AuthService,
-        { provide: TokenService, useValue: tokenService },
-        provideHttpClient(),
-        provideHttpClientTesting()
-      ]
+        { provide: HttpNetwork, useValue: httpNetworkMock },
+        { provide: TokenService, useValue: tokenServiceMock },
+      ],
     });
 
     service = TestBed.inject(AuthService);
-    http = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {
-    http.verify();
     vi.clearAllMocks();
   });
 
-  it('should login successfully', () => {
-    service.login({
-      identityNumber: '12345',
-      password: '1234567890'
-    }).subscribe();
+  it('login', () => {
+    const loginRequest: LoginRequest = { identityNumber: '123456789', password: 'password123' };
+    httpNetworkMock.post.mockReturnValue(of(mockBaseAuthResponse));
 
-    const req = http.expectOne(`${environment.api.baseUrl}/auth/login`);
-
-    expect(req.request.method).toBe('POST');
-    expect(req.request.body).toEqual({
-      identityNumber: '12345',
-      password: '1234567890'
+    let result: AuthResponse | undefined;
+    service.login(loginRequest).subscribe(res => {
+      result = res;
     });
 
-    req.flush({
-      token: 'test-token',
-      identityNumber: '12345',
-      role: 'SUPER_ADMIN',
-      permissions: []
-    });
-
-    expect(tokenService.set).toHaveBeenCalledWith('test-token');
+    expect(httpNetworkMock.post).toHaveBeenCalledWith(
+      `${environment.api.baseUrl}/auth/login`,
+      loginRequest,
+      PUBLIC
+    );
+    expect(result).toEqual(mockAuthData);
+    expect(tokenServiceMock.set).toHaveBeenCalledWith(mockAuthData.token);
+    expect(tokenServiceMock.setRefreshToken).toHaveBeenCalledWith(mockAuthData.refreshToken);
   });
 
-  it('should return error when identity number or password is wrong', () => {
-    service.login({
-      identityNumber: '1234567',
-      password: '1234567890'
-    }).subscribe({
-      error: error => {
-        expect(error.status).toBe(401);
-        expect(error.error.message).toBe('NIP atau password salah');
-      }
+  it('refreshToken', () => {
+    const oldRefreshToken = 'old-refresh-token';
+    tokenServiceMock.getRefreshToken.mockReturnValue(oldRefreshToken);
+    httpNetworkMock.post.mockReturnValue(of(mockBaseAuthResponse));
+
+    let result: AuthResponse | undefined;
+    service.refreshToken().subscribe(res => {
+      result = res;
     });
 
-    const req = http.expectOne(`${environment.api.baseUrl}/auth/login`);
-
-    req.flush(
-      {
-        status: 401,
-        message: 'NIP atau password salah',
-        error: 'Unauthorized'
-      },
-      {
-        status: 401,
-        statusText: 'Unauthorized'
-      }
+    expect(tokenServiceMock.getRefreshToken).toHaveBeenCalled();
+    expect(httpNetworkMock.post).toHaveBeenCalledWith(
+      `${environment.api.baseUrl}/auth/refresh`,
+      { refreshToken: oldRefreshToken },
+      PUBLIC
     );
-
-    expect(tokenService.set).not.toHaveBeenCalled();
+    expect(result).toEqual(mockAuthData);
+    expect(tokenServiceMock.set).toHaveBeenCalledWith(mockAuthData.token);
+    expect(tokenServiceMock.setRefreshToken).toHaveBeenCalledWith(mockAuthData.refreshToken);
   });
 
-  it('should return error when user is inactive', () => {
-    service.login({
-      identityNumber: '123456',
-      password: '1234567890'
-    }).subscribe({
-      error: error => {
-        expect(error.status).toBe(401);
-        expect(error.error.message).toBe(
-          'Status user tidak aktif, mohon menghungi administrator'
-        );
-      }
+  it('logout', () => {
+    const currentRefreshToken = 'current-refresh-token';
+    const mockBaseLogoutResponse: BaseResponse<void> = {
+      statusCode: 200,
+      message: 'Logged out successfully',
+      data: undefined as void
+    };
+
+    tokenServiceMock.getRefreshToken.mockReturnValue(currentRefreshToken);
+    httpNetworkMock.post.mockReturnValue(of(mockBaseLogoutResponse));
+
+    let isCompleted = false;
+    service.logout().subscribe(() => {
+      isCompleted = true;
     });
 
-    const req = http.expectOne(`${environment.api.baseUrl}/auth/login`);
-
-    req.flush(
-      {
-        status: 401,
-        message: 'Status user tidak aktif, mohon menghungi administrator',
-        error: 'Unauthorized'
-      },
-      {
-        status: 401,
-        statusText: 'Unauthorized'
-      }
+    expect(tokenServiceMock.getRefreshToken).toHaveBeenCalled();
+    expect(httpNetworkMock.post).toHaveBeenCalledWith(
+      `${environment.api.baseUrl}/auth/logout`,
+      { refreshToken: currentRefreshToken },
+      AUTHORIZED
     );
+    expect(tokenServiceMock.remove).toHaveBeenCalled();
+    expect(isCompleted).toBe(true);
+  });
 
-    expect(tokenService.set).not.toHaveBeenCalled();
+  it('getCurrentUser', () => {
+    const mockUserData = { id: 1, name: 'John Doe' } as unknown as UserResponse;
+    const mockBaseUserResponse: BaseResponse<UserResponse> = {
+      statusCode: 200,
+      message: 'Success',
+      data: mockUserData
+    };
+
+    httpNetworkMock.get.mockReturnValue(of(mockBaseUserResponse));
+
+    let result: UserResponse | undefined;
+    service.getCurrentUser().subscribe(res => {
+      result = res;
+    });
+
+    expect(httpNetworkMock.get).toHaveBeenCalledWith(
+      `${environment.api.baseUrl}/auth/get-current-user`,
+      AUTHORIZED
+    );
+    expect(result).toEqual(mockUserData);
   });
 });
