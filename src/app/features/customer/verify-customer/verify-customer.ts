@@ -40,7 +40,7 @@ export class VerifyCustomer {
   }
 
   openDetailCustomer(id: string): void {
-    this.router.navigate([`/customers/detail/${id}`]);
+    this.router.navigate([`/verifikasi-customer/detail/${id}`]);
   }
 
   handleAction(event: any): void {
