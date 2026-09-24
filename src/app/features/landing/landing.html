@@ -35,23 +35,23 @@
         <div class="relative z-10 lg:min-h-162.5 flex items-end justify-center lg:justify-end">
           <div class="absolute w-105 h-105 bg-blue-100/50 rounded-full blur-3xl"></div>
           <img
-            src="/background-ilustrasi.png"
+            src="/phone-mockup.png"
             alt="Ilustrasi layanan pembiayaan"
-            class="relative w-200 h-auto object-contain drop-shadow-2xl"
+            class="relative w-full h-auto object-contain drop-shadow-2xl"
           >
         </div>
       </div>
     </div>
 
-    <div class="absolute bottom-0 left-0 right-0 z-20 pointer-events-none">
+    <!-- <div class="absolute bottom-0 left-0 right-0 z-20 pointer-events-none">
       <img src="/wave-hero.png" alt="" class="w-full h-auto block">
-    </div>
+    </div> -->
   </section>
 
   <!-- Section Gradasi Transisi -->
-  <section>
+  <!-- <section>
     <div class="h-36 bg-linear-to-b from-blue-600 via-blue-300/60 to-gray-50"></div>
-  </section>
+  </section> -->
 
   <!-- Section Simulasi Pinjaman -->
   <section class="bg-gray-50 py-16 -mt-10 relative z-20" [formGroup]="simulasiForm">
@@ -181,48 +181,44 @@
         </p>
       </div>
 
-      <div class="relative mt-20">
-        <div class="hidden lg:block absolute top-7 left-8 right-8 h-1 bg-blue-100"></div>
-        <div class="hidden lg:block absolute top-7 left-8 w-1/2 h-1 bg-blue-700"></div>
-
-        <div class="grid lg:grid-cols-3 gap-12 lg:gap-16 relative">
-          <div class="relative">
-            <div class="w-14 h-14 rounded-full bg-blue-700 text-white flex items-center justify-center text-lg font-bold relative z-10 ring-8 ring-gray-50">
-              01
-            </div>
-            <div class="mt-8">
-              <h3 class="text-2xl font-bold text-gray-950 mt-2">Tentukan Kebutuhan</h3>
-              <p class="text-gray-500 leading-7 mt-3">
-                Tentukan jumlah pembiayaan dan tenor yang sesuai dengan kebutuhan Anda.
-              </p>
-            </div>
+      <div class="grid lg:grid-cols-3 gap-6 lg:gap-8 mt-16 lg:mt-20">
+        <!-- Langkah 1 -->
+        <div class="group relative bg-white rounded-3xl p-8 lg:p-10 border border-gray-200 hover:border-blue-700 transition-all duration-300 overflow-hidden hover:shadow-2xl hover:shadow-blue-900/5 cursor-default">
+          <div class="absolute -right-4 -top-6 text-[120px] font-extrabold text-blue-100 group-hover:text-blue-200 transition-colors duration-500 pointer-events-none select-none">1</div>
+          <div class="relative z-10">
+            <div class="w-12 h-1 bg-blue-700 rounded-full mb-8 group-hover:w-20 transition-all duration-300"></div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">Tentukan Kebutuhan</h3>
+            <p class="text-gray-600 leading-relaxed">
+              Atur jumlah pembiayaan dan tenor yang sesuai dengan rencana finansial Anda melalui kalkulator pintar kami.
+            </p>
           </div>
+        </div>
 
-          <div class="relative lg:pt-12">
-            <div class="w-14 h-14 rounded-full bg-yellow-400 text-white flex items-center justify-center text-lg font-bold relative z-10 ring-8 ring-gray-50">
-              02
-            </div>
-            <div class="mt-8">
-              <h3 class="text-2xl font-bold text-gray-950 mt-2">Ajukan Secara Online</h3>
-              <p class="text-gray-500 leading-7 mt-3">
-                Lengkapi data yang diperlukan dan kirimkan pengajuan Anda langsung secara online.
-              </p>
-            </div>
+        <!-- Langkah 2 -->
+        <div class="group relative bg-white rounded-3xl p-8 lg:p-10 border border-gray-200 hover:border-blue-700 transition-all duration-300 overflow-hidden hover:shadow-2xl hover:shadow-blue-900/5 cursor-default">
+          <div class="absolute -right-4 -top-6 text-[120px] font-extrabold text-blue-100 group-hover:text-blue-200 transition-colors duration-500 pointer-events-none select-none">2</div>
+          <div class="relative z-10">
+            <div class="w-12 h-1 bg-blue-700 rounded-full mb-8 group-hover:w-20 transition-all duration-300"></div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">Lengkapi Data</h3>
+            <p class="text-gray-600 leading-relaxed">
+              Isi formulir pengajuan secara online dengan aman. Data Anda dilindungi oleh sistem keamanan standar industri.
+            </p>
           </div>
+        </div>
 
-          <div class="relative lg:pt-24">
-            <div class="w-14 h-14 rounded-full bg-green-400 text-gray-950 flex items-center justify-center text-lg font-bold relative z-10 ring-8 ring-gray-50">
-              03
-            </div>
-            <div class="mt-8">
-              <h3 class="text-2xl font-bold text-gray-950 mt-2">Dapatkan Hasil</h3>
-              <p class="text-gray-500 leading-7 mt-3">
-                Pengajuan diproses sesuai ketentuan dan hasilnya akan diinformasikan setelah proses selesai.
-              </p>
-            </div>
+        <!-- Langkah 3 -->
+        <div class="group relative bg-white rounded-3xl p-8 lg:p-10 border border-gray-200 hover:border-blue-700 transition-all duration-300 overflow-hidden hover:shadow-2xl hover:shadow-blue-900/5 cursor-default">
+          <div class="absolute -right-4 -top-6 text-[120px] font-extrabold text-blue-100 group-hover:text-blue-200 transition-colors duration-500 pointer-events-none select-none">3</div>
+          <div class="relative z-10">
+            <div class="w-12 h-1 bg-blue-700 rounded-full mb-8 group-hover:w-20 transition-all duration-300"></div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">Dapatkan Hasil</h3>
+            <p class="text-gray-600 leading-relaxed">
+              Pengajuan diproses secara otomatis dan dana akan segera tersedia setelah verifikasi Anda dinyatakan selesai.
+            </p>
           </div>
         </div>
       </div>
+
     </div>
   </section>
 
