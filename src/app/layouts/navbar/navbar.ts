@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, inject } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnDestroy, Output, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 
@@ -8,7 +8,9 @@ import { PLATFORM_ID } from '@angular/core';
   templateUrl: './navbar.html',
 })
 export class Navbar implements AfterViewInit, OnDestroy {
-  activeSection = 'beranda';
+  @Output() downloadRequested = new EventEmitter<void>();
+
+  activeSection = 'simulasi';
   private observer?: IntersectionObserver;
   private readonly platformId = inject(PLATFORM_ID);
 

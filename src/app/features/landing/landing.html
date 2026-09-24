@@ -1,9 +1,8 @@
-<app-navbar></app-navbar>
+<app-navbar (downloadRequested)="downloadModal.showModal()"></app-navbar>
 
 <main class="bg-white text-gray-900 overflow-hidden font-manrope">
 
-  <!-- Hero -->
-  <section class="relative h-[calc(108vh)] flex items-center overflow-hidden bg-linear-to-br from-blue-300/70 via-blue-200/60 to-blue-100/50">
+  <section id="hero" class="relative h-[calc(108vh)] flex items-center overflow-hidden bg-linear-to-br from-blue-300/70 via-blue-200/60 to-blue-100/50">
     <div class="absolute inset-0 bg-linear-to-br from-white via-white to-blue-50/60"></div>
     <div class="absolute -top-32 -right-32 w-125 h-125 bg-blue-100/60 rounded-full blur-3xl"></div>
     <div class="absolute top-1/2 -left-40 w-87.5 h-87.5 bg-yellow-100/40 rounded-full blur-3xl"></div>
@@ -26,9 +25,9 @@
           </p>
 
           <div>
-            <a href="#" class="inline-block transition-all duration-200 hover:opacity-70 hover:scale-102">
-              <img src="/icon/google-play-badge-logo.svg" alt="" class="w-auto h-40 sm:h-30 lg:h-50">
-            </a>
+            <button type="button" (click)="downloadModal.showModal()" class="inline-block transition-all duration-200 hover:opacity-70 hover:scale-102">
+              <img src="/icon/google-play-badge-logo.svg" alt="Download aplikasi Pinjam100" class="w-auto h-40 sm:h-30 lg:h-50">
+            </button>
           </div>
         </div>
 
@@ -43,27 +42,16 @@
       </div>
     </div>
 
-    <!-- <div class="absolute bottom-0 left-0 right-0 z-20 pointer-events-none">
-      <img src="/wave-hero.png" alt="" class="w-full h-auto block">
-    </div> -->
   </section>
 
-  <!-- Section Gradasi Transisi -->
-  <!-- <section>
-    <div class="h-36 bg-linear-to-b from-blue-600 via-blue-300/60 to-gray-50"></div>
-  </section> -->
-
-  <!-- Section Simulasi Pinjaman -->
-  <section class="bg-gray-50 py-16 -mt-10 relative z-20" [formGroup]="simulasiForm">
+  <section id="simulasi" class="bg-gray-50 py-16 -mt-10 relative z-20" [formGroup]="simulasiForm">
     <div class="max-w-6xl mx-auto px-6">
 
       <div class="grid lg:grid-cols-12 gap-8 items-stretch">
 
-        <!-- Sisi Kiri: Form Kalkulator -->
         <div class="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm flex flex-col justify-between">
 
           <div>
-            <!-- Header Card -->
             <div class="flex items-center gap-3.5 mb-8">
               <div class="w-11 h-11 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center shrink-0">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -76,7 +64,6 @@
               </div>
             </div>
 
-            <!-- Input Display Box -->
             <div class="mb-6">
               <label class="block text-xs font-semibold text-gray-500 mb-2">Jumlah pinjaman</label>
               <div class="relative flex items-center rounded-2xl border-2 border-blue-700 bg-white px-5 py-3.5 transition-all focus-within:ring-4 focus-within:ring-blue-100">
@@ -90,7 +77,6 @@
               <p class="text-[11px] text-gray-400 font-medium mt-2">Masukkan nominal atau geser slider</p>
             </div>
 
-            <!-- Slider Range -->
             <div class="mb-8">
               <input
                 type="range"
@@ -106,7 +92,6 @@
               </div>
             </div>
 
-            <!-- Chip Options: Tenor (3, 6, 12, 18, 24 Bulan) -->
             <div>
               <label class="block text-xs font-semibold text-gray-500 mb-3">Tenor pinjaman</label>
               <div class="grid grid-cols-3 sm:grid-cols-5 gap-2.5">
@@ -125,7 +110,6 @@
 
         </div>
 
-        <!-- Sisi Kanan: Output Detail Card (Biru Muda) -->
         <div class="lg:col-span-5 bg-blue-50 text-gray-900 rounded-3xl p-6 sm:p-8 flex flex-col justify-between border border-blue-100 shadow-sm relative overflow-hidden">
 
           <div>
@@ -156,6 +140,7 @@
 
           <button
             type="button"
+            (click)="downloadModal.showModal()"
             class="mt-8 w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-4 px-6 rounded-2xl transition duration-200 shadow-md shadow-blue-700/20 text-center text-sm tracking-wide"
           >
             Ajukan Pinjaman Sekarang
@@ -167,8 +152,7 @@
     </div>
   </section>
 
-  <!-- Cara Kerja -->
-  <section class="bg-gray-50 tracking-tight">
+  <section id="cara-pengajuan" class="bg-gray-50 tracking-tight">
     <div class="max-w-7xl mx-auto px-6 py-24 lg:py-32">
       <div class="max-w-3xl">
         <p class="text-sm font-bold tracking-widest text-blue-700 uppercase">Cara Pengajuan</p>
@@ -182,7 +166,6 @@
       </div>
 
       <div class="grid lg:grid-cols-3 gap-6 lg:gap-8 mt-16 lg:mt-20">
-        <!-- Langkah 1 -->
         <div class="group relative bg-white rounded-3xl p-8 lg:p-10 border border-gray-200 hover:border-blue-700 transition-all duration-300 overflow-hidden hover:shadow-2xl hover:shadow-blue-900/5 cursor-default">
           <div class="absolute -right-4 -top-6 text-[120px] font-extrabold text-blue-100 group-hover:text-blue-200 transition-colors duration-500 pointer-events-none select-none">1</div>
           <div class="relative z-10">
@@ -194,26 +177,24 @@
           </div>
         </div>
 
-        <!-- Langkah 2 -->
         <div class="group relative bg-white rounded-3xl p-8 lg:p-10 border border-gray-200 hover:border-blue-700 transition-all duration-300 overflow-hidden hover:shadow-2xl hover:shadow-blue-900/5 cursor-default">
           <div class="absolute -right-4 -top-6 text-[120px] font-extrabold text-blue-100 group-hover:text-blue-200 transition-colors duration-500 pointer-events-none select-none">2</div>
           <div class="relative z-10">
             <div class="w-12 h-1 bg-blue-700 rounded-full mb-8 group-hover:w-20 transition-all duration-300"></div>
             <h3 class="text-2xl font-bold text-gray-900 mb-4">Lengkapi Data</h3>
             <p class="text-gray-600 leading-relaxed">
-              Isi formulir pengajuan secara online dengan aman. Data Anda dilindungi oleh sistem keamanan standar industri.
+              Isi formulir pengajuan secara aman. Data Anda diproses sesuai dengan sistem keamanan yang diterapkan pada aplikasi.
             </p>
           </div>
         </div>
 
-        <!-- Langkah 3 -->
         <div class="group relative bg-white rounded-3xl p-8 lg:p-10 border border-gray-200 hover:border-blue-700 transition-all duration-300 overflow-hidden hover:shadow-2xl hover:shadow-blue-900/5 cursor-default">
           <div class="absolute -right-4 -top-6 text-[120px] font-extrabold text-blue-100 group-hover:text-blue-200 transition-colors duration-500 pointer-events-none select-none">3</div>
           <div class="relative z-10">
             <div class="w-12 h-1 bg-blue-700 rounded-full mb-8 group-hover:w-20 transition-all duration-300"></div>
             <h3 class="text-2xl font-bold text-gray-900 mb-4">Dapatkan Hasil</h3>
             <p class="text-gray-600 leading-relaxed">
-              Pengajuan diproses secara otomatis dan dana akan segera tersedia setelah verifikasi Anda dinyatakan selesai.
+              Pengajuan diproses sesuai dengan tahapan yang berlaku dan hasilnya dapat diketahui setelah proses verifikasi selesai.
             </p>
           </div>
         </div>
@@ -222,8 +203,7 @@
     </div>
   </section>
 
-  <!-- Mengapa Pinjam100 -->
-  <section class="bg-white overflow-hidden">
+  <section id="mengapa-kami" class="bg-white overflow-hidden">
     <div class="max-w-7xl mx-auto px-6 py-24 lg:py-28">
 
       <div class="mb-16 lg:mb-20">
@@ -324,7 +304,6 @@
     </div>
   </section>
 
-  <!-- CTA -->
   <section class="relative overflow-hidden">
     <div class="absolute inset-0 bg-blue-700"></div>
     <div class="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-blue-600"></div>
@@ -343,7 +322,7 @@
           </p>
         </div>
 
-        <button class="group shrink-0 inline-flex items-center justify-center gap-3 bg-white hover:bg-blue-950 text-gray-900 font-bold px-8 py-4 rounded-xl shadow-xl transition hover:-translate-y-1">
+        <button type="button" (click)="downloadModal.showModal()" class="group shrink-0 inline-flex items-center justify-center gap-3 bg-white hover:bg-yellow-500 text-gray-900 font-bold px-8 py-4 rounded-xl shadow-xl transition hover:-translate-y-1">
           Mulai Pengajuan
           <span class="group-hover:translate-x-1 transition-transform">
             <i class="fa-solid fa-chevron-right"></i>
@@ -354,7 +333,6 @@
     </div>
   </section>
 
-  <!-- Footer -->
   <footer class="bg-blue-950 text-gray-400">
     <div class="max-w-7xl mx-auto px-6 py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
@@ -367,5 +345,55 @@
 
     </div>
   </footer>
+
+  <dialog #downloadModal class="backdrop:bg-gray-950/60 backdrop:backdrop-blur-sm rounded-3xl p-0 w-[calc(100%-2rem)] max-w-lg shadow-2xl m-auto open:flex open:flex-col items-center justify-center">
+    <div class="bg-white rounded-3xl overflow-hidden w-full">
+      <div class="p-6 sm:p-8">
+        <div class="flex items-start justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div>
+              <h2 class="text-xl font-bold text-gray-900">Download Aplikasi</h2>
+            </div>
+          </div>
+          <button type="button" (click)="downloadModal.close()" class="w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 flex items-center justify-center transition">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="mt-6 rounded-2xl border border-blue-100 bg-blue-50 p-5">
+          <div class="flex gap-3">
+            <div class="text-blue-700 mt-0.5 shrink-0">
+              <i class="fa-solid fa-circle-info"></i>
+            </div>
+            <div class="text-justify">
+              <h3 class="font-bold text-blue-900 text-sm">Informasi Penting</h3>
+              <p class="text-sm text-blue-900/75 leading-6 mt-2">
+                Aplikasi ini merupakan bagian dari <strong>project showcase</strong> untuk keperluan demonstrasi dan portofolio. Aplikasi ini tidak dimaksudkan untuk melakukan transaksi pembiayaan atau aktivitas finansial nyata.
+              </p>
+              <p class="text-sm text-blue-900/75 leading-6 mt-3">
+                Dengan mengunduh dan menggunakan aplikasi ini, Anda memahami bahwa seluruh fitur dan data yang tersedia hanya digunakan untuk tujuan demonstrasi. Pengembang tidak bertanggung jawab atas kerugian, transaksi, penggunaan data, atau konsekuensi lain yang timbul dari penggunaan aplikasi di luar tujuan showcase.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <p class="text-sm text-gray-600 leading-6">
+            Silakan gunakan aplikasi hanya untuk melihat dan mengevaluasi fitur yang tersedia dalam project showcase ini.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-3 mt-6">
+            <button type="button" (click)="downloadModal.close()" class="flex-1 px-5 py-3.5 rounded-xl border border-gray-200 text-gray-700 font-semibold hover:bg-gray-50 transition">
+              Batal
+            </button>
+            <a href="/pinjam100.apk" download class="flex-1 px-5 py-3.5 rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-center transition shadow-md shadow-blue-700/20 inline-flex items-center justify-center gap-2">
+              <i class="fa-solid fa-download"></i>
+              Download APK
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
 
 </main>
