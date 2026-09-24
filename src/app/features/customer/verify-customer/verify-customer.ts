@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { CustomerService } from '../customer.service';
 import { CustomerResponse } from '../customer.model';
-import { CUSTOMER_TABLE_COLUMNS } from '../customer-table.config';
+import { CUSTOMER_TABLE_COLUMNS } from './customer-table.config';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { Router } from '@angular/router';
 import { Sidebar } from '../../../layouts/sidebar/sidebar';
