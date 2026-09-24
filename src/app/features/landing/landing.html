@@ -44,96 +44,77 @@
 
   </section>
 
-  <section id="simulasi" class="bg-gray-50 py-16 -mt-10 relative z-20" [formGroup]="simulasiForm">
-    <div class="max-w-6xl mx-auto px-6">
+  <section id="simulasi" class="bg-white py-20 relative z-20" [formGroup]="simulasiForm">
+    <div class="max-w-5xl mx-auto px-6 py-20">
+      <div class="text-center max-w-xl mx-auto mb-12">
+        <h2 class="text-2xl sm:text-4xl font-bold text-gray-900 tracking-tight">Simulasi Pinjaman</h2>
+        <p class="text-sm text-gray-500 mt-2">Geser slider atau masukkan nominal untuk menghitung estimasi kebutuhan Anda.</p>
+      </div>
 
-      <div class="grid lg:grid-cols-12 gap-8 items-stretch">
-
-        <div class="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm flex flex-col justify-between">
-
-          <div>
-            <div class="flex items-center gap-3.5 mb-8">
-              <div class="w-11 h-11 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <div>
-                <h2 class="text-xl font-bold text-gray-900 tracking-tight">Detail Pinjaman</h2>
-                <p class="text-xs text-gray-500 font-medium">Atur nominal dan tenor</p>
-              </div>
-            </div>
-
-            <div class="mb-6">
-              <label class="block text-xs font-semibold text-gray-500 mb-2">Jumlah pinjaman</label>
-              <div class="relative flex items-center rounded-2xl border-2 border-blue-700 bg-white px-5 py-3.5 transition-all focus-within:ring-4 focus-within:ring-blue-100">
-                <input
-                  type="text"
-                  [value]="formatRupiah(simulasiForm.get('nominal')?.value)"
-                  (input)="onNominalInput($event)"
-                  class="w-full text-2xl sm:text-3xl font-extrabold text-blue-900 bg-transparent outline-none tracking-tight"
-                >
-              </div>
-              <p class="text-[11px] text-gray-400 font-medium mt-2">Masukkan nominal atau geser slider</p>
-            </div>
-
-            <div class="mb-8">
+      <div class="grid lg:grid-cols-12 gap-8 items-start">
+        <div class="lg:col-span-7 bg-white rounded-3xl p-8 border border-gray-100 shadow-[0_4px_24px_rgba(0,0,0,0.03)]">
+          <div class="mb-6">
+            <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Jumlah Pinjaman</label>
+            <div class="relative flex items-center rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-3 transition-all focus-within:border-blue-600 focus-within:bg-white focus-within:ring-2 focus-within:ring-blue-100">
               <input
-                type="range"
-                min="1000000"
-                max="50000000"
-                step="500000"
-                formControlName="nominal"
-                class="w-full h-2 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-blue-700"
+                type="text"
+                [value]="formatRupiah(simulasiForm.get('nominal')?.value)"
+                (input)="onNominalInput($event)"
+                class="w-full text-2xl font-bold text-gray-900 bg-transparent outline-none tracking-tight"
               >
-              <div class="flex justify-between text-xs text-gray-400 font-medium mt-2">
-                <span>Rp1 Juta</span>
-                <span>Rp50 Juta</span>
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-xs font-semibold text-gray-500 mb-3">Tenor pinjaman</label>
-              <div class="grid grid-cols-3 sm:grid-cols-5 gap-2.5">
-                <button
-                  type="button"
-                  *ngFor="let item of tenorOptions"
-                  (click)="setTenor(item.value)"
-                  [ngClass]="simulasiForm.get('tenor')?.value === item.value ? 'bg-blue-700 text-white font-bold shadow-md shadow-blue-700/20' : 'bg-gray-50 text-gray-700 hover:bg-gray-100 font-medium'"
-                  class="py-3 px-2 rounded-xl text-xs sm:text-sm text-center transition-all duration-150"
-                >
-                  {{ item.label }}
-                </button>
-              </div>
             </div>
           </div>
 
-        </div>
-
-        <div class="lg:col-span-5 bg-blue-50 text-gray-900 rounded-3xl p-6 sm:p-8 flex flex-col justify-between border border-blue-100 shadow-sm relative overflow-hidden">
+          <div class="mb-8">
+            <input
+              type="range"
+              min="1000000"
+              max="50000000"
+              step="500000"
+              formControlName="nominal"
+              class="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+            >
+            <div class="flex justify-between text-xs text-gray-400 font-medium mt-2">
+              <span>Rp1 Juta</span>
+              <span>Rp50 Juta</span>
+            </div>
+          </div>
 
           <div>
-            <h3 class="text-xs font-bold tracking-wider uppercase text-blue-800 mb-6">Rincian Estimasi</h3>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Pilih Tenor</label>
+            <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
+              <button
+                type="button"
+                *ngFor="let item of tenorOptions"
+                (click)="setTenor(item.value)"
+                [ngClass]="simulasiForm.get('tenor')?.value === item.value ? 'bg-blue-600 text-white font-semibold shadow-sm' : 'bg-gray-50 text-gray-600 hover:bg-gray-100 font-medium'"
+                class="py-2.5 px-2 rounded-xl text-xs text-center transition-all duration-150"
+              >
+                {{ item.label }}
+              </button>
+            </div>
+          </div>
+        </div>
 
+        <div class="lg:col-span-5 bg-gray-50/70 rounded-3xl p-8 border border-gray-100 flex flex-col justify-between">
+          <div>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-6">Ringkasan Pembiayaan</h3>
             <div class="space-y-4">
               <div class="flex justify-between items-center text-sm text-gray-600">
                 <span>Pokok Pinjaman</span>
-                <span class="font-semibold text-gray-900">{{ formatRupiah(simulasiForm.get('nominal')?.value) }}</span>
+                <span class="font-medium text-gray-900">{{ formatRupiah(simulasiForm.get('nominal')?.value) }}</span>
               </div>
-
               <div class="flex justify-between items-center text-sm text-gray-600">
-                <span>Bunga</span>
-                <span class="font-semibold text-blue-700">{{ formatRupiah(totalBunga) }}</span>
+                <span>Estimasi Bunga</span>
+                <span class="font-medium text-gray-900">{{ formatRupiah(totalBunga) }}</span>
               </div>
-
               <div class="flex justify-between items-center text-sm text-gray-600">
-                <span>Tenor Dipilih</span>
-                <span class="font-semibold text-gray-900">{{ simulasiForm.get('tenor')?.value }} Bulan</span>
+                <span>Tenor</span>
+                <span class="font-medium text-gray-900">{{ simulasiForm.get('tenor')?.value }} Bulan</span>
               </div>
-
-              <div class="pt-5 border-t border-blue-200/80 flex justify-between items-baseline">
-                <span class="text-sm text-gray-700 font-medium">Total Pengembalian</span>
-                <span class="text-2xl font-extrabold text-blue-900 tracking-tight">{{ formatRupiah(totalPengembalian) }}</span>
+              <div class="pt-4 border-t border-gray-200/60 flex justify-between items-baseline">
+                <span class="text-sm font-medium text-gray-900">Total Pengembalian</span>
+                <span class="text-xl font-bold text-blue-600 tracking-tight">{{ formatRupiah(totalPengembalian) }}</span>
               </div>
             </div>
           </div>
@@ -141,10 +122,11 @@
           <button
             type="button"
             (click)="downloadModal.showModal()"
-            class="mt-8 w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-4 px-6 rounded-2xl transition duration-200 shadow-md shadow-blue-700/20 text-center text-sm tracking-wide"
+            class="mt-8 w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3.5 px-6 rounded-xl transition duration-150 text-center text-sm shadow-sm"
           >
-            Ajukan Pinjaman Sekarang
+            Ajukan Pinjaman
           </button>
+
         </div>
 
       </div>
