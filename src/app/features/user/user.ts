@@ -45,6 +45,7 @@ export class User implements OnInit {
     name: ['', Validators.required],
     password: ['', Validators.required],
     role: this.fb.control<string | null>(null),
+    branch: this.fb.control<string | null>(null),
   });
 
   readonly roleForm = this.fb.nonNullable.group({

@@ -10,4 +10,5 @@ export interface UserResponse {
   name: string;
   status: string;
   role: string;
+  branch: string;
 }
