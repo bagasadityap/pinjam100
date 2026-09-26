@@ -17,7 +17,11 @@ describe('LoanApplicationService', () => {
   const mockId = '123';
 
   const mockData = { id: mockId, status: 'PENDING' };
-  const mockListResponse: BaseResponse<any[]> = { statusCode: 200, message: 'OK', data: [mockData] };
+  const mockListResponse: BaseResponse<any[]> = {
+    statusCode: 200,
+    message: 'OK',
+    data: [mockData],
+  };
   const mockSingleResponse: BaseResponse<any> = { statusCode: 200, message: 'OK', data: mockData };
 
   beforeEach(() => {
@@ -27,10 +31,7 @@ describe('LoanApplicationService', () => {
     };
 
     TestBed.configureTestingModule({
-      providers: [
-        LoanApplicationService,
-        { provide: HttpNetwork, useValue: httpNetworkMock },
-      ],
+      providers: [LoanApplicationService, { provide: HttpNetwork, useValue: httpNetworkMock }],
     });
 
     service = TestBed.inject(LoanApplicationService);
@@ -43,7 +44,7 @@ describe('LoanApplicationService', () => {
   it('getAll', () => {
     httpNetworkMock.get.mockReturnValue(of(mockListResponse));
 
-    service.getAll().subscribe(res => {
+    service.getAll().subscribe((res) => {
       expect(res).toEqual(mockListResponse.data);
     });
 
@@ -53,7 +54,7 @@ describe('LoanApplicationService', () => {
   it('getAllForReview', () => {
     httpNetworkMock.get.mockReturnValue(of(mockListResponse));
 
-    service.getAllForReview().subscribe(res => {
+    service.getAllForReview().subscribe((res) => {
       expect(res).toEqual(mockListResponse.data);
     });
 
@@ -63,7 +64,7 @@ describe('LoanApplicationService', () => {
   it('getAllForApproval', () => {
     httpNetworkMock.get.mockReturnValue(of(mockListResponse));
 
-    service.getAllForApproval().subscribe(res => {
+    service.getAllForApproval().subscribe((res) => {
       expect(res).toEqual(mockListResponse.data);
     });
 
@@ -73,7 +74,7 @@ describe('LoanApplicationService', () => {
   it('getAllForDisbursement', () => {
     httpNetworkMock.get.mockReturnValue(of(mockListResponse));
 
-    service.getAllForDisbursement().subscribe(res => {
+    service.getAllForDisbursement().subscribe((res) => {
       expect(res).toEqual(mockListResponse.data);
     });
 
@@ -83,7 +84,7 @@ describe('LoanApplicationService', () => {
   it('getById', () => {
     httpNetworkMock.get.mockReturnValue(of(mockSingleResponse));
 
-    service.getById(mockId).subscribe(res => {
+    service.getById(mockId).subscribe((res) => {
       expect(res).toEqual(mockSingleResponse.data);
     });
 
@@ -93,7 +94,7 @@ describe('LoanApplicationService', () => {
   it('getByBranch', () => {
     httpNetworkMock.get.mockReturnValue(of(mockListResponse));
 
-    service.getByBranch(mockId).subscribe(res => {
+    service.getByBranch(mockId).subscribe((res) => {
       expect(res).toEqual(mockListResponse.data);
     });
 
@@ -103,7 +104,7 @@ describe('LoanApplicationService', () => {
   it('getByCustomer', () => {
     httpNetworkMock.get.mockReturnValue(of(mockListResponse));
 
-    service.getByCustomer(mockId).subscribe(res => {
+    service.getByCustomer(mockId).subscribe((res) => {
       expect(res).toEqual(mockListResponse.data);
     });
 
@@ -113,7 +114,7 @@ describe('LoanApplicationService', () => {
   it('getForReview', () => {
     httpNetworkMock.get.mockReturnValue(of(mockSingleResponse));
 
-    service.getForReview(mockId).subscribe(res => {
+    service.getForReview(mockId).subscribe((res) => {
       expect(res).toEqual(mockSingleResponse.data);
     });
 
@@ -123,7 +124,7 @@ describe('LoanApplicationService', () => {
   it('getForApproval', () => {
     httpNetworkMock.get.mockReturnValue(of(mockSingleResponse));
 
-    service.getForApproval(mockId).subscribe(res => {
+    service.getForApproval(mockId).subscribe((res) => {
       expect(res).toEqual(mockSingleResponse.data);
     });
 
@@ -133,42 +134,57 @@ describe('LoanApplicationService', () => {
   it('getForDisbursement', () => {
     httpNetworkMock.get.mockReturnValue(of(mockSingleResponse));
 
-    service.getForDisbursement(mockId).subscribe(res => {
+    service.getForDisbursement(mockId).subscribe((res) => {
       expect(res).toEqual(mockSingleResponse.data);
     });
 
-    expect(httpNetworkMock.get).toHaveBeenCalledWith(`${endpoint}/${mockId}/disbursement`, AUTHORIZED);
+    expect(httpNetworkMock.get).toHaveBeenCalledWith(
+      `${endpoint}/${mockId}/disbursement`,
+      AUTHORIZED,
+    );
   });
 
   it('review', () => {
     const request = { notes: 'looks good' } as unknown as ReviewRequest;
     httpNetworkMock.post.mockReturnValue(of(mockSingleResponse));
 
-    service.review(mockId, request).subscribe(res => {
+    service.review(mockId, request).subscribe((res) => {
       expect(res).toEqual(mockSingleResponse.data);
     });
 
-    expect(httpNetworkMock.post).toHaveBeenCalledWith(`${endpoint}/${mockId}/review`, request, AUTHORIZED);
+    expect(httpNetworkMock.post).toHaveBeenCalledWith(
+      `${endpoint}/${mockId}/review`,
+      request,
+      AUTHORIZED,
+    );
   });
 
   it('approve', () => {
     const request = { isApproved: true } as unknown as ApprovalRequest;
     httpNetworkMock.post.mockReturnValue(of(mockSingleResponse));
 
-    service.approve(mockId, request).subscribe(res => {
+    service.approve(mockId, request).subscribe((res) => {
       expect(res).toEqual(mockSingleResponse.data);
     });
 
-    expect(httpNetworkMock.post).toHaveBeenCalledWith(`${endpoint}/${mockId}/approval`, request, AUTHORIZED);
+    expect(httpNetworkMock.post).toHaveBeenCalledWith(
+      `${endpoint}/${mockId}/approval`,
+      request,
+      AUTHORIZED,
+    );
   });
 
   it('disburse', () => {
     httpNetworkMock.post.mockReturnValue(of(mockSingleResponse));
 
-    service.disburse(mockId).subscribe(res => {
+    service.disburse(mockId).subscribe((res) => {
       expect(res).toEqual(mockSingleResponse.data);
     });
 
-    expect(httpNetworkMock.post).toHaveBeenCalledWith(`${endpoint}/${mockId}/disbursement`, null, AUTHORIZED);
+    expect(httpNetworkMock.post).toHaveBeenCalledWith(
+      `${endpoint}/${mockId}/disbursement`,
+      null,
+      AUTHORIZED,
+    );
   });
 });

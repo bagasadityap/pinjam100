@@ -1,24 +1,21 @@
-import {
-  reviewCustomerButton,
-  deleteButton
-} from '../../shared/components/buttons/crud-button';
+import { reviewCustomerButton, deleteButton } from '../../shared/components/buttons/crud-button';
 import { CustomerResponse } from '../customer/customer.model';
 
 export const LIMIT_SETTING_TABLE_COLUMNS = [
   {
     title: 'No Customer',
     data: 'customerNumber',
-    className: 'text-center font-semibold text-gray-800/70 text-base'
+    className: 'text-center font-semibold text-gray-800/70 text-base',
   },
   {
     title: 'Nama Lengkap',
     data: 'fullName',
-    className: 'text-left text-base'
+    className: 'text-left text-base',
   },
   {
     title: 'Email',
     data: 'email',
-    className: 'text-left text-base'
+    className: 'text-left text-base',
   },
   {
     title: 'Tanggal Registrasi',
@@ -31,9 +28,9 @@ export const LIMIT_SETTING_TABLE_COLUMNS = [
       return new Intl.DateTimeFormat('id-ID', {
         day: 'numeric',
         month: 'long',
-        year: 'numeric'
+        year: 'numeric',
       }).format(new Date(data));
-    }
+    },
   },
   // {
   //   title: 'Status',
@@ -55,7 +52,7 @@ export const LIMIT_SETTING_TABLE_COLUMNS = [
   //   `
   // },
   {
-  title: 'Aksi',
+    title: 'Aksi',
     data: null,
     className: 'text-center',
     orderable: false,
@@ -64,6 +61,6 @@ export const LIMIT_SETTING_TABLE_COLUMNS = [
       <div class="flex items-center justify-center gap-2">
         ${reviewCustomerButton(row.id)}
       </div>
-    `
-  }
+    `,
+  },
 ];

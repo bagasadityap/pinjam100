@@ -1,7 +1,7 @@
 import {
   readButton,
   updateButton,
-  deleteButton
+  deleteButton,
 } from '../../shared/components/buttons/crud-button';
 import { badge } from '../../shared/components/badges/badges';
 import { BranchResponse } from './branch.model';
@@ -14,22 +14,22 @@ export const BRANCH_TABLE_COLUMNS = [
 
     render: (data: string) => {
       return badge(data, 'blue');
-    }
+    },
   },
   {
     title: 'Province',
     data: 'province',
-    className: 'text-base'
+    className: 'text-base',
   },
   {
     title: 'City',
     data: 'city',
-    className: 'text-base'
+    className: 'text-base',
   },
   {
     title: 'Postal Code',
     data: 'postalCode',
-    className: 'text-base'
+    className: 'text-base',
   },
   {
     title: 'Aksi',
@@ -43,6 +43,6 @@ export const BRANCH_TABLE_COLUMNS = [
         ${updateButton(row.id)}
         ${deleteButton(row.id)}
       </div>
-    `
-  }
+    `,
+  },
 ];

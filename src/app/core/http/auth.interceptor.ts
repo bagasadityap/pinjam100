@@ -1,7 +1,16 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, EMPTY, catchError, filter, finalize, switchMap, take, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  EMPTY,
+  catchError,
+  filter,
+  finalize,
+  switchMap,
+  take,
+  throwError,
+} from 'rxjs';
 
 import { API_ACCESS, AUTHORIZED } from './http.context';
 import { TokenService } from '../service/token.service';
@@ -49,17 +58,17 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
       if (isRefreshing) {
         return refreshTokenSubject.pipe(
-          filter(token => token !== null),
+          filter((token) => token !== null),
           take(1),
-          switchMap(newToken => {
+          switchMap((newToken) => {
             return next(
               req.clone({
                 setHeaders: {
                   Authorization: `Bearer ${newToken}`,
                 },
-              })
+              }),
             );
-          })
+          }),
         );
       }
 
@@ -67,7 +76,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       refreshTokenSubject.next(null);
 
       return authService.refreshToken().pipe(
-        switchMap(response => {
+        switchMap((response) => {
           const newToken = response.token;
 
           refreshTokenSubject.next(newToken);
@@ -77,10 +86,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
               setHeaders: {
                 Authorization: `Bearer ${newToken}`,
               },
-            })
+            }),
           );
         }),
-        catchError(refreshError => {
+        catchError((refreshError) => {
           tokenService.remove();
           refreshTokenSubject.next(null);
           router.navigate(['/login']);
@@ -89,8 +98,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         }),
         finalize(() => {
           isRefreshing = false;
-        })
+        }),
       );
-    })
+    }),
   );
 };

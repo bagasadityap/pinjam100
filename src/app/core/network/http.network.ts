@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { API_ACCESS, ApiAccess, AUTHORIZED } from '../http/http.context'
+import { API_ACCESS, ApiAccess, AUTHORIZED } from '../http/http.context';
 
 @Injectable({
   providedIn: 'root',

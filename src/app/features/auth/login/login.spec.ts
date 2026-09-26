@@ -14,19 +14,19 @@ describe('Login Component', () => {
 
   beforeEach(async () => {
     authServiceMock = {
-      login: vi.fn()
+      login: vi.fn(),
     };
 
     routerMock = {
-      navigate: vi.fn()
+      navigate: vi.fn(),
     };
 
     await TestBed.configureTestingModule({
       imports: [Login],
       providers: [
         { provide: AuthService, useValue: authServiceMock },
-        { provide: Router, useValue: routerMock }
-      ]
+        { provide: Router, useValue: routerMock },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Login);
@@ -62,7 +62,7 @@ describe('Login Component', () => {
 
     expect(authServiceMock.login).toHaveBeenCalledWith({
       identityNumber: '12345', // Harus di-trim
-      password: 'password123'
+      password: 'password123',
     });
 
     expect(routerMock.navigate).toHaveBeenCalledWith(['/dashboard']);

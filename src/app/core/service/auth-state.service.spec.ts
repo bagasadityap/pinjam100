@@ -18,10 +18,7 @@ describe('AuthStateService', () => {
     };
 
     TestBed.configureTestingModule({
-      providers: [
-        AuthStateService,
-        { provide: TokenService, useValue: tokenServiceMock },
-      ],
+      providers: [AuthStateService, { provide: TokenService, useValue: tokenServiceMock }],
     });
   });
 

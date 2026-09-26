@@ -15,18 +15,21 @@ describe('PermissionService', () => {
   const endpoint = `${environment.api.baseUrl}/permission`;
   const mockId = '123';
 
-  const mockPermissionResponse = { id: 'perm-1', name: 'CREATE_USER' } as unknown as PermissionResponse;
+  const mockPermissionResponse = {
+    id: 'perm-1',
+    name: 'CREATE_USER',
+  } as unknown as PermissionResponse;
 
   const mockListResponse: BaseResponse<PermissionResponse[]> = {
     statusCode: 200,
     message: 'OK',
-    data: [mockPermissionResponse]
+    data: [mockPermissionResponse],
   };
 
   const mockSingleResponse: BaseResponse<PermissionResponse> = {
     statusCode: 200,
     message: 'OK',
-    data: mockPermissionResponse
+    data: mockPermissionResponse,
   };
 
   beforeEach(() => {
@@ -35,10 +38,7 @@ describe('PermissionService', () => {
     };
 
     TestBed.configureTestingModule({
-      providers: [
-        PermissionService,
-        { provide: HttpNetwork, useValue: httpNetworkMock },
-      ],
+      providers: [PermissionService, { provide: HttpNetwork, useValue: httpNetworkMock }],
     });
 
     service = TestBed.inject(PermissionService);
@@ -51,7 +51,7 @@ describe('PermissionService', () => {
   it('getAll', () => {
     httpNetworkMock.get.mockReturnValue(of(mockListResponse));
 
-    service.getAll().subscribe(res => {
+    service.getAll().subscribe((res) => {
       expect(res).toEqual(mockListResponse.data);
     });
 
@@ -61,7 +61,7 @@ describe('PermissionService', () => {
   it('getAllByRoleId', () => {
     httpNetworkMock.get.mockReturnValue(of(mockSingleResponse));
 
-    service.getAllByRoleId(mockId).subscribe(res => {
+    service.getAllByRoleId(mockId).subscribe((res) => {
       expect(res).toEqual(mockSingleResponse.data);
     });
 

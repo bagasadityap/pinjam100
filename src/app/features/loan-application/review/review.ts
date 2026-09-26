@@ -31,9 +31,9 @@ export class Review implements OnInit {
         this.loading.set(false);
       },
       error: (error) => {
-        this.toast.error("Gagal mendapatkan data aplikasi pinjaman:", error)
-      }
-    })
+        this.toast.error('Gagal mendapatkan data aplikasi pinjaman:', error);
+      },
+    });
   }
 
   handleAction(event: any): void {

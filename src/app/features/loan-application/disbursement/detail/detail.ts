@@ -41,10 +41,8 @@ export class Detail implements OnInit {
         this.application.set(response);
       },
       error: (error) => {
-        this.toast.error(
-          error.error?.message ?? 'Gagal mendapatkan data aplikasi pinjaman'
-        );
-      }
+        this.toast.error(error.error?.message ?? 'Gagal mendapatkan data aplikasi pinjaman');
+      },
     });
   }
 
@@ -56,10 +54,8 @@ export class Detail implements OnInit {
         this.back();
       },
       error: (error) => {
-        this.toast.error(
-          error.error?.message ?? 'Gagal melakukan pencairan pinjaman'
-        );
-      }
+        this.toast.error(error.error?.message ?? 'Gagal melakukan pencairan pinjaman');
+      },
     });
   }
 

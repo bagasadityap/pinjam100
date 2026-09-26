@@ -16,58 +16,60 @@ export class AuthService {
   private readonly tokenService = inject(TokenService);
 
   login(request: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<BaseResponse<AuthResponse>>(
-      `${environment.api.baseUrl}/auth/login`,
-      request,
-      PUBLIC
-    ).pipe(
-      map(response => response.data),
-      tap(response => {
-        this.tokenService.set(response.token);
-        this.tokenService.setRefreshToken(response.refreshToken);
-      })
-    );
+    return this.http
+      .post<BaseResponse<AuthResponse>>(`${environment.api.baseUrl}/auth/login`, request, PUBLIC)
+      .pipe(
+        map((response) => response.data),
+        tap((response) => {
+          this.tokenService.set(response.token);
+          this.tokenService.setRefreshToken(response.refreshToken);
+        }),
+      );
   }
 
   refreshToken(): Observable<AuthResponse> {
     const refreshToken = this.tokenService.getRefreshToken();
 
-    return this.http.post<BaseResponse<AuthResponse>>(
-      `${environment.api.baseUrl}/auth/refresh`,
-      { refreshToken },
-      PUBLIC
-    ).pipe(
-      map(response => response.data),
-      tap(response => {
-        this.tokenService.set(response.token);
-        this.tokenService.setRefreshToken(response.refreshToken);
-      })
-    );
+    return this.http
+      .post<BaseResponse<AuthResponse>>(
+        `${environment.api.baseUrl}/auth/refresh`,
+        { refreshToken },
+        PUBLIC,
+      )
+      .pipe(
+        map((response) => response.data),
+        tap((response) => {
+          this.tokenService.set(response.token);
+          this.tokenService.setRefreshToken(response.refreshToken);
+        }),
+      );
   }
 
   logout(): Observable<void> {
-  const refreshToken = this.tokenService.getRefreshToken();
+    const refreshToken = this.tokenService.getRefreshToken();
 
-  return this.http.post<BaseResponse<void>>(
-    `${environment.api.baseUrl}/auth/logout`,
-      {
-        refreshToken
-      },
-      AUTHORIZED
-    ).pipe(
-      map(response => response.data),
-      tap(() => {
-        this.tokenService.remove();
-      })
-    );
+    return this.http
+      .post<BaseResponse<void>>(
+        `${environment.api.baseUrl}/auth/logout`,
+        {
+          refreshToken,
+        },
+        AUTHORIZED,
+      )
+      .pipe(
+        map((response) => response.data),
+        tap(() => {
+          this.tokenService.remove();
+        }),
+      );
   }
 
   getCurrentUser(): Observable<UserResponse> {
-    return this.http.get<BaseResponse<UserResponse>>(
-      `${environment.api.baseUrl}/auth/get-current-user`,
-      AUTHORIZED
-    ).pipe(
-      map(response => response.data)
-    );
+    return this.http
+      .get<BaseResponse<UserResponse>>(
+        `${environment.api.baseUrl}/auth/get-current-user`,
+        AUTHORIZED,
+      )
+      .pipe(map((response) => response.data));
   }
 }

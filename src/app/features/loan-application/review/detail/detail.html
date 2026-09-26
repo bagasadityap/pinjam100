@@ -3,7 +3,9 @@
   <header class="h-20 bg-white border-b border-gray-200 px-8 flex items-center justify-between">
     <div>
       <h1 class="text-xl font-bold tracking-tight">Review Aplikasi Pinjaman</h1>
-      <p class="text-sm text-gray-500 mt-0.5">Analisis data customer dan pengajuan pinjaman untuk pengambilan keputusan kredit.</p>
+      <p class="text-sm text-gray-500 mt-0.5">
+        Analisis data customer dan pengajuan pinjaman untuk pengambilan keputusan kredit.
+      </p>
     </div>
     @if (application(); as app) {
       <div class="text-right">
@@ -15,26 +17,44 @@
 
   @if (application(); as app) {
     <div class="p-8 max-w-7xl mx-auto space-y-6">
-      <section class="bg-white border border-gray-200 rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
+      <section
+        class="bg-white border border-gray-200 rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm"
+      >
         <div>
           <div class="flex items-center gap-3">
             <h2 class="text-xl font-bold text-gray-900">{{ app.customer.fullName }}</h2>
-            <span class="px-2.5 py-0.5 text-xs font-semibold rounded border bg-blue-50 text-blue-700 border-blue-200">
+            <span
+              class="px-2.5 py-0.5 text-xs font-semibold rounded border bg-blue-50 text-blue-700 border-blue-200"
+            >
               {{ app.status }}
             </span>
           </div>
           <p class="text-sm text-gray-500 mt-1">
-            ID: <span class="font-mono text-gray-700 font-medium">{{ app.customer.customerNumber }}</span>
+            ID:
+            <span class="font-mono text-gray-700 font-medium">{{
+              app.customer.customerNumber
+            }}</span>
             <span class="mx-2 text-gray-300">•</span>
-            Cabang: <span class="text-gray-700 font-medium">{{ app.branch.name }} ({{ app.branch.city }})</span>
+            Cabang:
+            <span class="text-gray-700 font-medium"
+              >{{ app.branch.name }} ({{ app.branch.city }})</span
+            >
           </p>
         </div>
 
         <div class="flex items-center gap-3 border-t md:border-t-0 pt-4 md:pt-0 border-gray-100">
-          <button type="button" (click)="back()" class="px-4 py-2 rounded-lg border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 transition">
+          <button
+            type="button"
+            (click)="back()"
+            class="px-4 py-2 rounded-lg border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 transition"
+          >
             Kembali
           </button>
-          <button type="button" (click)="openVerifyModal(app.id)" class="px-5 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition shadow-sm">
+          <button
+            type="button"
+            (click)="openVerifyModal(app.id)"
+            class="px-5 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition shadow-sm"
+          >
             Review & Keputusan
           </button>
         </div>
@@ -42,7 +62,9 @@
 
       <!-- SECTION 1: RINGKASAN PENGAJUAN & ANALISIS DSR (HIGHLIGHT CREDIT ANALYST) -->
       <section class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-        <div class="px-6 py-4 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
+        <div
+          class="px-6 py-4 bg-gray-50 border-b border-gray-200 flex items-center justify-between"
+        >
           <h3 class="text-base font-bold text-gray-900">Analisis Kelayakan & Pengajuan Pinjaman</h3>
           <span class="text-xs text-gray-500">Perhitungan rasio kapasitas pembayaran (DSR)</span>
         </div>
@@ -52,23 +74,52 @@
           <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
             <!-- Jumlah Pinjaman -->
             <div class="border border-gray-200 rounded-xl bg-gray-50/50 p-5">
-              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Jumlah Pinjaman</p>
-              <p class="text-2xl font-bold text-gray-900">{{ app.loanAmount | currency:'IDR':'symbol':'1.0-0':'id-ID' }}</p>
-              <p class="text-xs text-gray-500 mt-2">Tenor: <span class="font-semibold text-gray-800">{{ app.tenorMonths }} Bulan</span> | Bunga: <span class="font-semibold text-gray-800">{{ app.interestRate }}%/thn</span></p>
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">
+                Jumlah Pinjaman
+              </p>
+              <p class="text-2xl font-bold text-gray-900">
+                {{ app.loanAmount | currency: 'IDR' : 'symbol' : '1.0-0' : 'id-ID' }}
+              </p>
+              <p class="text-xs text-gray-500 mt-2">
+                Tenor:
+                <span class="font-semibold text-gray-800">{{ app.tenorMonths }} Bulan</span> |
+                Bunga: <span class="font-semibold text-gray-800">{{ app.interestRate }}%/thn</span>
+              </p>
             </div>
 
             <!-- Penghasilan Bulanan -->
             <div class="border border-gray-200 rounded-xl bg-gray-50/50 p-5">
-              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Penghasilan Per Bulan</p>
-              <p class="text-2xl font-bold text-gray-900">{{ app.customer.employment.monthlyIncome | currency:'IDR':'symbol':'1.0-0':'id-ID' }}</p>
-              <p class="text-xs text-gray-500 mt-2">Pekerjaan: <span class="font-semibold text-gray-800">{{ app.customer.employment.employmentType }}</span></p>
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">
+                Penghasilan Per Bulan
+              </p>
+              <p class="text-2xl font-bold text-gray-900">
+                {{
+                  app.customer.employment.monthlyIncome
+                    | currency: 'IDR' : 'symbol' : '1.0-0' : 'id-ID'
+                }}
+              </p>
+              <p class="text-xs text-gray-500 mt-2">
+                Pekerjaan:
+                <span class="font-semibold text-gray-800">{{
+                  app.customer.employment.employmentType
+                }}</span>
+              </p>
             </div>
 
             <!-- Estimasi Angsuran / Bulan -->
             <div class="border border-gray-200 rounded-xl bg-gray-50/50 p-5">
-              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Estimasi Angsuran</p>
-              <p class="text-2xl font-bold text-blue-600">{{ estimatedMonthlyInstallment | currency:'IDR':'symbol':'1.0-0':'id-ID' }}</p>
-              <p class="text-xs text-gray-500 mt-2">Total Bayar: <span class="font-semibold text-gray-800">{{ totalRepayment | currency:'IDR':'symbol':'1.0-0':'id-ID' }}</span></p>
+              <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">
+                Estimasi Angsuran
+              </p>
+              <p class="text-2xl font-bold text-blue-600">
+                {{ estimatedMonthlyInstallment | currency: 'IDR' : 'symbol' : '1.0-0' : 'id-ID' }}
+              </p>
+              <p class="text-xs text-gray-500 mt-2">
+                Total Bayar:
+                <span class="font-semibold text-gray-800">{{
+                  totalRepayment | currency: 'IDR' : 'symbol' : '1.0-0' : 'id-ID'
+                }}</span>
+              </p>
             </div>
 
             <!-- Debt Service Ratio (DSR) & Risk Category -->
@@ -130,19 +181,28 @@
           </div>
 
           <!-- Parameter Pinjaman Detail -->
-          <div class="border-t border-gray-100 pt-5 grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-4">
+          <div
+            class="border-t border-gray-100 pt-5 grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-4"
+          >
             <div>
               <p class="text-xs text-gray-500">Tujuan Pinjaman</p>
               <p class="text-sm font-semibold text-gray-900 mt-1">{{ app.purpose }}</p>
             </div>
             <div>
               <p class="text-xs text-gray-500">Plafon Limit Kredit Customer</p>
-              <p class="text-sm font-semibold text-gray-900 mt-1">{{ app.customer.limit.creditLimit | currency:'IDR':'symbol':'1.0-0':'id-ID' }}</p>
+              <p class="text-sm font-semibold text-gray-900 mt-1">
+                {{
+                  app.customer.limit.creditLimit | currency: 'IDR' : 'symbol' : '1.0-0' : 'id-ID'
+                }}
+              </p>
             </div>
             <div>
               <p class="text-xs text-gray-500">Sisa Limit Setelah Pinjaman Ini</p>
               <p class="text-sm font-semibold text-gray-900 mt-1">
-                {{ (app.customer.limit.creditLimit - app.loanAmount) | currency:'IDR':'symbol':'1.0-0':'id-ID' }}
+                {{
+                  app.customer.limit.creditLimit - app.loanAmount
+                    | currency: 'IDR' : 'symbol' : '1.0-0' : 'id-ID'
+                }}
               </p>
             </div>
           </div>
@@ -152,45 +212,68 @@
       <!-- SECTION 2: INFORMASI PEKERJAAN & DOKUMEN -->
       <section class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
         <div class="px-6 py-4 bg-gray-50 border-b border-gray-200">
-          <h3 class="text-base font-bold text-gray-900">Informasi Pekerjaan & Dokumen Verifikasi</h3>
+          <h3 class="text-base font-bold text-gray-900">
+            Informasi Pekerjaan & Dokumen Verifikasi
+          </h3>
         </div>
 
         <div class="p-6 space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-4">
             <div>
               <p class="text-xs text-gray-500">Nama Perusahaan</p>
-              <p class="text-sm font-semibold text-gray-900 mt-0.5">{{ app.customer.employment.companyName }}</p>
+              <p class="text-sm font-semibold text-gray-900 mt-0.5">
+                {{ app.customer.employment.companyName }}
+              </p>
             </div>
             <div>
               <p class="text-xs text-gray-500">Jabatan</p>
-              <p class="text-sm font-semibold text-gray-900 mt-0.5">{{ app.customer.employment.position }}</p>
+              <p class="text-sm font-semibold text-gray-900 mt-0.5">
+                {{ app.customer.employment.position }}
+              </p>
             </div>
             <div>
               <p class="text-xs text-gray-500">Mulai Bekerja</p>
-              <p class="text-sm font-semibold text-gray-900 mt-0.5">{{ app.customer.employment.startDate | date:'dd MMMM yyyy' }}</p>
+              <p class="text-sm font-semibold text-gray-900 mt-0.5">
+                {{ app.customer.employment.startDate | date: 'dd MMMM yyyy' }}
+              </p>
             </div>
             <div>
               <p class="text-xs text-gray-500">Telepon Kantor</p>
-              <p class="text-sm font-semibold text-gray-900 mt-0.5">{{ app.customer.employment.companyPhone }}</p>
+              <p class="text-sm font-semibold text-gray-900 mt-0.5">
+                {{ app.customer.employment.companyPhone }}
+              </p>
             </div>
             <div class="md:col-span-2">
               <p class="text-xs text-gray-500">Alamat Kantor</p>
-              <p class="text-sm font-semibold text-gray-900 mt-0.5">{{ app.customer.employment.companyAddress }}</p>
+              <p class="text-sm font-semibold text-gray-900 mt-0.5">
+                {{ app.customer.employment.companyAddress }}
+              </p>
             </div>
           </div>
 
           <!-- Document List -->
           <div class="border-t border-gray-100 pt-5">
-            <p class="text-xs font-bold text-gray-700 uppercase tracking-wider mb-3">Dokumen Lampiran ({{ app.customer.documents.length }})</p>
+            <p class="text-xs font-bold text-gray-700 uppercase tracking-wider mb-3">
+              Dokumen Lampiran ({{ app.customer.documents.length }})
+            </p>
             @if (app.customer.documents.length) {
               <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 @for (doc of app.customer.documents; track doc.id) {
-                  <div class="p-3 border border-gray-200 rounded-lg flex items-center justify-between bg-gray-50/50">
+                  <div
+                    class="p-3 border border-gray-200 rounded-lg flex items-center justify-between bg-gray-50/50"
+                  >
                     <div>
                       <p class="text-sm font-semibold text-gray-900">{{ doc.type }}</p>
-                      <p class="text-xs text-gray-500 mt-0.5">Status: {{ doc.verificationStatus }}</p>
+                      <p class="text-xs text-gray-500 mt-0.5">
+                        Status: {{ doc.verificationStatus }}
+                      </p>
                     </div>
-                    <a [href]="doc.fileUrl" target="_blank" rel="noopener noreferrer" class="text-xs font-semibold text-blue-600 hover:text-blue-800 transition">
+                    <a
+                      [href]="doc.fileUrl"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="text-xs font-semibold text-blue-600 hover:text-blue-800 transition"
+                    >
                       Lihat Dokumen
                     </a>
                   </div>
@@ -217,7 +300,9 @@
             </div>
             <div>
               <p class="text-xs text-gray-500">NIK</p>
-              <p class="text-sm font-semibold text-gray-900 mt-0.5">{{ app.customer.nationalId }}</p>
+              <p class="text-sm font-semibold text-gray-900 mt-0.5">
+                {{ app.customer.nationalId }}
+              </p>
             </div>
             <div>
               <p class="text-xs text-gray-500">Email</p>
@@ -225,29 +310,38 @@
             </div>
             <div>
               <p class="text-xs text-gray-500">Nomor Handphone</p>
-              <p class="text-sm font-semibold text-gray-900 mt-0.5">{{ app.customer.phoneNumber }}</p>
+              <p class="text-sm font-semibold text-gray-900 mt-0.5">
+                {{ app.customer.phoneNumber }}
+              </p>
             </div>
             <div>
               <p class="text-xs text-gray-500">Jenis Kelamin</p>
-              <p class="text-sm font-semibold text-gray-900 mt-0.5">{{ app.customer.detail.gender }}</p>
+              <p class="text-sm font-semibold text-gray-900 mt-0.5">
+                {{ app.customer.detail.gender }}
+              </p>
             </div>
             <div>
               <p class="text-xs text-gray-500">Tempat, Tgl Lahir</p>
               <p class="text-sm font-semibold text-gray-900 mt-0.5">
-                {{ app.customer.detail.placeOfBirth }}, {{ app.customer.detail.birthDate | date:'dd MMMM yyyy' }}
+                {{ app.customer.detail.placeOfBirth }},
+                {{ app.customer.detail.birthDate | date: 'dd MMMM yyyy' }}
               </p>
             </div>
             <div class="md:col-span-3 border-t border-gray-100 pt-3 mt-1">
               <p class="text-xs text-gray-500">Alamat Domisili</p>
-              <p class="text-sm font-semibold text-gray-900 mt-0.5">{{ app.customer.detail.address }}</p>
+              <p class="text-sm font-semibold text-gray-900 mt-0.5">
+                {{ app.customer.detail.address }}
+              </p>
               <p class="text-xs text-gray-500 mt-1">
-                {{ app.customer.detail.village }}, {{ app.customer.detail.district }}, {{ app.customer.detail.city }}, {{ app.customer.detail.province }} ({{ app.customer.detail.postalCode }})
+                {{ app.customer.detail.village }}, {{ app.customer.detail.district }},
+                {{ app.customer.detail.city }}, {{ app.customer.detail.province }} ({{
+                  app.customer.detail.postalCode
+                }})
               </p>
             </div>
           </div>
         </div>
       </section>
-
     </div>
   } @else {
     <div class="p-8 max-w-7xl mx-auto">

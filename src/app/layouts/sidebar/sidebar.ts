@@ -19,7 +19,7 @@ export class Sidebar implements OnInit {
   logoutModalOpen = false;
 
   ngOnInit(): void {
-    this.getCurrentUser()
+    this.getCurrentUser();
   }
 
   getCurrentUser(): void {
@@ -28,8 +28,8 @@ export class Sidebar implements OnInit {
         this.currentUser.set(response);
       },
       error: (error) => {
-        console.error("Gagal mengambil data user", error);
-      }
+        console.error('Gagal mengambil data user', error);
+      },
     });
   }
 
@@ -57,26 +57,26 @@ export class Sidebar implements OnInit {
 
       error: (error) => {
         console.error('Gagal logout:', error);
-      }
+      },
     });
   }
 
   getRoleLabel(): string {
     switch (this.currentUser()?.role) {
-      case "SUPER_ADMIN":
-        return "Super Administrator";
-      case "MARKETING":
-        return "Marketing";
-      case "BRANCH_MARKETING":
-        return "Branch Marketing";
-      case "PAYMENT":
-        return "Payment";
-      case "DOCUMENT_CHECKER":
-        return "Document Checker";
-      case "CREDIT_ANALYST":
-        return "Credit Analyst";
+      case 'SUPER_ADMIN':
+        return 'Super Administrator';
+      case 'MARKETING':
+        return 'Marketing';
+      case 'BRANCH_MARKETING':
+        return 'Branch Marketing';
+      case 'PAYMENT':
+        return 'Payment';
+      case 'DOCUMENT_CHECKER':
+        return 'Document Checker';
+      case 'CREDIT_ANALYST':
+        return 'Credit Analyst';
       default:
-        return "User";
+        return 'User';
     }
   }
 }

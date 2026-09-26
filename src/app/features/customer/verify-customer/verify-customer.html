@@ -4,7 +4,9 @@
   <header class="h-20 bg-white border-b border-gray-200 px-8 flex items-center justify-between">
     <div>
       <h1 class="text-xl font-bold">Verifikasi Customer</h1>
-      <p class="text-sm text-gray-500 mt-1">Kelola data customer yang belum dilakukan diverifikasi.</p>
+      <p class="text-sm text-gray-500 mt-1">
+        Kelola data customer yang belum dilakukan diverifikasi.
+      </p>
     </div>
   </header>
 
@@ -19,9 +21,7 @@
 
       <div class="px-6 py-4">
         @if (loading()) {
-          <div class="py-10 text-center text-sm text-gray-500">
-            Memuat data customer...
-          </div>
+          <div class="py-10 text-center text-sm text-gray-500">Memuat data customer...</div>
         } @else {
           <app-datatable
             tableId="customerTable"

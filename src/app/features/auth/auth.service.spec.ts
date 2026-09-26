@@ -21,13 +21,13 @@ describe('AuthService', () => {
     refreshToken: 'mock-refresh-token',
     identityNumber: '123456789',
     role: 'ADMIN',
-    permissions: ['READ', 'WRITE']
+    permissions: ['READ', 'WRITE'],
   };
 
   const mockBaseAuthResponse: BaseResponse<AuthResponse> = {
     statusCode: 200,
     message: 'Success',
-    data: mockAuthData
+    data: mockAuthData,
   };
 
   beforeEach(() => {
@@ -63,14 +63,14 @@ describe('AuthService', () => {
     httpNetworkMock.post.mockReturnValue(of(mockBaseAuthResponse));
 
     let result: AuthResponse | undefined;
-    service.login(loginRequest).subscribe(res => {
+    service.login(loginRequest).subscribe((res) => {
       result = res;
     });
 
     expect(httpNetworkMock.post).toHaveBeenCalledWith(
       `${environment.api.baseUrl}/auth/login`,
       loginRequest,
-      PUBLIC
+      PUBLIC,
     );
     expect(result).toEqual(mockAuthData);
     expect(tokenServiceMock.set).toHaveBeenCalledWith(mockAuthData.token);
@@ -83,7 +83,7 @@ describe('AuthService', () => {
     httpNetworkMock.post.mockReturnValue(of(mockBaseAuthResponse));
 
     let result: AuthResponse | undefined;
-    service.refreshToken().subscribe(res => {
+    service.refreshToken().subscribe((res) => {
       result = res;
     });
 
@@ -91,7 +91,7 @@ describe('AuthService', () => {
     expect(httpNetworkMock.post).toHaveBeenCalledWith(
       `${environment.api.baseUrl}/auth/refresh`,
       { refreshToken: oldRefreshToken },
-      PUBLIC
+      PUBLIC,
     );
     expect(result).toEqual(mockAuthData);
     expect(tokenServiceMock.set).toHaveBeenCalledWith(mockAuthData.token);
@@ -103,7 +103,7 @@ describe('AuthService', () => {
     const mockBaseLogoutResponse: BaseResponse<void> = {
       statusCode: 200,
       message: 'Logged out successfully',
-      data: undefined as void
+      data: undefined as void,
     };
 
     tokenServiceMock.getRefreshToken.mockReturnValue(currentRefreshToken);
@@ -118,7 +118,7 @@ describe('AuthService', () => {
     expect(httpNetworkMock.post).toHaveBeenCalledWith(
       `${environment.api.baseUrl}/auth/logout`,
       { refreshToken: currentRefreshToken },
-      AUTHORIZED
+      AUTHORIZED,
     );
     expect(tokenServiceMock.remove).toHaveBeenCalled();
     expect(isCompleted).toBe(true);
@@ -129,19 +129,19 @@ describe('AuthService', () => {
     const mockBaseUserResponse: BaseResponse<UserResponse> = {
       statusCode: 200,
       message: 'Success',
-      data: mockUserData
+      data: mockUserData,
     };
 
     httpNetworkMock.get.mockReturnValue(of(mockBaseUserResponse));
 
     let result: UserResponse | undefined;
-    service.getCurrentUser().subscribe(res => {
+    service.getCurrentUser().subscribe((res) => {
       result = res;
     });
 
     expect(httpNetworkMock.get).toHaveBeenCalledWith(
       `${environment.api.baseUrl}/auth/get-current-user`,
-      AUTHORIZED
+      AUTHORIZED,
     );
     expect(result).toEqual(mockUserData);
   });

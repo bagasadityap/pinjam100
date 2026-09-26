@@ -44,14 +44,14 @@ export class User implements OnInit {
     identityNumber: ['', Validators.required],
     name: ['', Validators.required],
     password: ['', Validators.required],
-    role: this.fb.control<string | null>(null)
+    role: this.fb.control<string | null>(null),
   });
 
   readonly roleForm = this.fb.nonNullable.group({
-    role: this.fb.control<string | null>(null, Validators.required)
+    role: this.fb.control<string | null>(null, Validators.required),
   });
 
-  readonly columns = USER_TABLE_COLUMNS
+  readonly columns = USER_TABLE_COLUMNS;
 
   ngOnInit(): void {
     this.getUsers();
@@ -66,8 +66,8 @@ export class User implements OnInit {
         this.loading.set(false);
       },
       error: () => {
-        this.toast.error("Gagal mengambil data user")
-      }
+        this.toast.error('Gagal mengambil data user');
+      },
     });
   }
 
@@ -78,7 +78,7 @@ export class User implements OnInit {
       },
       error: () => {
         console.error('Gagal mengambil data role');
-      }
+      },
     });
   }
 
@@ -89,8 +89,8 @@ export class User implements OnInit {
       },
       error: () => {
         console.error('Gagal mengambil data cabang');
-      }
-    })
+      },
+    });
   }
 
   saveUser(): void {
@@ -111,7 +111,7 @@ export class User implements OnInit {
         },
         error: (error) => {
           this.toast.error(error.error?.message ?? 'Gagal menambahkan user');
-        }
+        },
       });
 
       return;
@@ -126,7 +126,7 @@ export class User implements OnInit {
         },
         error: (error) => {
           this.toast.error(error.error?.message ?? 'Gagal memperbarui user');
-        }
+        },
       });
     }
   }
@@ -140,7 +140,7 @@ export class User implements OnInit {
       error: (error) => {
         this.getUsers();
         this.toast.error(error.error?.message ?? 'Gagal mengubah status user');
-      }
+      },
     });
   }
 
@@ -165,7 +165,7 @@ export class User implements OnInit {
       },
       error: (error) => {
         this.toast.error(error.error?.message ?? 'Gagal mengubah role user');
-      }
+      },
     });
   }
 
@@ -184,7 +184,7 @@ export class User implements OnInit {
       },
       error: (error) => {
         this.toast.error(error.error?.message ?? 'Gagal menghapus user');
-      }
+      },
     });
   }
 
@@ -196,7 +196,7 @@ export class User implements OnInit {
   }
 
   openUpdateUserModal(id: string): void {
-    const user = this.users().find(user => user.id === id);
+    const user = this.users().find((user) => user.id === id);
 
     if (!user) {
       return;
@@ -208,14 +208,14 @@ export class User implements OnInit {
     this.userForm.patchValue({
       identityNumber: user.identityNumber,
       name: user.name,
-      role: user.role
+      role: user.role,
     });
 
     this.showUserModal.set(true);
   }
 
   openChangeRoleModal(id: string): void {
-    const user = this.users().find(user => user.id === id);
+    const user = this.users().find((user) => user.id === id);
 
     if (!user) {
       return;
@@ -223,7 +223,7 @@ export class User implements OnInit {
 
     this.selectedUser.set(user);
     this.roleForm.patchValue({
-      role: user.role
+      role: user.role,
     });
     this.showChangeRoleModal.set(true);
   }
@@ -239,7 +239,7 @@ export class User implements OnInit {
   }
 
   openDetailUserModal(id: string): void {
-    const user = this.users().find(user => user.id === id);
+    const user = this.users().find((user) => user.id === id);
 
     if (!user) {
       return;
@@ -255,7 +255,7 @@ export class User implements OnInit {
   }
 
   openDeleteModal(id: string): void {
-    const user = this.users().find(user => user.id === id);
+    const user = this.users().find((user) => user.id === id);
 
     if (!user) {
       return;

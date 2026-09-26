@@ -14,7 +14,15 @@ import { KeyValuePipe, TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-role-permission',
-  imports: [Sidebar, Datatable, ReactiveFormsModule, Modal, DeleteModal, KeyValuePipe, TitleCasePipe],
+  imports: [
+    Sidebar,
+    Datatable,
+    ReactiveFormsModule,
+    Modal,
+    DeleteModal,
+    KeyValuePipe,
+    TitleCasePipe,
+  ],
   templateUrl: './role.html',
   styleUrl: './role.css',
 })
@@ -37,25 +45,28 @@ export class RolePermission implements OnInit {
   readonly columns = ROLE_TABLE_COLUMNS;
 
   readonly roleForm = this.fb.nonNullable.group({
-    roleName: ['', Validators.required]
+    roleName: ['', Validators.required],
   });
   readonly permissionForm = this.fb.nonNullable.group({
     roleName: this.fb.control<string | null>(null, Validators.required),
-    permissions: this.fb.nonNullable.control<string[]>([])
+    permissions: this.fb.nonNullable.control<string[]>([]),
   });
 
   readonly groupedPermissions = computed(() => {
-    return this.permissions().reduce((groups, item) => {
-      const [prefix] = item.permissionName.split(':');
-      const groupKey = prefix || 'other';
+    return this.permissions().reduce(
+      (groups, item) => {
+        const [prefix] = item.permissionName.split(':');
+        const groupKey = prefix || 'other';
 
-      if (!groups[groupKey]) {
-        groups[groupKey] = [];
-      }
-      groups[groupKey].push(item);
+        if (!groups[groupKey]) {
+          groups[groupKey] = [];
+        }
+        groups[groupKey].push(item);
 
-      return groups;
-    }, {} as Record<string, PermissionResponse[]>);
+        return groups;
+      },
+      {} as Record<string, PermissionResponse[]>,
+    );
   });
 
   ngOnInit(): void {
@@ -78,7 +89,7 @@ export class RolePermission implements OnInit {
       },
       error: (error) => {
         console.error('Gagal mengambil data role:', error);
-      }
+      },
     });
   }
 
@@ -89,7 +100,7 @@ export class RolePermission implements OnInit {
       },
       error: (error) => {
         console.error('Gagal mengambil data permission:', error);
-      }
+      },
     });
   }
 
@@ -111,7 +122,7 @@ export class RolePermission implements OnInit {
         },
         error: (error) => {
           this.toast.error(error.error?.message ?? 'Gagal menambahkan role');
-        }
+        },
       });
 
       return;
@@ -126,7 +137,7 @@ export class RolePermission implements OnInit {
         },
         error: (error) => {
           this.toast.error(error.error?.message ?? 'Gagal memperbarui role');
-        }
+        },
       });
     }
   }
@@ -147,10 +158,8 @@ export class RolePermission implements OnInit {
         this.toast.success('Permission berhasil diperbarui');
       },
       error: (error) => {
-        this.toast.error(
-          error.error?.message ?? 'Gagal memperbarui permission'
-        );
-      }
+        this.toast.error(error.error?.message ?? 'Gagal memperbarui permission');
+      },
     });
   }
 
@@ -169,7 +178,7 @@ export class RolePermission implements OnInit {
       },
       error: (error) => {
         this.toast.error(error.error?.message ?? 'Gagal menghapus role');
-      }
+      },
     });
   }
 
@@ -181,7 +190,7 @@ export class RolePermission implements OnInit {
   }
 
   openUpdateRoleModal(id: string): void {
-    const role = this.roles().find(role => role.id === id);
+    const role = this.roles().find((role) => role.id === id);
 
     if (!role) {
       return;
@@ -191,14 +200,14 @@ export class RolePermission implements OnInit {
     this.roleModalMode.set('update');
 
     this.roleForm.patchValue({
-      roleName: role.roleName
+      roleName: role.roleName,
     });
 
     this.showRoleModal.set(true);
   }
 
   openChangePermissionModal(id: string): void {
-    const role = this.roles().find(role => role.id === id);
+    const role = this.roles().find((role) => role.id === id);
 
     if (!role) {
       return;
@@ -207,7 +216,7 @@ export class RolePermission implements OnInit {
     this.selectedRole.set(role);
     this.permissionForm.patchValue({
       roleName: role.roleName,
-      permissions: role.permissions.map(permission => permission.id)
+      permissions: role.permissions.map((permission) => permission.id),
     });
     this.showChangePermissionModal.set(true);
   }
@@ -216,7 +225,7 @@ export class RolePermission implements OnInit {
     this.showChangePermissionModal.set(false);
     this.permissionForm.reset({
       roleName: null,
-      permissions: []
+      permissions: [],
     });
     this.selectedRole.set(null);
   }
@@ -226,7 +235,7 @@ export class RolePermission implements OnInit {
   }
 
   openDeleteModal(id: string): void {
-    const role = this.roles().find(role => role.id === id);
+    const role = this.roles().find((role) => role.id === id);
 
     if (!role) {
       return;
@@ -246,17 +255,14 @@ export class RolePermission implements OnInit {
 
     if (checked) {
       if (!permissions.includes(id)) {
-        this.permissionForm.controls.permissions.setValue([
-          ...permissions,
-          id
-        ]);
+        this.permissionForm.controls.permissions.setValue([...permissions, id]);
       }
 
       return;
     }
 
     this.permissionForm.controls.permissions.setValue(
-      permissions.filter(permissionId => permissionId !== id)
+      permissions.filter((permissionId) => permissionId !== id),
     );
   }
 
@@ -272,7 +278,7 @@ export class RolePermission implements OnInit {
     return permissionName
       .split(':')[1]
       .replace('-', ' ')
-      .replace(/\b\w/g, letter => letter.toUpperCase());
+      .replace(/\b\w/g, (letter) => letter.toUpperCase());
   }
 
   handleAction(event: any): void {

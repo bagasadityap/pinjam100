@@ -6,17 +6,17 @@ export const LOAN_APPLICATION_TABLE_COLUMNS = [
   {
     title: 'Application ID',
     data: 'applicationId',
-    className: 'text-center font-semibold text-gray-800/70 text-base'
+    className: 'text-center font-semibold text-gray-800/70 text-base',
   },
   {
     title: 'Customer',
     data: 'customer.fullName',
-    className: 'text-left text-base'
+    className: 'text-left text-base',
   },
   {
     title: 'Cabang',
     data: 'branch.name',
-    className: 'text-left text-base'
+    className: 'text-left text-base',
   },
   {
     title: 'Jumlah Pinjaman',
@@ -26,9 +26,9 @@ export const LOAN_APPLICATION_TABLE_COLUMNS = [
       return new Intl.NumberFormat('id-ID', {
         style: 'currency',
         currency: 'IDR',
-        maximumFractionDigits: 0
+        maximumFractionDigits: 0,
       }).format(data);
-    }
+    },
   },
   {
     title: 'Tenor',
@@ -36,7 +36,7 @@ export const LOAN_APPLICATION_TABLE_COLUMNS = [
     className: 'text-center text-base',
     render: (data: number) => {
       return `${data} Bulan`;
-    }
+    },
   },
   {
     title: 'Status',
@@ -44,7 +44,7 @@ export const LOAN_APPLICATION_TABLE_COLUMNS = [
     className: 'text-center text-base',
     render: (data: string) => {
       return badge(data, 'blue');
-    }
+    },
   },
   {
     title: 'Aksi',
@@ -56,6 +56,6 @@ export const LOAN_APPLICATION_TABLE_COLUMNS = [
       <div class="flex items-center justify-center gap-2">
         ${reviewApplicationButton(row.id)}
       </div>
-    `
-  }
+    `,
+  },
 ];

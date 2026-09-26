@@ -1,11 +1,4 @@
-import {
-  Directive,
-  Input,
-  OnChanges,
-  TemplateRef,
-  ViewContainerRef,
-  inject,
-} from '@angular/core';
+import { Directive, Input, OnChanges, TemplateRef, ViewContainerRef, inject } from '@angular/core';
 import { AuthStateService } from '../service/auth-state.service';
 
 @Directive({
@@ -24,9 +17,7 @@ export class HasPermissionDirective implements OnChanges {
   }
 
   private updateView(): void {
-    const hasPermission = this.authState.hasPermission(
-      this.hasPermission
-    );
+    const hasPermission = this.authState.hasPermission(this.hasPermission);
 
     this.viewContainer.clear();
 

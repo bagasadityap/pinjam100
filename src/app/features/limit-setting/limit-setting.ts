@@ -35,7 +35,7 @@ export class LimitSetting {
       },
       error: (error) => {
         this.toast.error('Gagal mendapatkan data customer: ', error);
-      }
+      },
     });
   }
 

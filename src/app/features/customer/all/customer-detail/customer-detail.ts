@@ -49,9 +49,7 @@ export class CustomerDetail implements OnInit {
         this.customer.set(response);
       },
       error: (error) => {
-        this.toast.error(
-          error.error?.message ?? 'Gagal mendapatkan detail customer'
-        );
+        this.toast.error(error.error?.message ?? 'Gagal mendapatkan detail customer');
         this.back();
       },
     });
@@ -62,11 +60,7 @@ export class CustomerDetail implements OnInit {
   }
 
   findDocument(type: string): Document | null {
-    return (
-      this.customer()?.documents?.find(
-        (document) => document.type === type
-      ) ?? null
-    );
+    return this.customer()?.documents?.find((document) => document.type === type) ?? null;
   }
 
   openDocumentPreview(url: string, title: string): void {

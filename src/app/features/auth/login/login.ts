@@ -32,27 +32,26 @@ export class Login {
 
     this.loading.set(true);
 
-    this.auth.login({
-      identityNumber: this.identityNumber.trim(),
-      password: this.password
-    })
-    .pipe(
-      finalize(() => {
-        this.loading.set(false);
-        this.cdr.detectChanges();
+    this.auth
+      .login({
+        identityNumber: this.identityNumber.trim(),
+        password: this.password,
       })
-    )
-    .subscribe({
-      next: () => {
-        this.router.navigate(['/dashboard']);
-      },
-      error: (error) => {
-        this.errorMessage.set(
-          error.error?.message ?? 'Terjadi kesalahan. Silakan coba lagi.'
-        );
+      .pipe(
+        finalize(() => {
+          this.loading.set(false);
+          this.cdr.detectChanges();
+        }),
+      )
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/dashboard']);
+        },
+        error: (error) => {
+          this.errorMessage.set(error.error?.message ?? 'Terjadi kesalahan. Silakan coba lagi.');
 
-        this.cdr.detectChanges();
-      }
-    });
+          this.cdr.detectChanges();
+        },
+      });
   }
 }

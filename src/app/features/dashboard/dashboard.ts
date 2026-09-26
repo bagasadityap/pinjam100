@@ -1,21 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { DashboardService } from "./dashboard.service";
+import { DashboardService } from './dashboard.service';
 import {
   DashboardResponse,
   MarketingDashboardResponse,
   PaymentDashboardResponse,
   DocumentCheckerDashboardResponse,
-  CreditAnalystDashboardResponse
-} from "./dashboard.model";
-import { Sidebar } from "../../layouts/sidebar/sidebar";
-import { AuthService } from "../auth/auth.service";
-import { UserResponse } from "../user/user.model";
+  CreditAnalystDashboardResponse,
+} from './dashboard.model';
+import { Sidebar } from '../../layouts/sidebar/sidebar';
+import { AuthService } from '../auth/auth.service';
+import { UserResponse } from '../user/user.model';
 
 @Component({
-  selector: "app-dashboard",
-  templateUrl: "./dashboard.html",
-  imports: [CommonModule, Sidebar]
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.html',
+  imports: [CommonModule, Sidebar],
 })
 export class Dashboard implements OnInit {
   private readonly dashboardService = inject(DashboardService);
@@ -26,7 +26,7 @@ export class Dashboard implements OnInit {
   error = signal(false);
 
   dashboard = signal<
-    DashboardResponse
+    | DashboardResponse
     | MarketingDashboardResponse
     | PaymentDashboardResponse
     | DocumentCheckerDashboardResponse
@@ -48,10 +48,10 @@ export class Dashboard implements OnInit {
         this.loadDashboard();
       },
       error: (error) => {
-        console.error("Gagal mengambil data user", error);
+        console.error('Gagal mengambil data user', error);
         this.error.set(true);
         this.loading.set(false);
-      }
+      },
     });
   }
 
@@ -65,32 +65,31 @@ export class Dashboard implements OnInit {
         this.loading.set(false);
       },
       error: (error) => {
-        console.error("Gagal mengambil data dashboard", error);
+        console.error('Gagal mengambil data dashboard', error);
         this.error.set(true);
         this.loading.set(false);
-      }
+      },
     });
   }
 
   isSuperAdmin(): boolean {
-    return this.role() === "SUPER_ADMIN";
+    return this.role() === 'SUPER_ADMIN';
   }
 
   isMarketing(): boolean {
-    return this.role() === "MARKETING" ||
-           this.role() === "BRANCH_MARKETING";
+    return this.role() === 'MARKETING' || this.role() === 'BRANCH_MARKETING';
   }
 
   isPayment(): boolean {
-    return this.role() === "PAYMENT";
+    return this.role() === 'PAYMENT';
   }
 
   isDocumentChecker(): boolean {
-    return this.role() === "DOCUMENT_CHECKER";
+    return this.role() === 'DOCUMENT_CHECKER';
   }
 
   isCreditAnalyst(): boolean {
-    return this.role() === "CREDIT_ANALYST";
+    return this.role() === 'CREDIT_ANALYST';
   }
 
   get dashboardData(): DashboardResponse | null {
@@ -115,33 +114,33 @@ export class Dashboard implements OnInit {
 
   getInitials(name: string | null | undefined): string {
     if (!name) {
-      return "-";
+      return '-';
     }
 
     return name
-      .split(" ")
-      .filter(value => value.length > 0)
+      .split(' ')
+      .filter((value) => value.length > 0)
       .slice(0, 2)
-      .map(value => value.charAt(0).toUpperCase())
-      .join("");
+      .map((value) => value.charAt(0).toUpperCase())
+      .join('');
   }
 
   getRoleLabel(): string {
     switch (this.role()) {
-      case "SUPER_ADMIN":
-        return "Super Administrator";
-      case "MARKETING":
-        return "Marketing";
-      case "BRANCH_MARKETING":
-        return "Branch Marketing";
-      case "PAYMENT":
-        return "Payment";
-      case "DOCUMENT_CHECKER":
-        return "Document Checker";
-      case "CREDIT_ANALYST":
-        return "Credit Analyst";
+      case 'SUPER_ADMIN':
+        return 'Super Administrator';
+      case 'MARKETING':
+        return 'Marketing';
+      case 'BRANCH_MARKETING':
+        return 'Branch Marketing';
+      case 'PAYMENT':
+        return 'Payment';
+      case 'DOCUMENT_CHECKER':
+        return 'Document Checker';
+      case 'CREDIT_ANALYST':
+        return 'Credit Analyst';
       default:
-        return "User";
+        return 'User';
     }
   }
 }

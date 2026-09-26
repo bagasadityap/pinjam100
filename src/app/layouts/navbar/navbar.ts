@@ -21,18 +21,21 @@ export class Navbar implements AfterViewInit, OnDestroy {
 
     const sections = document.querySelectorAll<HTMLElement>('section[id]');
 
-    this.observer = new IntersectionObserver((entries) => {
-      const visibleSections = entries.filter(entry => entry.isIntersecting);
+    this.observer = new IntersectionObserver(
+      (entries) => {
+        const visibleSections = entries.filter((entry) => entry.isIntersecting);
 
-      if (visibleSections.length > 0) {
-        this.activeSection = visibleSections[0].target.id;
-      }
-    }, {
-      rootMargin: '-80px 0px -40% 0px',
-      threshold: 0.3
-    });
+        if (visibleSections.length > 0) {
+          this.activeSection = visibleSections[0].target.id;
+        }
+      },
+      {
+        rootMargin: '-80px 0px -40% 0px',
+        threshold: 0.3,
+      },
+    );
 
-    sections.forEach(section => this.observer?.observe(section));
+    sections.forEach((section) => this.observer?.observe(section));
   }
 
   setActiveSection(section: string): void {

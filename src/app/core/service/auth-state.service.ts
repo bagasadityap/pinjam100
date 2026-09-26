@@ -14,11 +14,9 @@ interface JwtPayload {
 export class AuthStateService {
   private readonly tokenService = inject(TokenService);
 
-  private readonly roleSubject =
-    new BehaviorSubject<string | null>(null);
+  private readonly roleSubject = new BehaviorSubject<string | null>(null);
 
-  private readonly permissionsSubject =
-    new BehaviorSubject<string[]>([]);
+  private readonly permissionsSubject = new BehaviorSubject<string[]>([]);
 
   readonly role$ = this.roleSubject.asObservable();
   readonly permissions$ = this.permissionsSubject.asObservable();
@@ -62,8 +60,6 @@ export class AuthStateService {
   private decodeToken(token: string): JwtPayload {
     const payload = token.split('.')[1];
 
-    return JSON.parse(
-      atob(payload)
-    );
+    return JSON.parse(atob(payload));
   }
 }

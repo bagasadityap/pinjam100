@@ -16,8 +16,16 @@ describe('UserService', () => {
   const mockId = '123';
 
   const mockUserResponse = { id: mockId, name: 'John Doe' } as unknown as UserResponse;
-  const mockListResponse: BaseResponse<UserResponse[]> = { statusCode: 200, message: 'OK', data: [mockUserResponse] };
-  const mockSingleResponse: BaseResponse<UserResponse> = { statusCode: 200, message: 'OK', data: mockUserResponse };
+  const mockListResponse: BaseResponse<UserResponse[]> = {
+    statusCode: 200,
+    message: 'OK',
+    data: [mockUserResponse],
+  };
+  const mockSingleResponse: BaseResponse<UserResponse> = {
+    statusCode: 200,
+    message: 'OK',
+    data: mockUserResponse,
+  };
 
   beforeEach(() => {
     httpNetworkMock = {
@@ -29,10 +37,7 @@ describe('UserService', () => {
     };
 
     TestBed.configureTestingModule({
-      providers: [
-        UserService,
-        { provide: HttpNetwork, useValue: httpNetworkMock },
-      ],
+      providers: [UserService, { provide: HttpNetwork, useValue: httpNetworkMock }],
     });
 
     service = TestBed.inject(UserService);
@@ -45,7 +50,7 @@ describe('UserService', () => {
   it('getAll', () => {
     httpNetworkMock.get.mockReturnValue(of(mockListResponse));
 
-    service.getAll().subscribe(res => {
+    service.getAll().subscribe((res) => {
       expect(res).toEqual(mockListResponse.data);
     });
 
@@ -55,7 +60,7 @@ describe('UserService', () => {
   it('getById', () => {
     httpNetworkMock.get.mockReturnValue(of(mockSingleResponse));
 
-    service.getById(mockId).subscribe(res => {
+    service.getById(mockId).subscribe((res) => {
       expect(res).toEqual(mockSingleResponse.data);
     });
 
@@ -66,7 +71,7 @@ describe('UserService', () => {
     const request = { name: 'John Doe', email: 'john@example.com' } as unknown as UserRequest;
     httpNetworkMock.post.mockReturnValue(of(mockSingleResponse));
 
-    service.create(request).subscribe(res => {
+    service.create(request).subscribe((res) => {
       expect(res).toEqual(mockSingleResponse.data);
     });
 
@@ -77,7 +82,7 @@ describe('UserService', () => {
     const request = { name: 'Jane Doe', email: 'jane@example.com' } as unknown as UserRequest;
     httpNetworkMock.put.mockReturnValue(of(mockSingleResponse));
 
-    service.update(mockId, request).subscribe(res => {
+    service.update(mockId, request).subscribe((res) => {
       expect(res).toEqual(mockSingleResponse.data);
     });
 
@@ -87,28 +92,36 @@ describe('UserService', () => {
   it('updateActive', () => {
     httpNetworkMock.patch.mockReturnValue(of(mockSingleResponse));
 
-    service.updateActive(mockId).subscribe(res => {
+    service.updateActive(mockId).subscribe((res) => {
       expect(res).toEqual(mockSingleResponse.data);
     });
 
-    expect(httpNetworkMock.patch).toHaveBeenCalledWith(`${endpoint}/${mockId}/active`, null, AUTHORIZED);
+    expect(httpNetworkMock.patch).toHaveBeenCalledWith(
+      `${endpoint}/${mockId}/active`,
+      null,
+      AUTHORIZED,
+    );
   });
 
   it('changeRole', () => {
     const roleId = 'role-123';
     httpNetworkMock.patch.mockReturnValue(of(mockSingleResponse));
 
-    service.changeRole(mockId, roleId).subscribe(res => {
+    service.changeRole(mockId, roleId).subscribe((res) => {
       expect(res).toEqual(mockSingleResponse.data);
     });
 
-    expect(httpNetworkMock.patch).toHaveBeenCalledWith(`${endpoint}/${mockId}/role`, roleId, AUTHORIZED);
+    expect(httpNetworkMock.patch).toHaveBeenCalledWith(
+      `${endpoint}/${mockId}/role`,
+      roleId,
+      AUTHORIZED,
+    );
   });
 
   it('delete', () => {
     httpNetworkMock.delete.mockReturnValue(of(mockSingleResponse));
 
-    service.delete(mockId).subscribe(res => {
+    service.delete(mockId).subscribe((res) => {
       expect(res).toEqual(mockSingleResponse.data);
     });
 

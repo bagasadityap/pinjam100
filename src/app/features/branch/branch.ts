@@ -4,11 +4,7 @@ import { Datatable } from '../../shared/components/datatable/datatable';
 import { BranchService } from './branch.service';
 import { BranchResponse } from './branch.model';
 import { BRANCH_TABLE_COLUMNS } from './branch-table.config';
-import {
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HotToastService } from '@ngxpert/hot-toast';
 import { Modal } from '../../shared/components/modal/modal';
 import { DetailModal } from '../../shared/components/detail-modal/detail-modal';
@@ -26,13 +22,12 @@ import { WilayahService } from '../../core/service/wilayah.service';
     Modal,
     DetailModal,
     DeleteModal,
-    NgSelectComponent
+    NgSelectComponent,
   ],
   templateUrl: './branch.html',
   styleUrl: './branch.css',
 })
 export class Branch implements OnInit {
-
   private readonly branchService = inject(BranchService);
   private readonly wilayahService = inject(WilayahService);
   private readonly fb = inject(FormBuilder);
@@ -54,7 +49,7 @@ export class Branch implements OnInit {
     name: ['', Validators.required],
     province: ['', Validators.required],
     city: [{ value: '', disabled: true }, Validators.required],
-    postalCode: ['', Validators.required]
+    postalCode: ['', Validators.required],
   });
 
   ngOnInit(): void {
@@ -64,14 +59,12 @@ export class Branch implements OnInit {
 
   private getBranch(): void {
     this.branchService.getAll().subscribe({
-      next: branches => {
+      next: (branches) => {
         this.branches.set(branches);
       },
-      error: error => {
-        this.toast.error(
-          error.error?.message ?? 'Gagal mengambil data branch'
-        );
-      }
+      error: (error) => {
+        this.toast.error(error.error?.message ?? 'Gagal mengambil data branch');
+      },
     });
   }
 
@@ -91,11 +84,9 @@ export class Branch implements OnInit {
           this.getBranch();
           this.toast.success('Branch berhasil diperbarui');
         },
-        error: error => {
-          this.toast.error(
-            error.error?.message ?? 'Gagal memperbarui branch'
-          );
-        }
+        error: (error) => {
+          this.toast.error(error.error?.message ?? 'Gagal memperbarui branch');
+        },
       });
 
       return;
@@ -107,25 +98,21 @@ export class Branch implements OnInit {
         this.getBranch();
         this.toast.success('Branch berhasil ditambahkan');
       },
-      error: error => {
-        this.toast.error(
-          error.error?.message ?? 'Gagal menambahkan branch'
-        );
-      }
+      error: (error) => {
+        this.toast.error(error.error?.message ?? 'Gagal menambahkan branch');
+      },
     });
   }
 
   detailBranch(id: string): void {
     this.branchService.getById(id).subscribe({
-      next: branch => {
+      next: (branch) => {
         this.selectedBranch.set(branch);
         this.showDetailBranchModal.set(true);
       },
-      error: error => {
-        this.toast.error(
-          error.error?.message ?? 'Gagal mengambil detail branch'
-        );
-      }
+      error: (error) => {
+        this.toast.error(error.error?.message ?? 'Gagal mengambil detail branch');
+      },
     });
   }
 
@@ -142,11 +129,9 @@ export class Branch implements OnInit {
         this.getBranch();
         this.toast.success('Branch berhasil dihapus');
       },
-      error: error => {
-        this.toast.error(
-          error.error?.message ?? 'Gagal menghapus branch'
-        );
-      }
+      error: (error) => {
+        this.toast.error(error.error?.message ?? 'Gagal menghapus branch');
+      },
     });
   }
 
@@ -161,9 +146,7 @@ export class Branch implements OnInit {
   }
 
   openUpdateBranchModal(id: string): void {
-    const branch = this.branches().find(
-      item => item.id === id
-    );
+    const branch = this.branches().find((item) => item.id === id);
 
     if (!branch) {
       return;
@@ -178,102 +161,68 @@ export class Branch implements OnInit {
     this.branchForm.patchValue({
       name: branch.name,
       province: branch.province,
-      postalCode: branch.postalCode
+      postalCode: branch.postalCode,
     });
 
     this.showBranchModal.set(true);
 
-    this.loadProvinceForUpdate(
-      branch.province,
-      branch.city
-    );
+    this.loadProvinceForUpdate(branch.province, branch.city);
   }
 
-  private loadProvinceForUpdate(
-    provinceName: string,
-    cityName: string
-  ): void {
-    const province = this.provinces().find(
-      item => item.name === provinceName
-    );
+  private loadProvinceForUpdate(provinceName: string, cityName: string): void {
+    const province = this.provinces().find((item) => item.name === provinceName);
 
     if (province) {
-      this.getRegenciesForUpdate(
-        province.code,
-        cityName
-      );
+      this.getRegenciesForUpdate(province.code, cityName);
 
       return;
     }
 
     this.wilayahService.getProvinces().subscribe({
-      next: response => {
+      next: (response) => {
         this.provinces.set(response.data);
 
-        const province = response.data.find(
-          item => item.name === provinceName
-        );
+        const province = response.data.find((item) => item.name === provinceName);
 
         if (!province) {
-          console.error(
-            'Provinsi tidak ditemukan:',
-            provinceName
-          );
+          console.error('Provinsi tidak ditemukan:', provinceName);
 
           this.branchForm.controls.city.disable();
           return;
         }
 
-        this.getRegenciesForUpdate(
-          province.code,
-          cityName
-        );
+        this.getRegenciesForUpdate(province.code, cityName);
       },
-      error: error => {
-        console.error(
-          'Gagal mengambil data provinsi:',
-          error
-        );
+      error: (error) => {
+        console.error('Gagal mengambil data provinsi:', error);
 
         this.branchForm.controls.city.disable();
-      }
+      },
     });
   }
 
-  private getRegenciesForUpdate(
-    provinceCode: string,
-    cityName: string
-  ): void {
+  private getRegenciesForUpdate(provinceCode: string, cityName: string): void {
     this.wilayahService.getRegencies(provinceCode).subscribe({
-      next: response => {
+      next: (response) => {
         this.regencies.set(response.data);
 
         this.branchForm.controls.city.enable();
 
-        const city = response.data.find(
-          item => item.name === cityName
-        );
+        const city = response.data.find((item) => item.name === cityName);
 
         if (city) {
-          this.branchForm.controls.city.setValue(
-            city.name
-          );
+          this.branchForm.controls.city.setValue(city.name);
         } else {
-          this.branchForm.controls.city.setValue(
-            cityName
-          );
+          this.branchForm.controls.city.setValue(cityName);
         }
       },
-      error: error => {
-        console.error(
-          'Gagal mengambil data kabupaten/kota:',
-          error
-        );
+      error: (error) => {
+        console.error('Gagal mengambil data kabupaten/kota:', error);
 
         this.regencies.set([]);
         this.branchForm.controls.city.reset();
         this.branchForm.controls.city.disable();
-      }
+      },
     });
   }
 
@@ -282,9 +231,7 @@ export class Branch implements OnInit {
   }
 
   openDeleteModal(id: string): void {
-    const branch = this.branches().find(
-      item => item.id === id
-    );
+    const branch = this.branches().find((item) => item.id === id);
 
     if (!branch) {
       return;
@@ -314,15 +261,12 @@ export class Branch implements OnInit {
 
   getProvinces(): void {
     this.wilayahService.getProvinces().subscribe({
-      next: response => {
+      next: (response) => {
         this.provinces.set(response.data);
       },
-      error: error => {
-        console.error(
-          'Gagal mengambil data provinsi:',
-          error
-        );
-      }
+      error: (error) => {
+        console.error('Gagal mengambil data provinsi:', error);
+      },
     });
   }
 
@@ -333,23 +277,20 @@ export class Branch implements OnInit {
     this.branchForm.controls.city.disable();
 
     this.wilayahService.getRegencies(provinceCode).subscribe({
-      next: response => {
+      next: (response) => {
         this.regencies.set(response.data);
 
         if (response.data.length > 0) {
           this.branchForm.controls.city.enable();
         }
       },
-      error: error => {
-        console.error(
-          'Gagal mengambil data kabupaten/kota:',
-          error
-        );
+      error: (error) => {
+        console.error('Gagal mengambil data kabupaten/kota:', error);
 
         this.regencies.set([]);
         this.branchForm.controls.city.reset();
         this.branchForm.controls.city.disable();
-      }
+      },
     });
   }
 
@@ -362,14 +303,9 @@ export class Branch implements OnInit {
       return;
     }
 
-    const provinceName =
-      typeof province === 'string'
-        ? province
-        : province.name;
+    const provinceName = typeof province === 'string' ? province : province.name;
 
-    const selectedProvince = this.provinces().find(
-      item => item.name === provinceName
-    );
+    const selectedProvince = this.provinces().find((item) => item.name === provinceName);
 
     if (!selectedProvince) {
       return;

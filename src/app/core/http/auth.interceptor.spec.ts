@@ -143,7 +143,7 @@ describe('authInterceptor (Vitest)', () => {
     http.get(mockUrl, { context }).subscribe({
       error: (err) => {
         expect(err.message).toBe('Refresh failed');
-      }
+      },
     });
 
     const req = httpMock.expectOne(mockUrl);

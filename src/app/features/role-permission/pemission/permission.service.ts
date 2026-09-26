@@ -14,20 +14,14 @@ export class PermissionService {
   private readonly endpoint = `${environment.api.baseUrl}/permission`;
 
   getAll(): Observable<PermissionResponse[]> {
-    return this.http.get<BaseResponse<PermissionResponse[]>>(
-      `${this.endpoint}`,
-      AUTHORIZED
-    ).pipe(
-      map(response => response.data)
-    );
+    return this.http
+      .get<BaseResponse<PermissionResponse[]>>(`${this.endpoint}`, AUTHORIZED)
+      .pipe(map((response) => response.data));
   }
 
   getAllByRoleId(id: string): Observable<PermissionResponse> {
-    return this.http.get<BaseResponse<PermissionResponse>>(
-      `${this.endpoint}/${id}/role`,
-      AUTHORIZED
-    ).pipe(
-      map(response => response.data)
-    );
+    return this.http
+      .get<BaseResponse<PermissionResponse>>(`${this.endpoint}/${id}/role`, AUTHORIZED)
+      .pipe(map((response) => response.data));
   }
 }

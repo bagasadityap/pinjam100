@@ -9,7 +9,7 @@ import { LoanApplicationReviewResponse } from '../../loan-application.model';
 
 @Component({
   selector: 'app-review',
-  imports: [ CommonModule, Sidebar, CurrencyPipe, DatePipe ],
+  imports: [CommonModule, Sidebar, CurrencyPipe, DatePipe],
   templateUrl: './detail.html',
   styleUrl: './detail.css',
 })
@@ -39,10 +39,8 @@ export class Detail implements OnInit {
         this.application.set(response);
       },
       error: (error) => {
-        this.toast.error(
-          error.error?.message ?? 'Gagal mendapatkan data aplikasi pinjaman'
-        );
-      }
+        this.toast.error(error.error?.message ?? 'Gagal mendapatkan data aplikasi pinjaman');
+      },
     });
   }
 

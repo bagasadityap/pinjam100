@@ -17,11 +17,11 @@ describe('Dashboard Component', () => {
 
   beforeEach(async () => {
     authServiceMock = {
-      getCurrentUser: vi.fn()
+      getCurrentUser: vi.fn(),
     };
 
     dashboardServiceMock = {
-      getDashboard: vi.fn()
+      getDashboard: vi.fn(),
     };
 
     vi.spyOn(console, 'error').mockImplementation(() => {});
@@ -30,16 +30,16 @@ describe('Dashboard Component', () => {
       imports: [Dashboard],
       providers: [
         { provide: AuthService, useValue: authServiceMock },
-        { provide: DashboardService, useValue: dashboardServiceMock }
-      ]
+        { provide: DashboardService, useValue: dashboardServiceMock },
+      ],
     })
-    .overrideComponent(Dashboard, {
-      // Sidebar dilepas dari imports, lalu schema diset di level komponen
-      // (untuk standalone component, schemas di TestBed module tidak berpengaruh)
-      remove: { imports: [Sidebar] },
-      add: { schemas: [NO_ERRORS_SCHEMA] }
-    })
-    .compileComponents();
+      .overrideComponent(Dashboard, {
+        // Sidebar dilepas dari imports, lalu schema diset di level komponen
+        // (untuk standalone component, schemas di TestBed module tidak berpengaruh)
+        remove: { imports: [Sidebar] },
+        add: { schemas: [NO_ERRORS_SCHEMA] },
+      })
+      .compileComponents();
 
     fixture = TestBed.createComponent(Dashboard);
     component = fixture.componentInstance;
@@ -80,7 +80,9 @@ describe('Dashboard Component', () => {
   });
 
   it('loadDashboard harus menangani error', () => {
-    dashboardServiceMock.getDashboard.mockReturnValue(throwError(() => new Error('Dashboard Error')));
+    dashboardServiceMock.getDashboard.mockReturnValue(
+      throwError(() => new Error('Dashboard Error')),
+    );
 
     component.loadDashboard();
 

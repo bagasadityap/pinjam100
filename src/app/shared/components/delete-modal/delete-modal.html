@@ -12,7 +12,8 @@
             <p class="mt-2 text-sm leading-6 text-gray-500">
               {{ message }}
               @if (itemName) {
-                <span class="font-semibold text-gray-700">{{ itemName }}</span>?
+                <span class="font-semibold text-gray-700">{{ itemName }}</span
+                >?
               }
             </p>
           </div>
@@ -23,14 +24,16 @@
         <button
           type="button"
           (click)="onCancel()"
-          class="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50">
+          class="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-50"
+        >
           Batal
         </button>
 
         <button
           type="button"
           (click)="onConfirm()"
-          class="rounded-lg bg-red-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700">
+          class="rounded-lg bg-red-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700"
+        >
           Hapus
         </button>
       </div>

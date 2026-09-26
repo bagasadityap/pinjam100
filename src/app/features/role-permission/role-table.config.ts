@@ -1,7 +1,7 @@
 import {
   updateButton,
   deleteButton,
-  changePermissionButton
+  changePermissionButton,
 } from '../../shared/components/buttons/crud-button';
 import { badge } from '../../shared/components/badges/badges';
 import { RoleResponse } from './role.model';
@@ -14,10 +14,10 @@ export const ROLE_TABLE_COLUMNS = [
 
     render: (data: string) => {
       return badge(data, 'blue');
-    }
+    },
   },
   {
-  title: 'Aksi',
+    title: 'Aksi',
     data: null,
     className: 'text-center',
     orderable: false,
@@ -28,6 +28,6 @@ export const ROLE_TABLE_COLUMNS = [
         ${changePermissionButton(row.id)}
         ${deleteButton(row.id)}
       </div>
-    `
-  }
+    `,
+  },
 ];

@@ -1,24 +1,21 @@
-import {
-  reviewCustomerButton,
-  deleteButton
-} from '../../shared/components/buttons/crud-button';
+import { reviewCustomerButton, deleteButton } from '../../shared/components/buttons/crud-button';
 import { CustomerResponse } from './customer.model';
 
 export const CUSTOMER_TABLE_COLUMNS = [
   {
     title: 'No Customer',
     data: 'customerNumber',
-    className: 'text-center font-semibold text-gray-800/70 text-base'
+    className: 'text-center font-semibold text-gray-800/70 text-base',
   },
   {
     title: 'Nama Lengkap',
     data: 'fullName',
-    className: 'text-left text-base'
+    className: 'text-left text-base',
   },
   {
     title: 'Email',
     data: 'email',
-    className: 'text-left text-base'
+    className: 'text-left text-base',
   },
   // {
   //   title: 'Status',
@@ -40,7 +37,7 @@ export const CUSTOMER_TABLE_COLUMNS = [
   //   `
   // },
   {
-  title: 'Aksi',
+    title: 'Aksi',
     data: null,
     className: 'text-center',
     orderable: false,
@@ -50,6 +47,6 @@ export const CUSTOMER_TABLE_COLUMNS = [
         ${reviewCustomerButton(row.id)}
         ${deleteButton(row.id)}
       </div>
-    `
-  }
+    `,
+  },
 ];

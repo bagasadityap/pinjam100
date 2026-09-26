@@ -2,7 +2,7 @@ import {
   readButton,
   updateButton,
   changeRoleButton,
-  deleteButton
+  deleteButton,
 } from '../../shared/components/buttons/crud-button';
 import { badge } from '../../shared/components/badges/badges';
 import { UserResponse } from './user.model';
@@ -11,12 +11,12 @@ export const USER_TABLE_COLUMNS = [
   {
     title: 'NIP',
     data: 'identityNumber',
-    className: 'text-center font-semibold text-gray-800/70 text-base'
+    className: 'text-center font-semibold text-gray-800/70 text-base',
   },
   {
     title: 'Nama',
     data: 'name',
-    className: 'text-left text-base'
+    className: 'text-left text-base',
   },
   {
     title: 'Role',
@@ -28,7 +28,7 @@ export const USER_TABLE_COLUMNS = [
       }
 
       return badge(data, 'blue');
-    }
+    },
   },
   {
     title: 'Status',
@@ -47,10 +47,10 @@ export const USER_TABLE_COLUMNS = [
           <div class="w-5 h-5 mt-0.5 ml-0.5 bg-white rounded-full shadow transition-transform ${data === 'true' ? 'translate-x-5' : ''}"></div>
         </div>
       </label>
-    `
+    `,
   },
   {
-  title: 'Aksi',
+    title: 'Aksi',
     data: null,
     className: 'text-center',
     orderable: false,
@@ -62,6 +62,6 @@ export const USER_TABLE_COLUMNS = [
         ${changeRoleButton(row.id)}
         ${deleteButton(row.id)}
       </div>
-    `
-  }
+    `,
+  },
 ];

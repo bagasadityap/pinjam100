@@ -3,7 +3,6 @@
   width: 100%;
 }
 
-
 /* Table */
 
 :host ::ng-deep table.dataTable {
@@ -35,7 +34,6 @@
 :host ::ng-deep table.dataTable tbody tr:hover td {
   background: #f9fafb !important;
 }
-
 
 /* Search */
 
@@ -70,7 +68,6 @@
   box-shadow: 0 0 0 2px #dbeafe !important;
 }
 
-
 /* Length */
 
 :host ::ng-deep .dt-length {
@@ -91,14 +88,12 @@
   box-shadow: none !important;
 }
 
-
 /* Information */
 
 :host ::ng-deep .dt-info {
   padding: 0 !important;
   color: #6b7280 !important;
 }
-
 
 /* Pagination */
 
@@ -169,7 +164,6 @@
 :host ::ng-deep table.dataTable thead th.dt-ordering-desc {
   color: #1d4ed8 !important;
 }
-
 
 /* DataTables Layout */
 

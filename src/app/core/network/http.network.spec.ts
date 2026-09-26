@@ -14,11 +14,7 @@ describe('HttpNetwork', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        HttpNetwork,
-        provideHttpClient(),
-        provideHttpClientTesting(),
-      ],
+      providers: [HttpNetwork, provideHttpClient(), provideHttpClientTesting()],
     });
 
     service = TestBed.inject(HttpNetwork);

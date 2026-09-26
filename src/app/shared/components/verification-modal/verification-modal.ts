@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-verification-modal',
   standalone: true,
   imports: [FormsModule],
-  templateUrl: './verification-modal.html'
+  templateUrl: './verification-modal.html',
 })
 export class VerificationModal {
   @Input() show = false;

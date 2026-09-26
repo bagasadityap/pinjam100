@@ -1,4 +1,4 @@
-import { RekeningResponse } from "../../../core/model/rekening.model";
+import { RekeningResponse } from '../../../core/model/rekening.model';
 
 export interface DisbursementResponse {
   id: string;

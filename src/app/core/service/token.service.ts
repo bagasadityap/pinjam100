@@ -21,9 +21,7 @@ export class TokenService {
       return null;
     }
 
-    const cookie = cookieHeader
-      .split('; ')
-      .find(row => row.startsWith(`${name}=`));
+    const cookie = cookieHeader.split('; ').find((row) => row.startsWith(`${name}=`));
 
     if (!cookie) {
       return null;

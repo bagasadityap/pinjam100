@@ -34,9 +34,9 @@ export class VerifyCustomer {
         this.loading.set(false);
       },
       error: (error) => {
-        this.toast.error("Gagal mendapatkan data user: ", error)
-      }
-    })
+        this.toast.error('Gagal mendapatkan data user: ', error);
+      },
+    });
   }
 
   openDetailCustomer(id: string): void {

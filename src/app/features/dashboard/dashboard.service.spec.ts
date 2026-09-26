@@ -17,7 +17,7 @@ describe('DashboardService', () => {
   const mockBaseResponse: BaseResponse<any> = {
     statusCode: 200,
     message: 'OK',
-    data: mockDashboardData
+    data: mockDashboardData,
   };
 
   beforeEach(() => {
@@ -26,10 +26,7 @@ describe('DashboardService', () => {
     };
 
     TestBed.configureTestingModule({
-      providers: [
-        DashboardService,
-        { provide: HttpNetwork, useValue: httpNetworkMock },
-      ],
+      providers: [DashboardService, { provide: HttpNetwork, useValue: httpNetworkMock }],
     });
 
     service = TestBed.inject(DashboardService);
@@ -42,7 +39,7 @@ describe('DashboardService', () => {
   it('getDashboard', () => {
     httpNetworkMock.get.mockReturnValue(of(mockBaseResponse));
 
-    service.getDashboard().subscribe(res => {
+    service.getDashboard().subscribe((res) => {
       expect(res).toEqual(mockBaseResponse.data);
     });
 

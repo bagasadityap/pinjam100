@@ -5,7 +5,7 @@ export interface ReviewRequest {
 
 export enum ReviewResult {
   APPROVED = 'APPROVED',
-  REJECTED = 'REJECTED'
+  REJECTED = 'REJECTED',
 }
 
 export interface ReviewResponse {

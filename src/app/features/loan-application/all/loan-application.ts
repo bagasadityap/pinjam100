@@ -29,9 +29,9 @@ export class LoanApplication implements OnInit {
         this.loanApplications.set(response);
       },
       error: (error) => {
-        this.toast.error("Gagal mendapatkan data aplikasi pinjaman:", error)
-      }
-    })
+        this.toast.error('Gagal mendapatkan data aplikasi pinjaman:', error);
+      },
+    });
   }
 
   handleAction(event: any): void {

@@ -55,23 +55,23 @@ export class ResetPassword {
 
     this.isSubmitting = true;
 
-    this.resetPasswordService.resetPassword({
-      password: this.password,
-      token: this.token,
-    }).subscribe({
-      next: () => {
-        this.isSubmitting = false;
-        this.password = '';
-        this.confirmPassword = '';
-        this.showSuccessDialog.set(true);
-      },
-      error: (error) => {
-        this.isSubmitting = false;
-        this.toast.error(
-          error.error?.message ?? 'Gagal mengubah password'
-        );
-      }
-    });
+    this.resetPasswordService
+      .resetPassword({
+        password: this.password,
+        token: this.token,
+      })
+      .subscribe({
+        next: () => {
+          this.isSubmitting = false;
+          this.password = '';
+          this.confirmPassword = '';
+          this.showSuccessDialog.set(true);
+        },
+        error: (error) => {
+          this.isSubmitting = false;
+          this.toast.error(error.error?.message ?? 'Gagal mengubah password');
+        },
+      });
   }
 
   closeSuccessDialog(): void {

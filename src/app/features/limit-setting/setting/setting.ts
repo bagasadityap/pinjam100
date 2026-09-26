@@ -1,10 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { HotToastService } from '@ngxpert/hot-toast';
 
@@ -15,16 +11,11 @@ import { LimitService } from '../limit-setting.service';
 
 @Component({
   selector: 'app-limit-setting',
-  imports: [
-    Sidebar,
-    ReactiveFormsModule,
-    DatePipe,
-  ],
+  imports: [Sidebar, ReactiveFormsModule, DatePipe],
   templateUrl: './setting.html',
   styleUrl: './setting.css',
 })
 export class Setting implements OnInit {
-
   private readonly customerService = inject(CustomerService);
   private readonly limitService = inject(LimitService);
   private readonly route = inject(ActivatedRoute);
@@ -37,13 +28,7 @@ export class Setting implements OnInit {
   showConfirmModal = false;
 
   readonly limitForm = this.fb.nonNullable.group({
-    creditLimit: [
-      0,
-      [
-        Validators.required,
-        Validators.min(1)
-      ]
-    ]
+    creditLimit: [0, [Validators.required, Validators.min(1)]],
   });
 
   ngOnInit(): void {
@@ -64,11 +49,9 @@ export class Setting implements OnInit {
         this.customer.set(response);
       },
       error: (error) => {
-        this.toast.error(
-          error.error?.message ?? 'Gagal mendapatkan data customer'
-        );
+        this.toast.error(error.error?.message ?? 'Gagal mendapatkan data customer');
         this.back();
-      }
+      },
     });
   }
 
@@ -92,7 +75,7 @@ export class Setting implements OnInit {
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
       currency: 'IDR',
-      maximumFractionDigits: 0
+      maximumFractionDigits: 0,
     }).format(value);
   }
 
@@ -119,7 +102,7 @@ export class Setting implements OnInit {
 
     const limit = {
       customerId,
-      ...this.limitForm.getRawValue()
+      ...this.limitForm.getRawValue(),
     };
 
     this.limitService.create(limit).subscribe({
@@ -130,10 +113,8 @@ export class Setting implements OnInit {
         this.back();
       },
       error: (error) => {
-        this.toast.error(
-          error.error?.message ?? 'Gagal menyimpan plafon'
-        );
-      }
+        this.toast.error(error.error?.message ?? 'Gagal menyimpan plafon');
+      },
     });
   }
 
@@ -167,7 +148,7 @@ export class Setting implements OnInit {
         ratio: 0,
         status: 'LOW',
         label: 'Rendah',
-        description: 'Masukkan plafon untuk melihat kalkulasi risiko.'
+        description: 'Masukkan plafon untuk melihat kalkulasi risiko.',
       };
     }
 
@@ -178,21 +159,21 @@ export class Setting implements OnInit {
         ratio,
         status: 'LOW',
         label: 'Risiko Rendah',
-        description: 'Plafon berada dalam batas ideal (<= 2x penghasilan bulanan).'
+        description: 'Plafon berada dalam batas ideal (<= 2x penghasilan bulanan).',
       };
     } else if (ratio <= 3.5) {
       return {
         ratio,
         status: 'MODERATE',
         label: 'Risiko Sedang',
-        description: 'Plafon membutuhkan perhatian (2x - 3.5x penghasilan bulanan).'
+        description: 'Plafon membutuhkan perhatian (2x - 3.5x penghasilan bulanan).',
       };
     } else {
       return {
         ratio,
         status: 'HIGH',
         label: 'Risiko Tinggi',
-        description: 'Plafon melebihi batas rekomendasi (> 3.5x penghasilan bulanan).'
+        description: 'Plafon melebihi batas rekomendasi (> 3.5x penghasilan bulanan).',
       };
     }
   }

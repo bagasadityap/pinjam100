@@ -1,8 +1,7 @@
 export function badge(
   text: string,
-  color: 'blue' | 'red' | 'yellow' | 'green' | 'orange' = 'blue'
+  color: 'blue' | 'red' | 'yellow' | 'green' | 'orange' = 'blue',
 ): string {
-
   return `
     <span class="badge badge-${color}">
       ${text}
@@ -12,9 +11,8 @@ export function badge(
 
 export function badgeWithSpan(
   text: string,
-  color: 'blue' | 'red' | 'yellow' | 'green' | 'orange' = 'blue'
+  color: 'blue' | 'red' | 'yellow' | 'green' | 'orange' = 'blue',
 ): string {
-
   return `
     <span class="badge badge-${color}">
       <span></span>

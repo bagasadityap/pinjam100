@@ -47,19 +47,17 @@ export class CustomerDetail implements OnInit {
 
     this.customerService.getDetailById(id).subscribe({
       next: (response) => {
-        response.documents = response.documents.map(document => ({
+        response.documents = response.documents.map((document) => ({
           ...document,
-          fileUrl: this.customerService.getDocument(document.fileUrl)
+          fileUrl: this.customerService.getDocument(document.fileUrl),
         }));
 
         this.customer.set(response);
       },
       error: (error) => {
-        this.toast.error(
-          error.error?.message ?? 'Gagal mendapatkan detail customer'
-        );
+        this.toast.error(error.error?.message ?? 'Gagal mendapatkan detail customer');
         this.back();
-      }
+      },
     });
   }
 
@@ -75,10 +73,8 @@ export class CustomerDetail implements OnInit {
         this.toast.success('Customer berhasil diverifikasi');
       },
       error: (error) => {
-        this.toast.error(
-          error.error?.message ?? 'Gagal memverifikasi customer'
-        );
-      }
+        this.toast.error(error.error?.message ?? 'Gagal memverifikasi customer');
+      },
     });
   }
 
@@ -90,10 +86,8 @@ export class CustomerDetail implements OnInit {
         this.getCustomer();
       },
       error: (error) => {
-        this.toast.error(
-          error.error?.message ?? 'Gagal memverifikasi customer'
-        );
-      }
+        this.toast.error(error.error?.message ?? 'Gagal memverifikasi customer');
+      },
     });
   }
 
@@ -105,10 +99,8 @@ export class CustomerDetail implements OnInit {
         this.getCustomer();
       },
       error: (error) => {
-        this.toast.error(
-          error.error?.message ?? 'Gagal memverifikasi dokumen'
-        );
-      }
+        this.toast.error(error.error?.message ?? 'Gagal memverifikasi dokumen');
+      },
     });
   }
 
@@ -120,29 +112,21 @@ export class CustomerDetail implements OnInit {
         this.getCustomer();
       },
       error: (error) => {
-        this.toast.error(
-          error.error?.message ?? 'Gagal memverifikasi dokumen'
-        );
-      }
+        this.toast.error(error.error?.message ?? 'Gagal memverifikasi dokumen');
+      },
     });
   }
 
   hasDocument(type: string): boolean {
-    return this.customer()?.documents?.some(
-      document => document.type === type
-    ) ?? false;
+    return this.customer()?.documents?.some((document) => document.type === type) ?? false;
   }
 
   findDocument(type: string): Document | null {
-    return this.customer()?.documents?.find(
-      document => document.type === type
-    ) ?? null;
+    return this.customer()?.documents?.find((document) => document.type === type) ?? null;
   }
 
   hasOtherDocuments(documents: Document[]): boolean {
-    return documents.some(
-      document => document.type !== 'KTP' && document.type !== 'SELFIE'
-    );
+    return documents.some((document) => document.type !== 'KTP' && document.type !== 'SELFIE');
   }
 
   openVerifyDocumentModal(documentId: string): void {

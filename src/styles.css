@@ -6,7 +6,7 @@
 @theme {
   --font-poppins: Poppins, sans-serif;
   --font-manrope: Manrope, sans-serif;
-  --font-noto: "Noto Sans", sans-serif;
+  --font-noto: 'Noto Sans', sans-serif;
   --font-jakarta: 'Plus Jakarta Sans', sans-serif;
 }
 
@@ -31,7 +31,6 @@
   border-radius: 9999px;
 }
 
-
 /* Green */
 
 .badge-green {
@@ -42,7 +41,6 @@
 .badge-green > span {
   background: #22c55e;
 }
-
 
 /* Red */
 
@@ -55,7 +53,6 @@
   background: #ef4444;
 }
 
-
 /* Yellow */
 
 .badge-yellow {
@@ -67,7 +64,6 @@
   background: #eab308;
 }
 
-
 /* Blue */
 
 .badge-blue {
@@ -78,7 +74,6 @@
 .badge-blue > span {
   background: #3b82f6;
 }
-
 
 /* Orange */
 

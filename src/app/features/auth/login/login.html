@@ -1,22 +1,28 @@
 <div class="min-h-screen flex items-center justify-center bg-blue-50 px-4">
   <div class="w-full max-w-md">
     <div class="bg-white rounded-lg shadow-sm border border-blue-100 px-8 py-10">
-
       <div class="flex flex-col justify-center items-center text-center mb-8">
-        <img class="w-64" src="/icon/icon.png" alt="Logo">
+        <img class="w-64" src="/icon/icon.png" alt="Logo" />
 
-        <p class="mt-3 text-sm text-gray-500">
-          Masuk menggunakan akun karyawan
-        </p>
+        <p class="mt-3 text-sm text-gray-500">Masuk menggunakan akun karyawan</p>
       </div>
 
       <form class="space-y-5" (ngSubmit)="login()">
-
         <div>
-          <label for="identityNumber" class="block text-sm font-medium text-gray-700 mb-2">NIP</label>
+          <label for="identityNumber" class="block text-sm font-medium text-gray-700 mb-2"
+            >NIP</label
+          >
 
           <div class="mt-1">
-            <input id="identityNumber" name="identityNumber" [(ngModel)]="identityNumber" type="text" autocomplete="identityNumber" placeholder="Masukkan NIP" class="block w-full rounded-md border border-gray-300 bg-white py-2.5 px-3 text-sm text-gray-800 placeholder:text-gray-400 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition">
+            <input
+              id="identityNumber"
+              name="identityNumber"
+              [(ngModel)]="identityNumber"
+              type="text"
+              autocomplete="identityNumber"
+              placeholder="Masukkan NIP"
+              class="block w-full rounded-md border border-gray-300 bg-white py-2.5 px-3 text-sm text-gray-800 placeholder:text-gray-400 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
+            />
           </div>
         </div>
 
@@ -27,7 +33,15 @@
           </div>
 
           <div class="mt-1">
-            <input id="password" name="password" [(ngModel)]="password" type="password" autocomplete="current-password" placeholder="••••••••" class="block w-full rounded-md border border-gray-300 bg-white py-2.5 px-3 text-sm text-gray-800 placeholder:text-gray-400 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition">
+            <input
+              id="password"
+              name="password"
+              [(ngModel)]="password"
+              type="password"
+              autocomplete="current-password"
+              placeholder="••••••••"
+              class="block w-full rounded-md border border-gray-300 bg-white py-2.5 px-3 text-sm text-gray-800 placeholder:text-gray-400 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition"
+            />
           </div>
         </div>
 
@@ -37,10 +51,13 @@
           </div>
         }
 
-        <button type="submit" [disabled]="loading()" class="w-full rounded-md bg-blue-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition">
+        <button
+          type="submit"
+          [disabled]="loading()"
+          class="w-full rounded-md bg-blue-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-700 disabled:bg-blue-300 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition"
+        >
           {{ loading() ? 'Memproses...' : 'Masuk' }}
         </button>
-
       </form>
     </div>
   </div>

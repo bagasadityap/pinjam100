@@ -1,11 +1,4 @@
-import {
-  Directive,
-  Input,
-  TemplateRef,
-  ViewContainerRef,
-  inject,
-  OnChanges,
-} from '@angular/core';
+import { Directive, Input, TemplateRef, ViewContainerRef, inject, OnChanges } from '@angular/core';
 import { AuthStateService } from '../service/auth-state.service';
 
 @Directive({
@@ -32,9 +25,7 @@ export class HasRoleDirective implements OnChanges {
       return;
     }
 
-    const allowedRoles = Array.isArray(this.hasRole)
-      ? this.hasRole
-      : [this.hasRole];
+    const allowedRoles = Array.isArray(this.hasRole) ? this.hasRole : [this.hasRole];
 
     if (allowedRoles.includes(role)) {
       this.viewContainer.createEmbeddedView(this.templateRef);

@@ -8,7 +8,7 @@ import {
   OnDestroy,
   Output,
   SimpleChanges,
-  inject
+  inject,
 } from '@angular/core';
 
 @Component({
@@ -49,9 +49,7 @@ export class Datatable implements OnChanges, OnDestroy {
 
     this.$ = jquery;
 
-    const table = this.elementRef.nativeElement.querySelector(
-      `#${this.tableId}`
-    );
+    const table = this.elementRef.nativeElement.querySelector(`#${this.tableId}`);
 
     if (!table) {
       return;
@@ -77,42 +75,34 @@ export class Datatable implements OnChanges, OnDestroy {
           first: '«',
           last: '»',
           next: '›',
-          previous: '‹'
-        }
-      }
+          previous: '‹',
+        },
+      },
     });
 
-    this.$(table).on(
-      'click',
-      'button[data-action]',
-      (event: any) => {
-        event.preventDefault();
+    this.$(table).on('click', 'button[data-action]', (event: any) => {
+      event.preventDefault();
 
-        const button = this.$(event.currentTarget);
-        const type = button.attr('data-action');
-        const id = button.attr('data-id');
+      const button = this.$(event.currentTarget);
+      const type = button.attr('data-action');
+      const id = button.attr('data-id');
 
-        this.action.emit({
-          type,
-          id
-        });
-      }
-    );
+      this.action.emit({
+        type,
+        id,
+      });
+    });
 
-    this.$(table).on(
-      'change',
-      'input.datatable-status-toggle',
-      (event: any) => {
-        const input = this.$(event.currentTarget);
-        const type = input.attr('data-action');
-        const id = input.attr('data-id');
+    this.$(table).on('change', 'input.datatable-status-toggle', (event: any) => {
+      const input = this.$(event.currentTarget);
+      const type = input.attr('data-action');
+      const id = input.attr('data-id');
 
-        this.action.emit({
-          type,
-          id
-        });
-      }
-    );
+      this.action.emit({
+        type,
+        id,
+      });
+    });
   }
 
   ngOnDestroy(): void {

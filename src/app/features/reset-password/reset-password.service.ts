@@ -13,12 +13,8 @@ export class ResetPasswordService {
   private readonly endpoint = environment.api.baseUrl;
 
   resetPassword(request: ResetPasswordRequest): Observable<void> {
-    return this.http.post<BaseResponse<void>>(
-      `${this.endpoint}/auth/customer/reset-password`,
-      request,
-      PUBLIC
-    ).pipe(
-      map(() => undefined)
-    );
+    return this.http
+      .post<BaseResponse<void>>(`${this.endpoint}/auth/customer/reset-password`, request, PUBLIC)
+      .pipe(map(() => undefined));
   }
 }

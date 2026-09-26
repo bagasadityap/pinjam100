@@ -3,39 +3,57 @@
   <header class="h-20 bg-white border-b border-gray-200 px-8 flex items-center justify-between">
     <div>
       <h1 class="text-xl font-bold tracking-tight">Disbursement Aplikasi Pinjaman</h1>
-      <p class="text-sm text-gray-500 mt-0.5">Periksa informasi dan lakukan eksekusi pencairan dana pinjaman.</p>
+      <p class="text-sm text-gray-500 mt-0.5">
+        Periksa informasi dan lakukan eksekusi pencairan dana pinjaman.
+      </p>
     </div>
     @if (application(); as application) {
       <div class="text-right">
         <p class="text-xs text-gray-400 uppercase tracking-wide">Application ID</p>
-        <p class="text-sm font-semibold text-gray-900 mt-0.5 font-mono">{{ application.applicationId }}</p>
+        <p class="text-sm font-semibold text-gray-900 mt-0.5 font-mono">
+          {{ application.applicationId }}
+        </p>
       </div>
     }
   </header>
 
   @if (application(); as application) {
     <div class="p-8 max-w-7xl mx-auto space-y-6">
-
-      <section class="bg-white border border-gray-200 rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
+      <section
+        class="bg-white border border-gray-200 rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm"
+      >
         <div>
           <div class="flex items-center gap-3">
             <h2 class="text-xl font-bold text-gray-900">{{ application.customer.fullName }}</h2>
-            <span class="px-2.5 py-0.5 text-xs font-semibold rounded border bg-blue-50 text-blue-700 border-blue-200">
+            <span
+              class="px-2.5 py-0.5 text-xs font-semibold rounded border bg-blue-50 text-blue-700 border-blue-200"
+            >
               {{ application.status }}
             </span>
           </div>
           <p class="text-sm text-gray-500 mt-1">
-            ID Customer: <span class="font-mono text-gray-700 font-medium">{{ application.customer.customerNumber }}</span>
+            ID Customer:
+            <span class="font-mono text-gray-700 font-medium">{{
+              application.customer.customerNumber
+            }}</span>
             <span class="mx-2 text-gray-300">•</span>
             Cabang: <span class="text-gray-700 font-medium">{{ application.branch.name }}</span>
           </p>
         </div>
 
         <div class="flex items-center gap-3 border-t md:border-t-0 pt-4 md:pt-0 border-gray-100">
-          <button type="button" (click)="back()" class="px-4 py-2 rounded-lg border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 transition">
+          <button
+            type="button"
+            (click)="back()"
+            class="px-4 py-2 rounded-lg border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 transition"
+          >
             Kembali
           </button>
-          <button type="button" (click)="openDisbursementModal(application.id)" class="px-5 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition shadow-sm">
+          <button
+            type="button"
+            (click)="openDisbursementModal(application.id)"
+            class="px-5 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition shadow-sm"
+          >
             Cairkan Pinjaman
           </button>
         </div>
@@ -48,36 +66,60 @@
 
         <div class="p-6 space-y-6">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div class="border border-blue-200 bg-blue-50/50 rounded-xl p-5 flex flex-col justify-between">
+            <div
+              class="border border-blue-200 bg-blue-50/50 rounded-xl p-5 flex flex-col justify-between"
+            >
               <div>
-                <p class="text-xs font-semibold uppercase tracking-wider text-blue-700 mb-1">Nominal Pencairan</p>
-                <p class="text-2xl font-bold text-gray-900">{{ application.loanAmount | currency:'IDR':'symbol':'1.0-0':'id-ID' }}</p>
+                <p class="text-xs font-semibold uppercase tracking-wider text-blue-700 mb-1">
+                  Nominal Pencairan
+                </p>
+                <p class="text-2xl font-bold text-gray-900">
+                  {{ application.loanAmount | currency: 'IDR' : 'symbol' : '1.0-0' : 'id-ID' }}
+                </p>
               </div>
               <p class="text-xs text-gray-500 mt-4 border-t border-blue-100 pt-3">
-                Tenor: <span class="font-semibold text-gray-800">{{ application.tenorMonths }} Bulan</span> | Bunga: <span class="font-semibold text-gray-800">{{ application.interestRate }}%/thn</span>
+                Tenor:
+                <span class="font-semibold text-gray-800">{{ application.tenorMonths }} Bulan</span>
+                | Bunga:
+                <span class="font-semibold text-gray-800">{{ application.interestRate }}%/thn</span>
               </p>
             </div>
 
-            <div class="border border-gray-200 bg-gray-50/50 rounded-xl p-5 flex flex-col justify-between">
+            <div
+              class="border border-gray-200 bg-gray-50/50 rounded-xl p-5 flex flex-col justify-between"
+            >
               <div>
-                <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">Rekening Tujuan Pencairan</p>
+                <p class="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-1">
+                  Rekening Tujuan Pencairan
+                </p>
                 <p class="text-xl font-bold text-gray-900">{{ application.rekening.namaBank }}</p>
-                <p class="text-lg font-mono font-semibold text-blue-600 mt-0.5">{{ application.rekening.noRekening }}</p>
+                <p class="text-lg font-mono font-semibold text-blue-600 mt-0.5">
+                  {{ application.rekening.noRekening }}
+                </p>
               </div>
               <p class="text-xs text-gray-500 mt-2 border-t border-gray-200 pt-3">
-                Atas Nama: <span class="font-semibold text-gray-800">{{ application.rekening.accountHolder }}</span>
+                Atas Nama:
+                <span class="font-semibold text-gray-800">{{
+                  application.rekening.accountHolder
+                }}</span>
               </p>
             </div>
           </div>
 
-          <div class="border-t border-gray-100 pt-5 grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-4">
+          <div
+            class="border-t border-gray-100 pt-5 grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-4"
+          >
             <div>
               <p class="text-xs text-gray-500">Nomor Pengajuan</p>
-              <p class="text-sm font-semibold text-gray-900 mt-0.5">{{ application.applicationId }}</p>
+              <p class="text-sm font-semibold text-gray-900 mt-0.5">
+                {{ application.applicationId }}
+              </p>
             </div>
             <div>
               <p class="text-xs text-gray-500">Email Customer</p>
-              <p class="text-sm font-semibold text-gray-900 mt-0.5">{{ application.customer.email }}</p>
+              <p class="text-sm font-semibold text-gray-900 mt-0.5">
+                {{ application.customer.email }}
+              </p>
             </div>
             <div>
               <p class="text-xs text-gray-500">Tujuan Pinjaman</p>
@@ -88,14 +130,21 @@
       </section>
 
       <div class="flex items-center justify-end gap-3 pt-2">
-        <button type="button" (click)="back()" class="px-5 py-2.5 rounded-lg border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 transition">
+        <button
+          type="button"
+          (click)="back()"
+          class="px-5 py-2.5 rounded-lg border border-gray-300 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-50 transition"
+        >
           Batal
         </button>
-        <button type="button" (click)="openDisbursementModal(application.id)" class="px-5 py-2.5 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition shadow-sm">
+        <button
+          type="button"
+          (click)="openDisbursementModal(application.id)"
+          class="px-5 py-2.5 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 transition shadow-sm"
+        >
           Cairkan Pinjaman
         </button>
       </div>
-
     </div>
 
     <app-disbursement-modal

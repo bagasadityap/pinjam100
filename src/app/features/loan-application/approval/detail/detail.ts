@@ -10,7 +10,7 @@ import { ApprovalRequest, ApprovalStatus } from '../approval.model';
 
 @Component({
   selector: 'app-review',
-  imports: [ CommonModule, Sidebar, VerificationModal, CurrencyPipe, DatePipe ],
+  imports: [CommonModule, Sidebar, VerificationModal, CurrencyPipe, DatePipe],
   templateUrl: './detail.html',
   styleUrl: './detail.css',
 })
@@ -43,7 +43,7 @@ export class Detail implements OnInit {
       },
       error: () => {
         this.toast.error('Gagal mendapatkan data aplikasi pinjaman');
-      }
+      },
     });
   }
 
@@ -87,7 +87,7 @@ export class Detail implements OnInit {
       return {
         status: 'LOW',
         label: 'N/A',
-        description: 'Data keuangan tidak lengkap.'
+        description: 'Data keuangan tidak lengkap.',
       };
     }
 
@@ -95,19 +95,19 @@ export class Detail implements OnInit {
       return {
         status: 'LOW',
         label: 'Risiko Rendah',
-        description: 'Beban angsuran aman (<= 30% dari penghasilan).'
+        description: 'Beban angsuran aman (<= 30% dari penghasilan).',
       };
     } else if (dsrVal <= 40) {
       return {
         status: 'MODERATE',
         label: 'Risiko Sedang',
-        description: 'Beban angsuran memerlukan pertimbangan (30% - 40%).'
+        description: 'Beban angsuran memerlukan pertimbangan (30% - 40%).',
       };
     } else {
       return {
         status: 'HIGH',
         label: 'Risiko Tinggi',
-        description: 'Beban angsuran melampaui batas aman (> 40%).'
+        description: 'Beban angsuran melampaui batas aman (> 40%).',
       };
     }
   }
@@ -118,16 +118,14 @@ export class Detail implements OnInit {
         this.toast.success(
           request.approvalStatus === ApprovalStatus.APPROVED
             ? 'Data aplikasi pinjaman berhasil disetujui'
-            : 'Data aplikasi pinjaman berhasil ditolak'
+            : 'Data aplikasi pinjaman berhasil ditolak',
         );
         this.closeVerifyModal();
         this.back();
       },
       error: (error) => {
-        this.toast.error(
-          error.error?.message ?? 'Gagal menyimpan data aplikasi pinjaman'
-        );
-      }
+        this.toast.error(error.error?.message ?? 'Gagal menyimpan data aplikasi pinjaman');
+      },
     });
   }
 
@@ -150,7 +148,7 @@ export class Detail implements OnInit {
 
     this.review(this.verificationValue, {
       approvalStatus: ApprovalStatus.APPROVED,
-      notes
+      notes,
     });
   }
 
@@ -159,7 +157,7 @@ export class Detail implements OnInit {
 
     this.review(this.verificationValue, {
       approvalStatus: ApprovalStatus.REJECTED,
-      notes
+      notes,
     });
   }
 }

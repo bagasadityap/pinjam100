@@ -17,16 +17,11 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideClientHydration(withEventReplay()),
-    provideHttpClient(
-      withFetch(),
-      withInterceptors([
-        authInterceptor
-      ])
-    ),
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor])),
     provideHotToastConfig(),
     {
       provide: LOCALE_ID,
-      useValue: 'id-ID'
-    }
-  ]
+      useValue: 'id-ID',
+    },
+  ],
 };

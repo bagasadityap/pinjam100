@@ -1,7 +1,7 @@
-import { RekeningResponse } from "../../core/model/rekening.model";
-import { BranchResponse } from "../branch/branch.model";
-import { CustomerResponse, CustomerDetailResponse } from "../customer/customer.model";
-import { ReviewResponse } from "./review/review.model";
+import { RekeningResponse } from '../../core/model/rekening.model';
+import { BranchResponse } from '../branch/branch.model';
+import { CustomerResponse, CustomerDetailResponse } from '../customer/customer.model';
+import { ReviewResponse } from './review/review.model';
 
 export interface LoanApplicationResponse {
   applicationId: string;
@@ -18,24 +18,24 @@ export interface LoanApplicationResponse {
 }
 
 export interface LoanApplicationReviewResponse {
-  applicationId: string
-  branch: Branch
-  customer: CustomerDetailResponse
-  id: string
-  interestRate: number
-  loanAmount: number
-  installmentAmount: number
-  purpose: string
-  review: any
-  status: string
-  tenorMonths: number
+  applicationId: string;
+  branch: Branch;
+  customer: CustomerDetailResponse;
+  id: string;
+  interestRate: number;
+  loanAmount: number;
+  installmentAmount: number;
+  purpose: string;
+  review: any;
+  status: string;
+  tenorMonths: number;
 }
 
 export interface LoanApplicationApprovalResponse {
   id: string;
   applicationId: string;
   loanAmount: number;
-  installmentAmount: number
+  installmentAmount: number;
   tenorMonths: number;
   interestRate: number;
   purpose: string;
@@ -63,9 +63,9 @@ export interface LoanApplicationDisbursementResponse {
 }
 
 export interface Branch {
-  city: string
-  id: string
-  name: string
-  postalCode: string
-  province: string
+  city: string;
+  id: string;
+  name: string;
+  postalCode: string;
+  province: string;
 }

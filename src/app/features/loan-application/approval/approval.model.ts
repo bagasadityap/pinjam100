@@ -5,5 +5,5 @@ export interface ApprovalRequest {
 
 export enum ApprovalStatus {
   APPROVED = 'APPROVED',
-  REJECTED = 'REJECTED'
+  REJECTED = 'REJECTED',
 }

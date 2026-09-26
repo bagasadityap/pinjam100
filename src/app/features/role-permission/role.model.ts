@@ -1,4 +1,4 @@
-import { PermissionResponse } from "./pemission/permission.model";
+import { PermissionResponse } from './pemission/permission.model';
 
 export interface RoleRequest {
   roleName: string;

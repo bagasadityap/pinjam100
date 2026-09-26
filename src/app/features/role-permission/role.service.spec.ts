@@ -16,8 +16,16 @@ describe('RoleService', () => {
   const mockId = '123';
 
   const mockRoleResponse = { id: mockId, name: 'ADMIN' } as unknown as RoleResponse;
-  const mockListResponse: BaseResponse<RoleResponse[]> = { statusCode: 200, message: 'OK', data: [mockRoleResponse] };
-  const mockSingleResponse: BaseResponse<RoleResponse> = { statusCode: 200, message: 'OK', data: mockRoleResponse };
+  const mockListResponse: BaseResponse<RoleResponse[]> = {
+    statusCode: 200,
+    message: 'OK',
+    data: [mockRoleResponse],
+  };
+  const mockSingleResponse: BaseResponse<RoleResponse> = {
+    statusCode: 200,
+    message: 'OK',
+    data: mockRoleResponse,
+  };
 
   beforeEach(() => {
     httpNetworkMock = {
@@ -29,10 +37,7 @@ describe('RoleService', () => {
     };
 
     TestBed.configureTestingModule({
-      providers: [
-        RoleService,
-        { provide: HttpNetwork, useValue: httpNetworkMock },
-      ],
+      providers: [RoleService, { provide: HttpNetwork, useValue: httpNetworkMock }],
     });
 
     service = TestBed.inject(RoleService);
@@ -45,7 +50,7 @@ describe('RoleService', () => {
   it('getAll', () => {
     httpNetworkMock.get.mockReturnValue(of(mockListResponse));
 
-    service.getAll().subscribe(res => {
+    service.getAll().subscribe((res) => {
       expect(res).toEqual(mockListResponse.data);
     });
 
@@ -55,7 +60,7 @@ describe('RoleService', () => {
   it('getById', () => {
     httpNetworkMock.get.mockReturnValue(of(mockSingleResponse));
 
-    service.getById(mockId).subscribe(res => {
+    service.getById(mockId).subscribe((res) => {
       expect(res).toEqual(mockSingleResponse.data);
     });
 
@@ -66,7 +71,7 @@ describe('RoleService', () => {
     const request = { name: 'ADMIN' } as unknown as RoleRequest;
     httpNetworkMock.post.mockReturnValue(of(mockSingleResponse));
 
-    service.create(request).subscribe(res => {
+    service.create(request).subscribe((res) => {
       expect(res).toEqual(mockSingleResponse.data);
     });
 
@@ -77,7 +82,7 @@ describe('RoleService', () => {
     const request = { name: 'SUPER_ADMIN' } as unknown as RoleRequest;
     httpNetworkMock.put.mockReturnValue(of(mockSingleResponse));
 
-    service.update(mockId, request).subscribe(res => {
+    service.update(mockId, request).subscribe((res) => {
       expect(res).toEqual(mockSingleResponse.data);
     });
 
@@ -88,21 +93,21 @@ describe('RoleService', () => {
     const permissions = ['CREATE_USER', 'DELETE_USER'];
     httpNetworkMock.patch.mockReturnValue(of(mockSingleResponse));
 
-    service.updatePermission(mockId, permissions).subscribe(res => {
+    service.updatePermission(mockId, permissions).subscribe((res) => {
       expect(res).toEqual(mockSingleResponse.data);
     });
 
     expect(httpNetworkMock.patch).toHaveBeenCalledWith(
       `${endpoint}/${mockId}/permission`,
       { permissions },
-      AUTHORIZED
+      AUTHORIZED,
     );
   });
 
   it('delete', () => {
     httpNetworkMock.delete.mockReturnValue(of(mockSingleResponse));
 
-    service.delete(mockId).subscribe(res => {
+    service.delete(mockId).subscribe((res) => {
       expect(res).toEqual(mockSingleResponse.data);
     });
 

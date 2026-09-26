@@ -1,7 +1,6 @@
 <app-sidebar></app-sidebar>
 
 <main class="ml-64 min-h-screen bg-gray-100 text-gray-900">
-
   <!-- Header -->
   <header class="h-20 bg-white border-b border-gray-200 px-8 flex items-center justify-between">
     <div>
@@ -18,29 +17,24 @@
         </div>
 
         <div class="hidden sm:block">
-          <p class="text-sm font-semibold">{{ currentUser()?.name ?? "User" }}</p>
+          <p class="text-sm font-semibold">{{ currentUser()?.name ?? 'User' }}</p>
           <p class="text-xs text-gray-500">{{ getRoleLabel() }}</p>
         </div>
       </div>
     </div>
   </header>
 
-
   <!-- Content -->
   <div class="p-8">
-
     <!-- Loading -->
     @if (loading()) {
-
       <div class="flex items-center justify-center py-20">
         <div class="flex items-center gap-3 text-gray-500">
           <i class="fa-solid fa-spinner fa-spin"></i>
           <span class="text-sm">Memuat dashboard...</span>
         </div>
       </div>
-
     } @else if (error()) {
-
       <div class="bg-red-50 border border-red-200 rounded-xl p-6 text-red-700">
         <div class="flex items-center gap-3">
           <i class="fa-solid fa-circle-exclamation"></i>
@@ -50,9 +44,7 @@
           </div>
         </div>
       </div>
-
     } @else {
-
       <!-- Welcome -->
       <div class="mb-8">
         <p class="text-sm font-medium text-blue-700">Selamat datang kembali</p>
@@ -60,13 +52,10 @@
         <p class="text-gray-500 mt-2">Pantau aktivitas Pinjam100 melalui dashboard ini.</p>
       </div>
 
-
       <!-- ==================== SUPER ADMIN ==================== -->
       @if (isSuperAdmin()) {
-
         <!-- Statistics -->
         <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
-
           <div class="bg-white rounded-xl border border-gray-200 p-6">
             <div class="flex items-start justify-between">
               <div>
@@ -74,7 +63,9 @@
                 <h3 class="text-3xl font-bold mt-2">{{ dashboardData?.totalRequests | number }}</h3>
               </div>
 
-              <div class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+              <div
+                class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center"
+              >
                 <i class="fa-solid fa-file-lines text-lg"></i>
               </div>
             </div>
@@ -82,61 +73,68 @@
             <div class="flex items-center gap-2 mt-5">
               <span class="text-sm font-semibold text-green-600">
                 <i class="fa-solid fa-arrow-up text-xs"></i>
-                {{ dashboardData?.totalRequestGrowthRate | number:'1.1-1' }}%
+                {{ dashboardData?.totalRequestGrowthRate | number: '1.1-1' }}%
               </span>
               <span class="text-xs text-gray-400">dari bulan lalu</span>
             </div>
           </div>
 
-
           <div class="bg-white rounded-xl border border-gray-200 p-6">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-sm text-gray-500">Menunggu Review</p>
-                <h3 class="text-3xl font-bold mt-2">{{ dashboardData?.pendingRequests | number }}</h3>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ dashboardData?.pendingRequests | number }}
+                </h3>
               </div>
 
-              <div class="w-11 h-11 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center">
+              <div
+                class="w-11 h-11 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center"
+              >
                 <i class="fa-solid fa-clock text-lg"></i>
               </div>
             </div>
 
             <div class="flex items-center gap-2 mt-5">
-              <span class="text-sm font-semibold text-yellow-600">
-                Perlu ditinjau
-              </span>
+              <span class="text-sm font-semibold text-yellow-600"> Perlu ditinjau </span>
             </div>
           </div>
-
 
           <div class="bg-white rounded-xl border border-gray-200 p-6">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-sm text-gray-500">Disetujui</p>
-                <h3 class="text-3xl font-bold mt-2">{{ dashboardData?.approvedRequests | number }}</h3>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ dashboardData?.approvedRequests | number }}
+                </h3>
               </div>
 
-              <div class="w-11 h-11 rounded-lg bg-green-50 text-green-600 flex items-center justify-center">
+              <div
+                class="w-11 h-11 rounded-lg bg-green-50 text-green-600 flex items-center justify-center"
+              >
                 <i class="fa-solid fa-circle-check text-lg"></i>
               </div>
             </div>
 
             <div class="flex items-center gap-2 mt-5">
               <span class="text-sm font-semibold text-green-600">
-                {{ dashboardData?.approvalRate | number:'1.1-1' }}% approval rate
+                {{ dashboardData?.approvalRate | number: '1.1-1' }}% approval rate
               </span>
             </div>
           </div>
-
 
           <div class="bg-white rounded-xl border border-gray-200 p-6">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-sm text-gray-500">Total Customer</p>
-                <h3 class="text-3xl font-bold mt-2">{{ dashboardData?.totalCustomers | number }}</h3>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ dashboardData?.totalCustomers | number }}
+                </h3>
               </div>
 
-              <div class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+              <div
+                class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center"
+              >
                 <i class="fa-solid fa-users text-lg"></i>
               </div>
             </div>
@@ -144,35 +142,33 @@
             <div class="flex items-center gap-2 mt-5">
               <span class="text-sm font-semibold text-green-600">
                 <i class="fa-solid fa-arrow-up text-xs"></i>
-                {{ dashboardData?.totalCustomerGrowthRate | number:'1.1-1' }}%
+                {{ dashboardData?.totalCustomerGrowthRate | number: '1.1-1' }}%
               </span>
               <span class="text-xs text-gray-400">dari bulan lalu</span>
             </div>
           </div>
-
         </div>
-
 
         <!-- Main Dashboard -->
         <div class="grid xl:grid-cols-3 gap-6 mt-6">
-
           <!-- Recent Requests -->
           <div class="xl:col-span-2 bg-white rounded-xl border border-gray-200">
-
             <div class="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
               <div>
                 <h3 class="font-bold text-lg">Request Terbaru</h3>
                 <p class="text-sm text-gray-500 mt-1">Pengajuan pinjaman terbaru.</p>
               </div>
 
-              <a href="/request-pinjaman" class="text-sm font-semibold text-blue-700 hover:text-blue-800">
+              <a
+                href="/request-pinjaman"
+                class="text-sm font-semibold text-blue-700 hover:text-blue-800"
+              >
                 Lihat Semua
               </a>
             </div>
 
             <div class="overflow-x-auto">
               <table class="w-full text-sm">
-
                 <thead>
                   <tr class="text-left text-gray-500 bg-gray-50">
                     <th class="px-6 py-4 font-medium">Customer</th>
@@ -183,14 +179,13 @@
                 </thead>
 
                 <tbody class="divide-y divide-gray-100">
-
                   @for (request of dashboardData?.recentRequests || []; track request.id) {
-
                     <tr class="hover:bg-gray-50 transition">
-
                       <td class="px-6 py-4">
                         <div class="flex items-center gap-3">
-                          <div class="w-9 h-9 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-semibold">
+                          <div
+                            class="w-9 h-9 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-semibold"
+                          >
                             {{ getInitials(request.customer.fullName) }}
                           </div>
 
@@ -202,43 +197,43 @@
                       </td>
 
                       <td class="px-6 py-4 font-semibold">
-                        {{ request.loanAmount | currency:'IDR':'symbol':'1.0-0' }}
+                        {{ request.loanAmount | currency: 'IDR' : 'symbol' : '1.0-0' }}
                       </td>
 
                       <td class="px-6 py-4 text-gray-500">
-                        {{ request.createdDate | date:'dd MMM yyyy' }}
+                        {{ request.createdDate | date: 'dd MMM yyyy' }}
                       </td>
 
                       <td class="px-6 py-4">
-                        <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-yellow-50 text-yellow-700 text-xs font-semibold">
+                        <span
+                          class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-yellow-50 text-yellow-700 text-xs font-semibold"
+                        >
                           <span class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>
                           {{ request.status }}
                         </span>
                       </td>
-
                     </tr>
-
                   }
-
                 </tbody>
-
               </table>
             </div>
           </div>
 
-
           <!-- Quick Actions -->
           <div class="bg-white rounded-xl border border-gray-200">
-
             <div class="px-6 py-5 border-b border-gray-200">
               <h3 class="font-bold text-lg">Aksi Cepat</h3>
               <p class="text-sm text-gray-500 mt-1">Akses fitur yang sering digunakan.</p>
             </div>
 
             <div class="p-5 space-y-3">
-
-              <a href="/request-pinjaman" class="flex items-center gap-4 p-4 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition">
-                <div class="w-10 h-10 rounded-lg bg-blue-700 text-white flex items-center justify-center">
+              <a
+                href="/request-pinjaman"
+                class="flex items-center gap-4 p-4 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-blue-700 text-white flex items-center justify-center"
+                >
                   <i class="fa-solid fa-file-circle-plus"></i>
                 </div>
 
@@ -250,9 +245,13 @@
                 <i class="fa-solid fa-chevron-right text-sm"></i>
               </a>
 
-
-              <a href="#" class="flex items-center gap-4 p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
-                <div class="w-10 h-10 rounded-lg bg-white text-blue-700 flex items-center justify-center shadow-sm">
+              <a
+                href="#"
+                class="flex items-center gap-4 p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-white text-blue-700 flex items-center justify-center shadow-sm"
+                >
                   <i class="fa-solid fa-users"></i>
                 </div>
 
@@ -264,9 +263,13 @@
                 <i class="fa-solid fa-chevron-right text-sm text-gray-400"></i>
               </a>
 
-
-              <a href="#" class="flex items-center gap-4 p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
-                <div class="w-10 h-10 rounded-lg bg-white text-blue-700 flex items-center justify-center shadow-sm">
+              <a
+                href="#"
+                class="flex items-center gap-4 p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-white text-blue-700 flex items-center justify-center shadow-sm"
+                >
                   <i class="fa-solid fa-chart-line"></i>
                 </div>
 
@@ -278,9 +281,13 @@
                 <i class="fa-solid fa-chevron-right text-sm text-gray-400"></i>
               </a>
 
-
-              <a href="#" class="flex items-center gap-4 p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
-                <div class="w-10 h-10 rounded-lg bg-white text-blue-700 flex items-center justify-center shadow-sm">
+              <a
+                href="#"
+                class="flex items-center gap-4 p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-white text-blue-700 flex items-center justify-center shadow-sm"
+                >
                   <i class="fa-solid fa-gear"></i>
                 </div>
 
@@ -291,22 +298,18 @@
 
                 <i class="fa-solid fa-chevron-right text-sm text-gray-400"></i>
               </a>
-
             </div>
           </div>
-
         </div>
-
 
         <!-- Bottom Information -->
         <div class="grid lg:grid-cols-2 gap-6 mt-6">
-
           <div class="bg-blue-700 rounded-xl p-7 text-white">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-blue-200 text-sm font-medium">Total Pinjaman</p>
                 <h3 class="text-3xl font-bold mt-2">
-                  {{ dashboardData?.totalDisbursements | currency:'IDR':'symbol':'1.0-0' }}
+                  {{ dashboardData?.totalDisbursements | currency: 'IDR' : 'symbol' : '1.0-0' }}
                 </h3>
               </div>
 
@@ -318,12 +321,11 @@
             <div class="flex items-center gap-2 mt-6">
               <span class="text-sm font-semibold text-green-300">
                 <i class="fa-solid fa-arrow-up text-xs"></i>
-                {{ dashboardData?.totalDisbursementGrowthRate | number:'1.1-1' }}%
+                {{ dashboardData?.totalDisbursementGrowthRate | number: '1.1-1' }}%
               </span>
               <span class="text-sm text-blue-200">dibanding bulan lalu</span>
             </div>
           </div>
-
 
           <div class="bg-yellow-400 rounded-xl p-7 text-gray-900">
             <div class="flex items-start justify-between">
@@ -343,22 +345,17 @@
               <p class="text-sm text-gray-700">
                 Total outstanding overdue
                 <span class="font-bold">
-                  {{ dashboardData?.totalLoanAmountOverdue | currency:'IDR':'symbol':'1.0-0' }}
+                  {{ dashboardData?.totalLoanAmountOverdue | currency: 'IDR' : 'symbol' : '1.0-0' }}
                 </span>
               </p>
             </div>
           </div>
-
         </div>
-
       }
-
 
       <!-- ==================== MARKETING ==================== -->
       @if (isMarketing()) {
-
         <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
-
           <div class="bg-white rounded-xl border border-gray-200 p-6">
             <div class="flex items-start justify-between">
               <div>
@@ -366,7 +363,9 @@
                 <h3 class="text-3xl font-bold mt-2">{{ marketingData?.totalRequests | number }}</h3>
               </div>
 
-              <div class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+              <div
+                class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center"
+              >
                 <i class="fa-solid fa-file-lines text-lg"></i>
               </div>
             </div>
@@ -374,61 +373,68 @@
             <div class="flex items-center gap-2 mt-5">
               <span class="text-sm font-semibold text-green-600">
                 <i class="fa-solid fa-arrow-up text-xs"></i>
-                {{ marketingData?.totalRequestGrowthRate | number:'1.1-1' }}%
+                {{ marketingData?.totalRequestGrowthRate | number: '1.1-1' }}%
               </span>
               <span class="text-xs text-gray-400">dari bulan lalu</span>
             </div>
           </div>
 
-
           <div class="bg-white rounded-xl border border-gray-200 p-6">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-sm text-gray-500">Menunggu Review</p>
-                <h3 class="text-3xl font-bold mt-2">{{ marketingData?.pendingRequests | number }}</h3>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ marketingData?.pendingRequests | number }}
+                </h3>
               </div>
 
-              <div class="w-11 h-11 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center">
+              <div
+                class="w-11 h-11 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center"
+              >
                 <i class="fa-solid fa-clock text-lg"></i>
               </div>
             </div>
 
             <div class="flex items-center gap-2 mt-5">
-              <span class="text-sm font-semibold text-yellow-600">
-                Perlu ditinjau
-              </span>
+              <span class="text-sm font-semibold text-yellow-600"> Perlu ditinjau </span>
             </div>
           </div>
-
 
           <div class="bg-white rounded-xl border border-gray-200 p-6">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-sm text-gray-500">Disetujui</p>
-                <h3 class="text-3xl font-bold mt-2">{{ marketingData?.approvedRequests | number }}</h3>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ marketingData?.approvedRequests | number }}
+                </h3>
               </div>
 
-              <div class="w-11 h-11 rounded-lg bg-green-50 text-green-600 flex items-center justify-center">
+              <div
+                class="w-11 h-11 rounded-lg bg-green-50 text-green-600 flex items-center justify-center"
+              >
                 <i class="fa-solid fa-circle-check text-lg"></i>
               </div>
             </div>
 
             <div class="flex items-center gap-2 mt-5">
               <span class="text-sm font-semibold text-green-600">
-                {{ marketingData?.approvalRate | number:'1.1-1' }}% approval rate
+                {{ marketingData?.approvalRate | number: '1.1-1' }}% approval rate
               </span>
             </div>
           </div>
-
 
           <div class="bg-white rounded-xl border border-gray-200 p-6">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-sm text-gray-500">Total Customer</p>
-                <h3 class="text-3xl font-bold mt-2">{{ marketingData?.totalCustomers | number }}</h3>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ marketingData?.totalCustomers | number }}
+                </h3>
               </div>
 
-              <div class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+              <div
+                class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center"
+              >
                 <i class="fa-solid fa-users text-lg"></i>
               </div>
             </div>
@@ -436,33 +442,31 @@
             <div class="flex items-center gap-2 mt-5">
               <span class="text-sm font-semibold text-green-600">
                 <i class="fa-solid fa-arrow-up text-xs"></i>
-                {{ marketingData?.totalCustomerGrowthRate | number:'1.1-1' }}%
+                {{ marketingData?.totalCustomerGrowthRate | number: '1.1-1' }}%
               </span>
               <span class="text-xs text-gray-400">dari bulan lalu</span>
             </div>
           </div>
-
         </div>
 
-
         <div class="grid xl:grid-cols-3 gap-6 mt-6">
-
           <div class="xl:col-span-2 bg-white rounded-xl border border-gray-200">
-
             <div class="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
               <div>
                 <h3 class="font-bold text-lg">Request Terbaru</h3>
                 <p class="text-sm text-gray-500 mt-1">Pengajuan pinjaman pada cabang Anda.</p>
               </div>
 
-              <a href="/request-pinjaman" class="text-sm font-semibold text-blue-700 hover:text-blue-800">
+              <a
+                href="/request-pinjaman"
+                class="text-sm font-semibold text-blue-700 hover:text-blue-800"
+              >
                 Lihat Semua
               </a>
             </div>
 
             <div class="overflow-x-auto">
               <table class="w-full text-sm">
-
                 <thead>
                   <tr class="text-left text-gray-500 bg-gray-50">
                     <th class="px-6 py-4 font-medium">Customer</th>
@@ -473,14 +477,13 @@
                 </thead>
 
                 <tbody class="divide-y divide-gray-100">
-
                   @for (request of marketingData?.recentRequests || []; track request.id) {
-
                     <tr class="hover:bg-gray-50 transition">
-
                       <td class="px-6 py-4">
                         <div class="flex items-center gap-3">
-                          <div class="w-9 h-9 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-semibold">
+                          <div
+                            class="w-9 h-9 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-semibold"
+                          >
                             {{ getInitials(request.customer.fullName) }}
                           </div>
 
@@ -492,42 +495,42 @@
                       </td>
 
                       <td class="px-6 py-4 font-semibold">
-                        {{ request.loanAmount | currency:'IDR':'symbol':'1.0-0' }}
+                        {{ request.loanAmount | currency: 'IDR' : 'symbol' : '1.0-0' }}
                       </td>
 
                       <td class="px-6 py-4 text-gray-500">
-                        {{ request.createdDate | date:'dd MMM yyyy' }}
+                        {{ request.createdDate | date: 'dd MMM yyyy' }}
                       </td>
 
                       <td class="px-6 py-4">
-                        <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-yellow-50 text-yellow-700 text-xs font-semibold">
+                        <span
+                          class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-yellow-50 text-yellow-700 text-xs font-semibold"
+                        >
                           <span class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>
                           {{ request.status }}
                         </span>
                       </td>
-
                     </tr>
-
                   }
-
                 </tbody>
-
               </table>
             </div>
           </div>
 
-
           <div class="bg-white rounded-xl border border-gray-200">
-
             <div class="px-6 py-5 border-b border-gray-200">
               <h3 class="font-bold text-lg">Aksi Cepat</h3>
               <p class="text-sm text-gray-500 mt-1">Akses fitur yang sering digunakan.</p>
             </div>
 
             <div class="p-5 space-y-3">
-
-              <a href="/request-pinjaman" class="flex items-center gap-4 p-4 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition">
-                <div class="w-10 h-10 rounded-lg bg-blue-700 text-white flex items-center justify-center">
+              <a
+                href="/request-pinjaman"
+                class="flex items-center gap-4 p-4 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-blue-700 text-white flex items-center justify-center"
+                >
                   <i class="fa-solid fa-file-circle-plus"></i>
                 </div>
 
@@ -539,9 +542,13 @@
                 <i class="fa-solid fa-chevron-right text-sm"></i>
               </a>
 
-
-              <a href="#" class="flex items-center gap-4 p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
-                <div class="w-10 h-10 rounded-lg bg-white text-blue-700 flex items-center justify-center shadow-sm">
+              <a
+                href="#"
+                class="flex items-center gap-4 p-4 rounded-lg bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-white text-blue-700 flex items-center justify-center shadow-sm"
+                >
                   <i class="fa-solid fa-users"></i>
                 </div>
 
@@ -552,21 +559,17 @@
 
                 <i class="fa-solid fa-chevron-right text-sm text-gray-400"></i>
               </a>
-
             </div>
           </div>
-
         </div>
 
-
         <div class="grid lg:grid-cols-2 gap-6 mt-6">
-
           <div class="bg-blue-700 rounded-xl p-7 text-white">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-blue-200 text-sm font-medium">Total Pinjaman</p>
                 <h3 class="text-3xl font-bold mt-2">
-                  {{ marketingData?.totalDisbursements | currency:'IDR':'symbol':'1.0-0' }}
+                  {{ marketingData?.totalDisbursements | currency: 'IDR' : 'symbol' : '1.0-0' }}
                 </h3>
               </div>
 
@@ -578,12 +581,11 @@
             <div class="flex items-center gap-2 mt-6">
               <span class="text-sm font-semibold text-green-300">
                 <i class="fa-solid fa-arrow-up text-xs"></i>
-                {{ marketingData?.totalDisbursementGrowthRate | number:'1.1-1' }}%
+                {{ marketingData?.totalDisbursementGrowthRate | number: '1.1-1' }}%
               </span>
               <span class="text-sm text-blue-200">dibanding bulan lalu</span>
             </div>
           </div>
-
 
           <div class="bg-yellow-400 rounded-xl p-7 text-gray-900">
             <div class="flex items-start justify-between">
@@ -603,22 +605,17 @@
               <p class="text-sm text-gray-700">
                 Total outstanding overdue
                 <span class="font-bold">
-                  {{ marketingData?.totalLoanAmountOverdue | currency:'IDR':'symbol':'1.0-0' }}
+                  {{ marketingData?.totalLoanAmountOverdue | currency: 'IDR' : 'symbol' : '1.0-0' }}
                 </span>
               </p>
             </div>
           </div>
-
         </div>
-
       }
-
 
       <!-- ==================== PAYMENT ==================== -->
       @if (isPayment()) {
-
         <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
-
           <div class="bg-white rounded-xl border border-gray-200 p-6">
             <div class="flex items-start justify-between">
               <div>
@@ -626,83 +623,88 @@
                 <h3 class="text-3xl font-bold mt-2">{{ paymentData?.totalRequests | number }}</h3>
               </div>
 
-              <div class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+              <div
+                class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center"
+              >
                 <i class="fa-solid fa-file-lines text-lg"></i>
               </div>
             </div>
           </div>
 
-
           <div class="bg-white rounded-xl border border-gray-200 p-6">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-sm text-gray-500">Disetujui</p>
-                <h3 class="text-3xl font-bold mt-2">{{ paymentData?.approvedRequests | number }}</h3>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ paymentData?.approvedRequests | number }}
+                </h3>
               </div>
 
-              <div class="w-11 h-11 rounded-lg bg-green-50 text-green-600 flex items-center justify-center">
+              <div
+                class="w-11 h-11 rounded-lg bg-green-50 text-green-600 flex items-center justify-center"
+              >
                 <i class="fa-solid fa-circle-check text-lg"></i>
               </div>
             </div>
           </div>
 
-
           <div class="bg-white rounded-xl border border-gray-200 p-6">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-sm text-gray-500">Menunggu Pencairan</p>
-                <h3 class="text-3xl font-bold mt-2">{{ paymentData?.pendingDisbursements | number }}</h3>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ paymentData?.pendingDisbursements | number }}
+                </h3>
               </div>
 
-              <div class="w-11 h-11 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center">
+              <div
+                class="w-11 h-11 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center"
+              >
                 <i class="fa-solid fa-clock text-lg"></i>
               </div>
             </div>
 
             <div class="flex items-center gap-2 mt-5">
-              <span class="text-sm font-semibold text-yellow-600">
-                Perlu diproses
-              </span>
+              <span class="text-sm font-semibold text-yellow-600"> Perlu diproses </span>
             </div>
           </div>
-
 
           <div class="bg-white rounded-xl border border-gray-200 p-6">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-sm text-gray-500">Total Disetujui</p>
                 <h3 class="text-3xl font-bold mt-2">
-                  {{ paymentData?.totalApprovedAmount | currency:'IDR':'symbol':'1.0-0' }}
+                  {{ paymentData?.totalApprovedAmount | currency: 'IDR' : 'symbol' : '1.0-0' }}
                 </h3>
               </div>
 
-              <div class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+              <div
+                class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center"
+              >
                 <i class="fa-solid fa-money-bill-wave text-lg"></i>
               </div>
             </div>
           </div>
-
         </div>
 
-
         <div class="grid xl:grid-cols-3 gap-6 mt-6">
-
           <div class="xl:col-span-2 bg-white rounded-xl border border-gray-200">
-
             <div class="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
               <div>
                 <h3 class="font-bold text-lg">Request Terbaru</h3>
                 <p class="text-sm text-gray-500 mt-1">Pengajuan yang perlu diproses payment.</p>
               </div>
 
-              <a href="/request-pinjaman" class="text-sm font-semibold text-blue-700 hover:text-blue-800">
+              <a
+                href="/request-pinjaman"
+                class="text-sm font-semibold text-blue-700 hover:text-blue-800"
+              >
                 Lihat Semua
               </a>
             </div>
 
             <div class="overflow-x-auto">
               <table class="w-full text-sm">
-
                 <thead>
                   <tr class="text-left text-gray-500 bg-gray-50">
                     <th class="px-6 py-4 font-medium">Customer</th>
@@ -713,14 +715,13 @@
                 </thead>
 
                 <tbody class="divide-y divide-gray-100">
-
                   @for (request of paymentData?.recentRequests || []; track request.id) {
-
                     <tr class="hover:bg-gray-50 transition">
-
                       <td class="px-6 py-4">
                         <div class="flex items-center gap-3">
-                          <div class="w-9 h-9 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-semibold">
+                          <div
+                            class="w-9 h-9 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-semibold"
+                          >
                             {{ getInitials(request.customer.fullName) }}
                           </div>
 
@@ -732,42 +733,42 @@
                       </td>
 
                       <td class="px-6 py-4 font-semibold">
-                        {{ request.loanAmount | currency:'IDR':'symbol':'1.0-0' }}
+                        {{ request.loanAmount | currency: 'IDR' : 'symbol' : '1.0-0' }}
                       </td>
 
                       <td class="px-6 py-4 text-gray-500">
-                        {{ request.createdDate | date:'dd MMM yyyy' }}
+                        {{ request.createdDate | date: 'dd MMM yyyy' }}
                       </td>
 
                       <td class="px-6 py-4">
-                        <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-50 text-green-700 text-xs font-semibold">
+                        <span
+                          class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-50 text-green-700 text-xs font-semibold"
+                        >
                           <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
                           {{ request.status }}
                         </span>
                       </td>
-
                     </tr>
-
                   }
-
                 </tbody>
-
               </table>
             </div>
           </div>
 
-
           <div class="bg-white rounded-xl border border-gray-200">
-
             <div class="px-6 py-5 border-b border-gray-200">
               <h3 class="font-bold text-lg">Aksi Cepat</h3>
               <p class="text-sm text-gray-500 mt-1">Akses fitur yang sering digunakan.</p>
             </div>
 
             <div class="p-5 space-y-3">
-
-              <a href="/request-pinjaman" class="flex items-center gap-4 p-4 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition">
-                <div class="w-10 h-10 rounded-lg bg-blue-700 text-white flex items-center justify-center">
+              <a
+                href="/request-pinjaman"
+                class="flex items-center gap-4 p-4 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-blue-700 text-white flex items-center justify-center"
+                >
                   <i class="fa-solid fa-money-bill-transfer"></i>
                 </div>
 
@@ -778,21 +779,17 @@
 
                 <i class="fa-solid fa-chevron-right text-sm"></i>
               </a>
-
             </div>
           </div>
-
         </div>
 
-
         <div class="grid lg:grid-cols-2 gap-6 mt-6">
-
           <div class="bg-blue-700 rounded-xl p-7 text-white">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-blue-200 text-sm font-medium">Total Disbursements</p>
                 <h3 class="text-3xl font-bold mt-2">
-                  {{ paymentData?.totalDisbursements | currency:'IDR':'symbol':'1.0-0' }}
+                  {{ paymentData?.totalDisbursements | currency: 'IDR' : 'symbol' : '1.0-0' }}
                 </h3>
               </div>
 
@@ -804,12 +801,11 @@
             <div class="flex items-center gap-2 mt-6">
               <span class="text-sm font-semibold text-green-300">
                 <i class="fa-solid fa-arrow-up text-xs"></i>
-                {{ paymentData?.totalDisbursementGrowthRate | number:'1.1-1' }}%
+                {{ paymentData?.totalDisbursementGrowthRate | number: '1.1-1' }}%
               </span>
               <span class="text-sm text-blue-200">dibanding bulan lalu</span>
             </div>
           </div>
-
 
           <div class="bg-yellow-400 rounded-xl p-7 text-gray-900">
             <div class="flex items-start justify-between">
@@ -831,85 +827,87 @@
               </p>
             </div>
           </div>
-
         </div>
-
       }
-
 
       <!-- ==================== DOCUMENT CHECKER ==================== -->
       @if (isDocumentChecker()) {
-
         <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
-
           <div class="bg-white rounded-xl border border-gray-200 p-6">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-sm text-gray-500">Total Customer</p>
-                <h3 class="text-3xl font-bold mt-2">{{ documentCheckerData?.totalCustomers | number }}</h3>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ documentCheckerData?.totalCustomers | number }}
+                </h3>
               </div>
 
-              <div class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+              <div
+                class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center"
+              >
                 <i class="fa-solid fa-users text-lg"></i>
               </div>
             </div>
           </div>
 
-
           <div class="bg-white rounded-xl border border-gray-200 p-6">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-sm text-gray-500">Menunggu Verifikasi</p>
-                <h3 class="text-3xl font-bold mt-2">{{ documentCheckerData?.pendingVerification | number }}</h3>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ documentCheckerData?.pendingVerification | number }}
+                </h3>
               </div>
 
-              <div class="w-11 h-11 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center">
+              <div
+                class="w-11 h-11 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center"
+              >
                 <i class="fa-solid fa-clock text-lg"></i>
               </div>
             </div>
 
             <div class="flex items-center gap-2 mt-5">
-              <span class="text-sm font-semibold text-yellow-600">
-                Perlu diverifikasi
-              </span>
+              <span class="text-sm font-semibold text-yellow-600"> Perlu diverifikasi </span>
             </div>
           </div>
-
 
           <div class="bg-white rounded-xl border border-gray-200 p-6">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-sm text-gray-500">Terverifikasi</p>
-                <h3 class="text-3xl font-bold mt-2">{{ documentCheckerData?.verifiedCustomers | number }}</h3>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ documentCheckerData?.verifiedCustomers | number }}
+                </h3>
               </div>
 
-              <div class="w-11 h-11 rounded-lg bg-green-50 text-green-600 flex items-center justify-center">
+              <div
+                class="w-11 h-11 rounded-lg bg-green-50 text-green-600 flex items-center justify-center"
+              >
                 <i class="fa-solid fa-circle-check text-lg"></i>
               </div>
             </div>
           </div>
 
-
           <div class="bg-white rounded-xl border border-gray-200 p-6">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-sm text-gray-500">Ditolak</p>
-                <h3 class="text-3xl font-bold mt-2">{{ documentCheckerData?.rejectedCustomers | number }}</h3>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ documentCheckerData?.rejectedCustomers | number }}
+                </h3>
               </div>
 
-              <div class="w-11 h-11 rounded-lg bg-red-50 text-red-600 flex items-center justify-center">
+              <div
+                class="w-11 h-11 rounded-lg bg-red-50 text-red-600 flex items-center justify-center"
+              >
                 <i class="fa-solid fa-circle-xmark text-lg"></i>
               </div>
             </div>
           </div>
-
         </div>
 
-
         <div class="grid xl:grid-cols-3 gap-6 mt-6">
-
           <div class="xl:col-span-2 bg-white rounded-xl border border-gray-200">
-
             <div class="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
               <div>
                 <h3 class="font-bold text-lg">Customer Terbaru</h3>
@@ -923,7 +921,6 @@
 
             <div class="overflow-x-auto">
               <table class="w-full text-sm">
-
                 <thead>
                   <tr class="text-left text-gray-500 bg-gray-50">
                     <th class="px-6 py-4 font-medium">Customer</th>
@@ -933,14 +930,13 @@
                 </thead>
 
                 <tbody class="divide-y divide-gray-100">
-
                   @for (customer of documentCheckerData?.recentCustomers || []; track customer.id) {
-
                     <tr class="hover:bg-gray-50 transition">
-
                       <td class="px-6 py-4">
                         <div class="flex items-center gap-3">
-                          <div class="w-9 h-9 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-semibold">
+                          <div
+                            class="w-9 h-9 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-semibold"
+                          >
                             {{ getInitials(customer.fullName) }}
                           </div>
 
@@ -952,38 +948,38 @@
                       </td>
 
                       <td class="px-6 py-4 text-gray-500">
-                        {{ customer.createdDate | date:'dd MMM yyyy' }}
+                        {{ customer.createdDate | date: 'dd MMM yyyy' }}
                       </td>
 
                       <td class="px-6 py-4">
-                        <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-yellow-50 text-yellow-700 text-xs font-semibold">
+                        <span
+                          class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-yellow-50 text-yellow-700 text-xs font-semibold"
+                        >
                           <span class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>
                           {{ customer.verificationStatus }}
                         </span>
                       </td>
-
                     </tr>
-
                   }
-
                 </tbody>
-
               </table>
             </div>
           </div>
 
-
           <div class="bg-white rounded-xl border border-gray-200">
-
             <div class="px-6 py-5 border-b border-gray-200">
               <h3 class="font-bold text-lg">Aksi Cepat</h3>
               <p class="text-sm text-gray-500 mt-1">Akses fitur yang sering digunakan.</p>
             </div>
 
             <div class="p-5 space-y-3">
-
-              <a href="/customer" class="flex items-center gap-4 p-4 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition">
-                <div class="w-10 h-10 rounded-lg bg-blue-700 text-white flex items-center justify-center">
+              <a
+                href="/customer"
+                class="flex items-center gap-4 p-4 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-blue-700 text-white flex items-center justify-center"
+                >
                   <i class="fa-solid fa-file-circle-check"></i>
                 </div>
 
@@ -994,102 +990,105 @@
 
                 <i class="fa-solid fa-chevron-right text-sm"></i>
               </a>
-
             </div>
           </div>
-
         </div>
-
       }
-
 
       <!-- ==================== CREDIT ANALYST ==================== -->
       @if (isCreditAnalyst()) {
-
         <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
-
           <div class="bg-white rounded-xl border border-gray-200 p-6">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-sm text-gray-500">Total Customer</p>
-                <h3 class="text-3xl font-bold mt-2">{{ creditAnalystData?.totalCustomers | number }}</h3>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ creditAnalystData?.totalCustomers | number }}
+                </h3>
               </div>
 
-              <div class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+              <div
+                class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center"
+              >
                 <i class="fa-solid fa-users text-lg"></i>
               </div>
             </div>
           </div>
 
-
           <div class="bg-white rounded-xl border border-gray-200 p-6">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-sm text-gray-500">Terverifikasi</p>
-                <h3 class="text-3xl font-bold mt-2">{{ creditAnalystData?.verifiedCustomers | number }}</h3>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ creditAnalystData?.verifiedCustomers | number }}
+                </h3>
               </div>
 
-              <div class="w-11 h-11 rounded-lg bg-green-50 text-green-600 flex items-center justify-center">
+              <div
+                class="w-11 h-11 rounded-lg bg-green-50 text-green-600 flex items-center justify-center"
+              >
                 <i class="fa-solid fa-circle-check text-lg"></i>
               </div>
             </div>
           </div>
 
-
           <div class="bg-white rounded-xl border border-gray-200 p-6">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-sm text-gray-500">Menunggu Analisis Limit</p>
-                <h3 class="text-3xl font-bold mt-2">{{ creditAnalystData?.pendingLimitAnalysis | number }}</h3>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ creditAnalystData?.pendingLimitAnalysis | number }}
+                </h3>
               </div>
 
-              <div class="w-11 h-11 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center">
+              <div
+                class="w-11 h-11 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center"
+              >
                 <i class="fa-solid fa-chart-line text-lg"></i>
               </div>
             </div>
 
             <div class="flex items-center gap-2 mt-5">
-              <span class="text-sm font-semibold text-yellow-600">
-                Perlu dianalisis
-              </span>
+              <span class="text-sm font-semibold text-yellow-600"> Perlu dianalisis </span>
             </div>
           </div>
-
 
           <div class="bg-white rounded-xl border border-gray-200 p-6">
             <div class="flex items-start justify-between">
               <div>
                 <p class="text-sm text-gray-500">Sudah Memiliki Limit</p>
-                <h3 class="text-3xl font-bold mt-2">{{ creditAnalystData?.customersWithLimit | number }}</h3>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ creditAnalystData?.customersWithLimit | number }}
+                </h3>
               </div>
 
-              <div class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+              <div
+                class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center"
+              >
                 <i class="fa-solid fa-wallet text-lg"></i>
               </div>
             </div>
           </div>
-
         </div>
 
-
         <div class="grid xl:grid-cols-3 gap-6 mt-6">
-
           <div class="xl:col-span-2 bg-white rounded-xl border border-gray-200">
-
             <div class="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
               <div>
                 <h3 class="font-bold text-lg">Customer Terbaru</h3>
                 <p class="text-sm text-gray-500 mt-1">Customer yang siap dianalisis limitnya.</p>
               </div>
 
-              <a href="/customer-limit" class="text-sm font-semibold text-blue-700 hover:text-blue-800">
+              <a
+                href="/customer-limit"
+                class="text-sm font-semibold text-blue-700 hover:text-blue-800"
+              >
                 Lihat Semua
               </a>
             </div>
 
             <div class="overflow-x-auto">
               <table class="w-full text-sm">
-
                 <thead>
                   <tr class="text-left text-gray-500 bg-gray-50">
                     <th class="px-6 py-4 font-medium">Customer</th>
@@ -1099,14 +1098,13 @@
                 </thead>
 
                 <tbody class="divide-y divide-gray-100">
-
                   @for (customer of creditAnalystData?.recentCustomers || []; track customer.id) {
-
                     <tr class="hover:bg-gray-50 transition">
-
                       <td class="px-6 py-4">
                         <div class="flex items-center gap-3">
-                          <div class="w-9 h-9 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-semibold">
+                          <div
+                            class="w-9 h-9 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-semibold"
+                          >
                             {{ getInitials(customer.fullName) }}
                           </div>
 
@@ -1118,38 +1116,38 @@
                       </td>
 
                       <td class="px-6 py-4 text-gray-500">
-                        {{ customer.createdDate | date:'dd MMM yyyy' }}
+                        {{ customer.createdDate | date: 'dd MMM yyyy' }}
                       </td>
 
                       <td class="px-6 py-4">
-                        <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-yellow-50 text-yellow-700 text-xs font-semibold">
+                        <span
+                          class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-yellow-50 text-yellow-700 text-xs font-semibold"
+                        >
                           <span class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>
                           Perlu Analisis
                         </span>
                       </td>
-
                     </tr>
-
                   }
-
                 </tbody>
-
               </table>
             </div>
           </div>
 
-
           <div class="bg-white rounded-xl border border-gray-200">
-
             <div class="px-6 py-5 border-b border-gray-200">
               <h3 class="font-bold text-lg">Aksi Cepat</h3>
               <p class="text-sm text-gray-500 mt-1">Akses fitur yang sering digunakan.</p>
             </div>
 
             <div class="p-5 space-y-3">
-
-              <a href="/limit-setting" class="flex items-center gap-4 p-4 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition">
-                <div class="w-10 h-10 rounded-lg bg-blue-700 text-white flex items-center justify-center">
+              <a
+                href="/limit-setting"
+                class="flex items-center gap-4 p-4 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-blue-700 text-white flex items-center justify-center"
+                >
                   <i class="fa-solid fa-chart-line"></i>
                 </div>
 
@@ -1160,16 +1158,10 @@
 
                 <i class="fa-solid fa-chevron-right text-sm"></i>
               </a>
-
             </div>
           </div>
-
         </div>
-
       }
-
     }
-
   </div>
-
 </main>

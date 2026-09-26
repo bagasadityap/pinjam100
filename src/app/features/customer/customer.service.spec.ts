@@ -16,11 +16,27 @@ describe('CustomerService', () => {
   const mockId = '123';
 
   const mockCustomerData = { id: mockId, fullName: 'John Doe' } as unknown as CustomerResponse;
-  const mockCustomerDetailData = { id: mockId, fullName: 'John Doe', detail: {} } as unknown as CustomerDetailResponse;
+  const mockCustomerDetailData = {
+    id: mockId,
+    fullName: 'John Doe',
+    detail: {},
+  } as unknown as CustomerDetailResponse;
 
-  const mockListResponse: BaseResponse<CustomerResponse[]> = { statusCode: 200, message: 'OK', data: [mockCustomerData] };
-  const mockSingleResponse: BaseResponse<CustomerResponse> = { statusCode: 200, message: 'OK', data: mockCustomerData };
-  const mockDetailResponse: BaseResponse<CustomerDetailResponse> = { statusCode: 200, message: 'OK', data: mockCustomerDetailData };
+  const mockListResponse: BaseResponse<CustomerResponse[]> = {
+    statusCode: 200,
+    message: 'OK',
+    data: [mockCustomerData],
+  };
+  const mockSingleResponse: BaseResponse<CustomerResponse> = {
+    statusCode: 200,
+    message: 'OK',
+    data: mockCustomerData,
+  };
+  const mockDetailResponse: BaseResponse<CustomerDetailResponse> = {
+    statusCode: 200,
+    message: 'OK',
+    data: mockCustomerDetailData,
+  };
 
   beforeEach(() => {
     httpNetworkMock = {
@@ -29,10 +45,7 @@ describe('CustomerService', () => {
     };
 
     TestBed.configureTestingModule({
-      providers: [
-        CustomerService,
-        { provide: HttpNetwork, useValue: httpNetworkMock },
-      ],
+      providers: [CustomerService, { provide: HttpNetwork, useValue: httpNetworkMock }],
     });
 
     service = TestBed.inject(CustomerService);
@@ -45,7 +58,7 @@ describe('CustomerService', () => {
   it('getAll', () => {
     httpNetworkMock.get.mockReturnValue(of(mockListResponse));
 
-    service.getAll().subscribe(res => {
+    service.getAll().subscribe((res) => {
       expect(res).toEqual(mockListResponse.data);
     });
 
@@ -55,7 +68,7 @@ describe('CustomerService', () => {
   it('getPending', () => {
     httpNetworkMock.get.mockReturnValue(of(mockListResponse));
 
-    service.getPending().subscribe(res => {
+    service.getPending().subscribe((res) => {
       expect(res).toEqual(mockListResponse.data);
     });
 
@@ -65,7 +78,7 @@ describe('CustomerService', () => {
   it('getVerifiedAndLimitIsNull', () => {
     httpNetworkMock.get.mockReturnValue(of(mockListResponse));
 
-    service.getVerifiedAndLimitIsNull().subscribe(res => {
+    service.getVerifiedAndLimitIsNull().subscribe((res) => {
       expect(res).toEqual(mockListResponse.data);
     });
 
@@ -75,7 +88,7 @@ describe('CustomerService', () => {
   it('getById', () => {
     httpNetworkMock.get.mockReturnValue(of(mockSingleResponse));
 
-    service.getById(mockId).subscribe(res => {
+    service.getById(mockId).subscribe((res) => {
       expect(res).toEqual(mockSingleResponse.data);
     });
 
@@ -85,7 +98,7 @@ describe('CustomerService', () => {
   it('getDetailById', () => {
     httpNetworkMock.get.mockReturnValue(of(mockDetailResponse));
 
-    service.getDetailById(mockId).subscribe(res => {
+    service.getDetailById(mockId).subscribe((res) => {
       expect(res).toEqual(mockDetailResponse.data);
     });
 
@@ -96,11 +109,15 @@ describe('CustomerService', () => {
     const status = 'VERIFIED';
     httpNetworkMock.put.mockReturnValue(of(mockDetailResponse));
 
-    service.verifyCustomer(mockId, status).subscribe(res => {
+    service.verifyCustomer(mockId, status).subscribe((res) => {
       expect(res).toEqual(mockDetailResponse.data);
     });
 
-    expect(httpNetworkMock.put).toHaveBeenCalledWith(`${endpoint}/${mockId}/verify`, status, AUTHORIZED);
+    expect(httpNetworkMock.put).toHaveBeenCalledWith(
+      `${endpoint}/${mockId}/verify`,
+      status,
+      AUTHORIZED,
+    );
   });
 
   it('getDocument', () => {
