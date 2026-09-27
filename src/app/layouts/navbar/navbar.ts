@@ -1,16 +1,18 @@
 import { AfterViewInit, Component, EventEmitter, OnDestroy, Output, inject } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './navbar.html',
 })
 export class Navbar implements AfterViewInit, OnDestroy {
   @Output() downloadRequested = new EventEmitter<void>();
 
   activeSection = 'simulasi';
+  isMenuOpen = false;
   private observer?: IntersectionObserver;
   private readonly platformId = inject(PLATFORM_ID);
 
@@ -40,6 +42,17 @@ export class Navbar implements AfterViewInit, OnDestroy {
 
   setActiveSection(section: string): void {
     this.activeSection = section;
+
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    document.getElementById(section)?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    });
+
+    this.isMenuOpen = false;
   }
 
   ngOnDestroy(): void {

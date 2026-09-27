@@ -6,8 +6,8 @@
       <img src="/icon/icon.png" alt="Pinjam100" class="h-10 w-auto" />
     </a>
 
-    <div class="flex flex-row justify-end items-center">
-      <ul class="hidden md:flex items-center gap-9 text-gray-700 font-medium text-md me-15">
+    <div class="hidden md:flex flex-row justify-end items-center">
+      <ul class="flex items-center gap-9 text-gray-700 font-medium text-md me-8">
         <li>
           <a
             href="#simulasi"
@@ -45,6 +45,90 @@
           DAFTAR
         </button>
       </div>
+    </div>
+
+    <div class="flex items-center md:hidden">
+      <button
+        (click)="isMenuOpen = !isMenuOpen"
+        type="button"
+        class="text-gray-700 hover:text-blue-700 focus:outline-none p-2 rounded-lg"
+        aria-label="Toggle Navigation"
+      >
+        <svg
+          *ngIf="!isMenuOpen"
+          class="w-7 h-7"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+        <svg
+          *ngIf="isMenuOpen"
+          class="w-7 h-7"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div
+    *ngIf="isMenuOpen"
+    class="md:hidden bg-white border-b border-gray-100 px-6 pt-2 pb-6 shadow-xl flex flex-col gap-4 animate-fadeIn"
+  >
+    <ul class="flex flex-col gap-4 text-gray-700 font-medium text-md">
+      <li>
+        <a
+          href="#simulasi"
+          (click)="$event.preventDefault(); setActiveSection('simulasi')"
+          [class.text-blue-700]="activeSection === 'simulasi'"
+          class="block py-2 hover:text-blue-700 transition"
+        >
+          Simulasi
+        </a>
+      <li>
+        <a
+          href="#cara-pengajuan"
+          (click)="$event.preventDefault(); setActiveSection('cara-pengajuan')"
+          [class.text-blue-700]="activeSection === 'cara-pengajuan'"
+          class="block py-2 hover:text-blue-700 transition"
+        >
+          Cara Pengajuan
+        </a>
+      </li>
+      <li>
+        <a
+          href="#mengapa-kami"
+          (click)="$event.preventDefault(); setActiveSection('mengapa-kami')"
+          [class.text-blue-700]="activeSection === 'mengapa-kami'"
+          class="block py-2 hover:text-blue-700 transition"
+        >
+          Mengapa Kami
+        </a>
+      </li>
+    </ul>
+
+    <div class="pt-2 border-t border-gray-100">
+      <button
+        (click)="downloadRequested.emit(); isMenuOpen = false"
+        class="w-full bg-blue-700 hover:bg-blue-800 text-white px-5 py-2.5 rounded-lg text-md font-bold transition text-center"
+      >
+        DAFTAR
+      </button>
     </div>
   </div>
 </nav>
