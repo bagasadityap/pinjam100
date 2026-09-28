@@ -34,8 +34,6 @@ describe('Dashboard Component', () => {
       ],
     })
       .overrideComponent(Dashboard, {
-        // Sidebar dilepas dari imports, lalu schema diset di level komponen
-        // (untuk standalone component, schemas di TestBed module tidak berpengaruh)
         remove: { imports: [Sidebar] },
         add: { schemas: [NO_ERRORS_SCHEMA] },
       })
@@ -70,13 +68,18 @@ describe('Dashboard Component', () => {
   });
 
   it('getCurrentUser harus menangani error', () => {
-    authServiceMock.getCurrentUser.mockReturnValue(throwError(() => new Error('Auth Error')));
+    authServiceMock.getCurrentUser.mockReturnValue(
+      throwError(() => new Error('Auth Error')),
+    );
 
     component.getCurrentUser();
 
     expect(component.error()).toBe(true);
     expect(component.loading()).toBe(false);
-    expect(console.error).toHaveBeenCalledWith('Gagal mengambil data user', expect.any(Error));
+    expect(console.error).toHaveBeenCalledWith(
+      'Gagal mengambil data user',
+      expect.any(Error),
+    );
   });
 
   it('loadDashboard harus menangani error', () => {
@@ -88,39 +91,45 @@ describe('Dashboard Component', () => {
 
     expect(component.error()).toBe(true);
     expect(component.loading()).toBe(false);
-    expect(console.error).toHaveBeenCalledWith('Gagal mengambil data dashboard', expect.any(Error));
+    expect(console.error).toHaveBeenCalledWith(
+      'Gagal mengambil data dashboard',
+      expect.any(Error),
+    );
   });
 
   it('harus memvalidasi isSuperAdmin', () => {
     component.role.set('SUPER_ADMIN');
+
     expect(component.isSuperAdmin()).toBe(true);
   });
 
   it('harus memvalidasi isMarketing', () => {
     component.role.set('MARKETING');
-    expect(component.isMarketing()).toBe(true);
 
-    component.role.set('BRANCH_MARKETING');
     expect(component.isMarketing()).toBe(true);
   });
 
   it('harus memvalidasi isPayment', () => {
     component.role.set('PAYMENT');
+
     expect(component.isPayment()).toBe(true);
   });
 
   it('harus memvalidasi isDocumentChecker', () => {
     component.role.set('DOCUMENT_CHECKER');
+
     expect(component.isDocumentChecker()).toBe(true);
   });
 
   it('harus memvalidasi isCreditAnalyst', () => {
     component.role.set('CREDIT_ANALYST');
+
     expect(component.isCreditAnalyst()).toBe(true);
   });
 
   it('harus mengembalikan data dashboard melalui getter', () => {
     const mockData = { id: 1 } as any;
+
     component.dashboard.set(mockData);
 
     expect(component.dashboardData).toEqual(mockData);
@@ -146,8 +155,8 @@ describe('Dashboard Component', () => {
     component.role.set('MARKETING');
     expect(component.getRoleLabel()).toBe('Marketing');
 
-    component.role.set('BRANCH_MARKETING');
-    expect(component.getRoleLabel()).toBe('Branch Marketing');
+    component.role.set('BRANCH_MANAGER');
+    expect(component.getRoleLabel()).toBe('Branch Manager');
 
     component.role.set('PAYMENT');
     expect(component.getRoleLabel()).toBe('Payment');

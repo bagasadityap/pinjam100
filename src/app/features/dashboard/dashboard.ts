@@ -77,7 +77,7 @@ export class Dashboard implements OnInit {
   }
 
   isMarketing(): boolean {
-    return this.role() === 'MARKETING' || this.role() === 'BRANCH_MARKETING';
+    return this.role() === 'MARKETING' || this.role() === 'BRANCH_MANAGER';
   }
 
   isPayment(): boolean {
@@ -131,8 +131,8 @@ export class Dashboard implements OnInit {
         return 'Super Administrator';
       case 'MARKETING':
         return 'Marketing';
-      case 'BRANCH_MARKETING':
-        return 'Branch Marketing';
+      case 'BRANCH_MANAGER':
+        return 'Branch Manager';
       case 'PAYMENT':
         return 'Payment';
       case 'DOCUMENT_CHECKER':
