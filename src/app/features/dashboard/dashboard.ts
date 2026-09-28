@@ -77,7 +77,11 @@ export class Dashboard implements OnInit {
   }
 
   isMarketing(): boolean {
-    return this.role() === 'MARKETING' || this.role() === 'BRANCH_MANAGER';
+    return this.role() === 'MARKETING';
+  }
+
+  isBranchManager(): boolean {
+    return this.role() === 'BRANCH_MANAGER';
   }
 
   isPayment(): boolean {

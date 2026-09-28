@@ -109,6 +109,12 @@ describe('Dashboard Component', () => {
     expect(component.isMarketing()).toBe(true);
   });
 
+  it('harus memvalidasi isBranchManager', () => {
+    component.role.set('BRANCH_MANAGER');
+
+    expect(component.isBranchManager()).toBe(true);
+  });
+
   it('harus memvalidasi isPayment', () => {
     component.role.set('PAYMENT');
 
