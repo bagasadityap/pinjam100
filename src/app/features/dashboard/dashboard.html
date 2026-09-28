@@ -152,7 +152,7 @@
               </div>
 
               <a
-                href="/request-pinjaman"
+                href="/pengajuan-pinjaman"
                 class="text-sm font-semibold text-blue-700 hover:text-blue-800"
               >
                 Lihat Semua
@@ -447,7 +447,7 @@
               </div>
 
               <a
-                href="/request-pinjaman"
+                href="/pengajuan-pinjaman/review"
                 class="text-sm font-semibold text-blue-700 hover:text-blue-800"
               >
                 Lihat Semua
@@ -526,6 +526,247 @@
                 <div class="flex-1">
                   <p class="font-semibold">Review Pengajuan</p>
                   <p class="text-xs text-blue-600 mt-1">Review pengajuan pinjaman customer</p>
+                </div>
+
+                <i class="fa-solid fa-chevron-right text-sm"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-6 mt-6">
+          <div class="bg-blue-700 rounded-xl p-7 text-white">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-blue-200 text-sm font-medium">Total Pinjaman</p>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ marketingData?.totalDisbursements | currency: 'IDR' : 'symbol' : '1.0-0' }}
+                </h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-white/10 flex items-center justify-center">
+                <i class="fa-solid fa-money-bill-transfer"></i>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 mt-6">
+              <span class="text-sm font-semibold text-green-300">
+                <i class="fa-solid fa-arrow-up text-xs"></i>
+                {{ marketingData?.totalDisbursementGrowthRate | number: '1.1-1' }}%
+              </span>
+              <span class="text-sm text-blue-200">dibanding bulan lalu</span>
+            </div>
+          </div>
+
+          <div class="bg-yellow-400 rounded-xl p-7 text-gray-900">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-gray-700 text-sm font-medium">Pinjaman Overdue</p>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ marketingData?.totalLoanOverdue | number }}
+                </h3>
+              </div>
+
+              <div class="w-11 h-11 rounded-lg bg-white/40 flex items-center justify-center">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+              </div>
+            </div>
+
+            <div class="mt-6">
+              <p class="text-sm text-gray-700">
+                Total outstanding overdue
+                <span class="font-bold">
+                  {{ marketingData?.totalLoanAmountOverdue | currency: 'IDR' : 'symbol' : '1.0-0' }}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      }
+
+      @if (isBranchManager()) {
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Total Request</p>
+                <h3 class="text-3xl font-bold mt-2">{{ marketingData?.totalRequests | number }}</h3>
+              </div>
+
+              <div
+                class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center"
+              >
+                <i class="fa-solid fa-file-lines text-lg"></i>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 mt-5">
+              <span class="text-sm font-semibold text-green-600">
+                <i class="fa-solid fa-arrow-up text-xs"></i>
+                {{ marketingData?.totalRequestGrowthRate | number: '1.1-1' }}%
+              </span>
+              <span class="text-xs text-gray-400">dari bulan lalu</span>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Menunggu Approval</p>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ marketingData?.pendingRequests | number }}
+                </h3>
+              </div>
+
+              <div
+                class="w-11 h-11 rounded-lg bg-yellow-50 text-yellow-600 flex items-center justify-center"
+              >
+                <i class="fa-solid fa-clock text-lg"></i>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 mt-5">
+              <span class="text-sm font-semibold text-yellow-600"> Perlu disetujui </span>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Disetujui</p>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ marketingData?.approvedRequests | number }}
+                </h3>
+              </div>
+
+              <div
+                class="w-11 h-11 rounded-lg bg-green-50 text-green-600 flex items-center justify-center"
+              >
+                <i class="fa-solid fa-circle-check text-lg"></i>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 mt-5">
+              <span class="text-sm font-semibold text-green-600">
+                {{ marketingData?.approvalRate | number: '1.1-1' }}% approval rate
+              </span>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl border border-gray-200 p-6">
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="text-sm text-gray-500">Total Customer</p>
+                <h3 class="text-3xl font-bold mt-2">
+                  {{ marketingData?.totalCustomers | number }}
+                </h3>
+              </div>
+
+              <div
+                class="w-11 h-11 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center"
+              >
+                <i class="fa-solid fa-users text-lg"></i>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2 mt-5">
+              <span class="text-sm font-semibold text-green-600">
+                <i class="fa-solid fa-arrow-up text-xs"></i>
+                {{ marketingData?.totalCustomerGrowthRate | number: '1.1-1' }}%
+              </span>
+              <span class="text-xs text-gray-400">dari bulan lalu</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid xl:grid-cols-3 gap-6 mt-6">
+          <div class="xl:col-span-2 bg-white rounded-xl border border-gray-200">
+            <div class="px-6 py-5 border-b border-gray-200 flex items-center justify-between">
+              <div>
+                <h3 class="font-bold text-lg">Request Terbaru</h3>
+                <p class="text-sm text-gray-500 mt-1">Pengajuan pinjaman yang perlu approval.</p>
+              </div>
+
+              <a
+                href="/pengajuan-pinjaman/approval"
+                class="text-sm font-semibold text-blue-700 hover:text-blue-800"
+              >
+                Lihat Semua
+              </a>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="text-left text-gray-500 bg-gray-50">
+                    <th class="px-6 py-4 font-medium">Customer</th>
+                    <th class="px-6 py-4 font-medium">Jumlah</th>
+                    <th class="px-6 py-4 font-medium">Tanggal</th>
+                    <th class="px-6 py-4 font-medium">Status</th>
+                  </tr>
+                </thead>
+
+                <tbody class="divide-y divide-gray-100">
+                  @for (request of marketingData?.recentRequests || []; track request.id) {
+                    <tr class="hover:bg-gray-50 transition">
+                      <td class="px-6 py-4">
+                        <div class="flex items-center gap-3">
+                          <div
+                            class="w-9 h-9 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center font-semibold"
+                          >
+                            {{ getInitials(request.customer.fullName) }}
+                          </div>
+
+                          <div>
+                            <p class="font-semibold">{{ request.customer.fullName }}</p>
+                            <p class="text-xs text-gray-500">{{ request.customer.email }}</p>
+                          </div>
+                        </div>
+                      </td>
+
+                      <td class="px-6 py-4 font-semibold">
+                        {{ request.loanAmount | currency: 'IDR' : 'symbol' : '1.0-0' }}
+                      </td>
+
+                      <td class="px-6 py-4 text-gray-500">
+                        {{ request.createdDate | date: 'dd MMM yyyy' }}
+                      </td>
+
+                      <td class="px-6 py-4">
+                        <span
+                          class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-yellow-50 text-yellow-700 text-xs font-semibold"
+                        >
+                          <span class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>
+                          {{ request.status }}
+                        </span>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl border border-gray-200">
+            <div class="px-6 py-5 border-b border-gray-200">
+              <h3 class="font-bold text-lg">Aksi Cepat</h3>
+              <p class="text-sm text-gray-500 mt-1">Akses fitur yang sering digunakan.</p>
+            </div>
+
+            <div class="p-5 space-y-3">
+              <a
+                href="/pengajuan-pinjaman/approval"
+                class="flex items-center gap-4 p-4 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition"
+              >
+                <div
+                  class="w-10 h-10 rounded-lg bg-blue-700 text-white flex items-center justify-center"
+                >
+                  <i class="fa-solid fa-file-circle-check"></i>
+                </div>
+
+                <div class="flex-1">
+                  <p class="font-semibold">Approval Pinjaman</p>
+                  <p class="text-xs text-blue-600 mt-1">Approval pengajuan pinjaman customer</p>
                 </div>
 
                 <i class="fa-solid fa-chevron-right text-sm"></i>
@@ -666,7 +907,7 @@
               </div>
 
               <a
-                href="/request-pinjaman"
+                href="/pengajuan-pinjaman/disbursement"
                 class="text-sm font-semibold text-blue-700 hover:text-blue-800"
               >
                 Lihat Semua
@@ -883,7 +1124,10 @@
                 <p class="text-sm text-gray-500 mt-1">Customer yang perlu diperiksa dokumennya.</p>
               </div>
 
-              <a href="/verifikasi-customer" class="text-sm font-semibold text-blue-700 hover:text-blue-800">
+              <a
+                href="/verifikasi-customer"
+                class="text-sm font-semibold text-blue-700 hover:text-blue-800"
+              >
                 Lihat Semua
               </a>
             </div>
