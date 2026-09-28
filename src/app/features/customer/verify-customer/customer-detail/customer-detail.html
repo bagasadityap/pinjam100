@@ -208,7 +208,7 @@
           </div>
           <div>
             <p class="text-sm text-gray-500 mb-1">Tanggal Lahir</p>
-            <p class="text-sm font-semibold text-gray-900">{{ customer.detail.birthDate }}</p>
+            <p class="text-sm font-semibold text-gray-900">{{ customer.detail.birthDate | date: 'dd MMMM yyyy' }}</p>
           </div>
           <div>
             <p class="text-sm text-gray-500 mb-1">NIK</p>
@@ -266,7 +266,7 @@
           </div>
           <div>
             <p class="text-sm text-gray-500 mb-1">Mulai Bekerja</p>
-            <p class="text-sm font-semibold text-gray-900">{{ customer.employment.startDate }}</p>
+            <p class="text-sm font-semibold text-gray-900">{{ customer.employment.startDate | date: 'dd MMMM yyyy' }}</p>
           </div>
           <div>
             <p class="text-sm text-gray-500 mb-1">Penghasilan Per Bulan</p>

@@ -290,14 +290,14 @@
                         Status: {{ doc.verificationStatus }}
                       </p>
                     </div>
-                    <a
-                      [href]="doc.fileUrl"
-                      target="_blank"
-                      rel="noopener noreferrer"
+
+                    <button
+                      type="button"
+                      (click)="openDocumentPreview(doc.fileUrl, doc.type)"
                       class="text-xs font-semibold text-blue-600 hover:text-blue-800 transition"
                     >
                       Lihat Dokumen
-                    </a>
+                    </button>
                   </div>
                 }
               </div>
@@ -383,3 +383,28 @@
   (saved)="confirmVerify($event)"
   (rejected)="confirmReject($event)"
 ></app-verification-modal>
+
+@if (previewDocumentUrl) {
+  <div
+    class="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-6"
+    (click)="closeDocumentPreview()"
+  >
+    <div
+      class="relative max-w-5xl max-h-[90vh] w-full flex items-center justify-center"
+      (click)="$event.stopPropagation()"
+    >
+      <button
+        type="button"
+        (click)="closeDocumentPreview()"
+        class="absolute -top-12 right-0 w-10 h-10 rounded-full bg-white/10 text-white hover:bg-white/20 transition"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <img
+        [src]="previewDocumentUrl"
+        [alt]="previewDocumentTitle"
+        class="max-w-full max-h-[85vh] object-contain rounded-lg"
+      />
+    </div>
+  </div>
+}

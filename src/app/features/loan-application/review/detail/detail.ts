@@ -25,6 +25,8 @@ export class Detail implements OnInit {
 
   verificationValue = '';
   isVerifyModalOpen = false;
+  previewDocumentUrl = '';
+  previewDocumentTitle = '';
 
   ngOnInit(): void {
     this.getApplication();
@@ -161,5 +163,15 @@ export class Detail implements OnInit {
       reviewResult: ReviewResult.REJECTED,
       notes,
     });
+  }
+
+  openDocumentPreview(url: string, title: string): void {
+    this.previewDocumentUrl = url;
+    this.previewDocumentTitle = title;
+  }
+
+  closeDocumentPreview(): void {
+    this.previewDocumentUrl = '';
+    this.previewDocumentTitle = '';
   }
 }
