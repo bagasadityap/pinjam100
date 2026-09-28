@@ -7,6 +7,8 @@ import { HotToastService } from '@ngxpert/hot-toast';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VerificationModal } from '../../../../shared/components/verification-modal/verification-modal';
 import { ApprovalRequest, ApprovalStatus } from '../approval.model';
+import { Document } from '../../../../core/model/document.model';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-review',
@@ -16,11 +18,13 @@ import { ApprovalRequest, ApprovalStatus } from '../approval.model';
 })
 export class Detail implements OnInit {
   private readonly loanApplicationService = inject(LoanApplicationService);
-  readonly application = signal<LoanApplicationReviewResponse | null>(null);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly toast = inject(HotToastService);
 
+  readonly application = signal<LoanApplicationReviewResponse | null>(null);
+
+  documentUrl = environment.api.documentUrl;
   verificationValue = '';
   isVerifyModalOpen = false;
   previewDocumentUrl = '';
@@ -41,12 +45,39 @@ export class Detail implements OnInit {
 
     this.loanApplicationService.getForApproval(id).subscribe({
       next: (response) => {
+        response.customer.documents = response.customer.documents?.map((document) => ({
+          ...document,
+          fileUrl: this.getDocumentUrl(document.fileUrl),
+        }));
+
         this.application.set(response);
       },
-      error: () => {
-        this.toast.error('Gagal mendapatkan data aplikasi pinjaman');
+      error: (error) => {
+        this.toast.error(
+          error.error?.message ?? 'Gagal mendapatkan data aplikasi pinjaman',
+        );
       },
     });
+  }
+
+  private getDocumentUrl(fileUrl: string): string {
+    if (!fileUrl) {
+      return '';
+    }
+
+    if (fileUrl.startsWith('http://') || fileUrl.startsWith('https://')) {
+      return fileUrl;
+    }
+
+    return `${this.documentUrl}/${fileUrl.replace(/^\/+/, '')}`;
+  }
+
+  findDocument(type: string): Document | null {
+    return (
+      this.application()?.customer?.documents?.find(
+        (document) => document.type === type,
+      ) ?? null
+    );
   }
 
   get monthlyIncome(): number {
@@ -66,20 +97,30 @@ export class Detail implements OnInit {
   }
 
   get totalInterest(): number {
-    return this.loanAmount * (this.interestRate / 100) * (this.tenorMonths / 12);
+    return (
+      this.loanAmount *
+      (this.interestRate / 100) *
+      (this.tenorMonths / 12)
+    );
   }
 
   get totalRepayment(): number {
-    return Number(this.application()?.installmentAmount) * this.tenorMonths;
+    return Number(this.application()?.installmentAmount ?? 0) * this.tenorMonths;
   }
 
   get estimatedMonthlyInstallment(): number {
-    return Number(this.application()?.installmentAmount);
+    return Number(this.application()?.installmentAmount ?? 0);
   }
 
   get dsr(): number {
-    if (!this.monthlyIncome || !this.estimatedMonthlyInstallment) return 0;
-    return (this.estimatedMonthlyInstallment / this.monthlyIncome) * 100;
+    if (!this.monthlyIncome || !this.estimatedMonthlyInstallment) {
+      return 0;
+    }
+
+    return (
+      (this.estimatedMonthlyInstallment / this.monthlyIncome) *
+      100
+    );
   }
 
   get dsrRiskAnalysis() {
@@ -99,19 +140,22 @@ export class Detail implements OnInit {
         label: 'Risiko Rendah',
         description: 'Beban angsuran aman (<= 30% dari penghasilan).',
       };
-    } else if (dsrVal <= 40) {
+    }
+
+    if (dsrVal <= 40) {
       return {
         status: 'MODERATE',
         label: 'Risiko Sedang',
-        description: 'Beban angsuran memerlukan pertimbangan (30% - 40%).',
-      };
-    } else {
-      return {
-        status: 'HIGH',
-        label: 'Risiko Tinggi',
-        description: 'Beban angsuran melampaui batas aman (> 40%).',
+        description:
+          'Beban angsuran memerlukan pertimbangan (30% - 40%).',
       };
     }
+
+    return {
+      status: 'HIGH',
+      label: 'Risiko Tinggi',
+      description: 'Beban angsuran melampaui batas aman (> 40%).',
+    };
   }
 
   review(id: string, request: ApprovalRequest): void {
@@ -122,11 +166,15 @@ export class Detail implements OnInit {
             ? 'Data aplikasi pinjaman berhasil disetujui'
             : 'Data aplikasi pinjaman berhasil ditolak',
         );
+
         this.closeVerifyModal();
         this.back();
       },
       error: (error) => {
-        this.toast.error(error.error?.message ?? 'Gagal menyimpan data aplikasi pinjaman');
+        this.toast.error(
+          error.error?.message ??
+            'Gagal menyimpan data aplikasi pinjaman',
+        );
       },
     });
   }
@@ -146,7 +194,9 @@ export class Detail implements OnInit {
   }
 
   confirmVerify(notes: string): void {
-    if (!this.verificationValue) return;
+    if (!this.verificationValue) {
+      return;
+    }
 
     this.review(this.verificationValue, {
       approvalStatus: ApprovalStatus.APPROVED,
@@ -155,7 +205,9 @@ export class Detail implements OnInit {
   }
 
   confirmReject(notes: string): void {
-    if (!this.verificationValue) return;
+    if (!this.verificationValue) {
+      return;
+    }
 
     this.review(this.verificationValue, {
       approvalStatus: ApprovalStatus.REJECTED,
