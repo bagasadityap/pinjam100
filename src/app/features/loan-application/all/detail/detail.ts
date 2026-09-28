@@ -118,7 +118,7 @@ export class Detail implements OnInit {
   }
 
   openDocumentPreview(url: string, title: string): void {
-    this.previewDocumentUrl = `${this.documentUrl}${url}`;
+    this.previewDocumentUrl = `${this.documentUrl}/${url}`;
     this.previewDocumentTitle = title;
   }
 
