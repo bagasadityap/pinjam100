@@ -81,9 +81,9 @@ export class CustomerDetail implements OnInit {
   rejectCustomer(customerId: string): void {
     this.customerService.verifyCustomer(customerId, 'REJECTED').subscribe({
       next: () => {
-        this.toast.success('Customer berhasil ditolak');
         this.closeVerifyModal();
-        this.getCustomer();
+        this.router.navigate(['/verifikasi-customer']);
+        this.toast.success('Customer berhasil ditolak');
       },
       error: (error) => {
         this.toast.error(error.error?.message ?? 'Gagal memverifikasi customer');
